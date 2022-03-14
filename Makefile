@@ -6,7 +6,7 @@
 #    By: lguillau <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/14 14:27:36 by lguillau          #+#    #+#              #
-#    Updated: 2022/03/14 14:39:07 by lguillau         ###   ########.fr        #
+#    Updated: 2022/03/14 15:44:23 by lguillau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,24 +30,24 @@ CFLAGS	=	-Wall -Wextra -Werror
 ${O_PATH}%.o:	${S_PATH}%.c
 		@mkdir -p ${dir $@}
 		@${CC} ${CFLAGS} -c $< -o $@ -I ${I_PATH}
-		@echo "\e[33mCompiling${S} \e[40m$<\e[0m \e[1;33m->\e[0m \e[94m$@\e[0m"
+		@echo "\e[33mCompiling${S} \e[40m$<${S} \e[1;33m->${S} \e[94m$@${S}"
 
 ${NAME}:	${OBJS}
 		@${CC} ${OBJS} ${CFLAGS} -o ${NAME} -I ${I_PATH}
 		@echo ""
-		@echo "\e[36mBuilding\e[0m \e[40m$@\e[0m"
+		@echo "\e[36mBuilding${S} \e[40m$@${S}"
 		@echo ""
-		@echo "\e[3;32mCompilation is completed !\e[0m"
+		@echo "\e[3;32mCompilation is completed !${S}"
 
 all:		${NAME}
 
 clean:
 		@${RM} ${O_PATH}
-		@echo "${RED}Removing${S} \e[40m${O_PATH}${S}"
+		@echo "${RED}Removing${S} ${IGREY}${O_PATH}${S}"
 
 fclean:		clean
 		@${RM} ${NAME}
-		@echo "${RED}Removing${S} \e[40m${NAME}${S}"
+		@echo "${RED}Removing${S} ${IGREY}${NAME}${S}"
 
 space:
 		@echo ""
@@ -56,14 +56,14 @@ re:		fclean space  all
 
 .PHONY:		all clean fclean re bonus
 
-S		=	\033[0m
+S	=	\033[0m
 BOLD	=	\033[1m
 UNDER	=	\033[4m
-REV		=	\033[7m
+REV	=	\033[7m
 
 # Colors
 GREY	=	\033[30m
-RED		=	\033[31m
+RED	=	\033[31m
 GREEN	=	\033[32m
 YELLOW	=	\033[33m
 BLUE	=	\033[34m
