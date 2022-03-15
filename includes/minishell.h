@@ -1,23 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/14 15:40:12 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/15 15:44:10 by lguillau         ###   ########.fr       */
+/*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
+/*   Updated: 2022/03/15 15:57:33 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#ifndef MINISHELL_H
+# define MINIShELL_H
 
-int	main(int ac, char **av, char **env)
-{
-	(void)av;
-	if (!env[0])
-		ft_error(1);
-	if (ac != 1)
-		ft_error(2);
-	return (0);
-}
+#endif

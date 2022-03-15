@@ -6,11 +6,15 @@
 #    By: lguillau <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/14 14:27:36 by lguillau          #+#    #+#              #
-#    Updated: 2022/03/14 15:44:23 by lguillau         ###   ########.fr        #
+#    Updated: 2022/03/15 15:49:42 by lguillau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 FILES	=	minishell.c \
+			tools/tools.c \
+			tools/split.c \
+			tools/str_tools.c \
+			tools/errors.c \
 
 S_PATH	=	srcs/
 O_PATH	=	objs/
@@ -30,14 +34,14 @@ CFLAGS	=	-Wall -Wextra -Werror
 ${O_PATH}%.o:	${S_PATH}%.c
 		@mkdir -p ${dir $@}
 		@${CC} ${CFLAGS} -c $< -o $@ -I ${I_PATH}
-		@echo "\e[33mCompiling${S} \e[40m$<${S} \e[1;33m->${S} \e[94m$@${S}"
+		@echo "${YELLOW}Compiling${S} ${IGREY}$<${S} \033[1;33m->${S} ${SBLUE}$@${S}"
 
 ${NAME}:	${OBJS}
 		@${CC} ${OBJS} ${CFLAGS} -o ${NAME} -I ${I_PATH}
 		@echo ""
-		@echo "\e[36mBuilding${S} \e[40m$@${S}"
+		@echo "${CYAN}Building${S} ${IGREY}$@${S}"
 		@echo ""
-		@echo "\e[3;32mCompilation is completed !${S}"
+		@echo "\033[3;32mCompilation is completed !${S}"
 
 all:		${NAME}
 
