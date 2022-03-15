@@ -6,12 +6,12 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/15 16:29:17 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/03/15 16:33:07 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
-# define MINIShELL_H
+# define MINISHELL_H
 
 # include <stdio.h>
 # include <stdlib.h>
