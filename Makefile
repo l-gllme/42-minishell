@@ -6,7 +6,7 @@
 #    By: lguillau <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/14 14:27:36 by lguillau          #+#    #+#              #
-#    Updated: 2022/03/15 15:49:42 by lguillau         ###   ########.fr        #
+#    Updated: 2022/03/15 16:43:45 by lguillau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,8 @@ FILES	=	minishell.c \
 			tools/split.c \
 			tools/str_tools.c \
 			tools/errors.c \
+			gnl/get_next_line.c \
+			gnl/get_next_line_utils.c \
 
 S_PATH	=	srcs/
 O_PATH	=	objs/
