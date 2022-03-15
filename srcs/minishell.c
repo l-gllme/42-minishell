@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:40:12 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/15 16:53:30 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/03/15 17:07:37 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,6 @@ int	main(int ac, char **av, char **env)
 	}
 	free(str);
 	get_next_line(42);
-	ft_putstr_fd("Bye 👋\n", 1);
+	ft_putstr_fd("Bye! 👋\n", 1);
 	return (0);
 }
