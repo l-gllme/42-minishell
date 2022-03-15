@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:17:37 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/15 15:45:54 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/03/15 16:28:54 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,22 +65,4 @@ int	ft_atoi(const char *str)
 		i++;
 	}
 	return (res * sign);
-}
-
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
-{
-	size_t	i;
-
-	i = 0;
-	if (n == 0)
-		return (0);
-	while (*s1 && *s2 && *s1 == *s2 && i < n)
-	{
-		s1++;
-		s2++;
-		i++;
-	}
-	if (i < n)
-		return ((unsigned char)*s1 - (unsigned char)*s2);
-	return (0);
 }

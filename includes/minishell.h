@@ -6,11 +6,38 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/15 15:57:33 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/03/15 16:29:17 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINIShELL_H
+
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <sys/wait.h>
+# include <fcntl.h>
+# include "get_next_line.h"
+
+/* *** *** Tools *** *** */
+
+/* tools.c */
+void	ft_putchar_fd(char c, int fd);
+void	ft_putstr_fd(char *s, int fd);
+void	ft_putnbr_fd(int n, int fd);
+int		ft_atoi(const char *str);
+
+/* str_tools.c */
+int		ft_strlen(const char *s);
+void	free_char_tab(char **s);
+char	*ft_strjoin(char *s1, char *s2);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
+
+/* split.c */
+char	**ft_split(char const *s, char c);
+
+/* errors.c */
+void	ft_error(int error);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 12:44:39 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/15 15:55:07 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/03/15 16:30:17 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 # include <stdlib.h>
 # include <unistd.h>
-# include "minishel.h"
+# include "minishell.h"
 
 char	*get_next_line(int fd);
 
