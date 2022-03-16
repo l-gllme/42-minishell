@@ -6,19 +6,19 @@
 #    By: lguillau <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/14 14:27:36 by lguillau          #+#    #+#              #
-#    Updated: 2022/03/16 14:42:03 by lguillau         ###   ########.fr        #
+#    Updated: 2022/03/16 15:27:52 by lguillau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 FILES	=	minishell.c \
-		tools/tools.c \
 		tools/split.c \
-		tools/str_tools.c \
+		tools/tools.c \
 		tools/errors.c \
-		gnl/get_next_line.c \
-		gnl/get_next_line_utils.c \
 		builtins/pwd.c \
 		builtins/exit.c \
+		tools/str_tools.c \
+		gnl/get_next_line.c \
+		gnl/get_next_line_utils.c \
 
 S_PATH	=	srcs/
 O_PATH	=	objs/
@@ -38,24 +38,24 @@ CFLAGS	=	-Wall -Wextra -Werror
 ${O_PATH}%.o:	${S_PATH}%.c
 		@mkdir -p ${dir $@}
 		@${CC} ${CFLAGS} -c $< -o $@ -I ${I_PATH}
-		@echo "${YELLOW}Compiling${S} ${IGREY}$<${S} \033[1;33m->${S} ${SBLUE}$@${S}"
+		@echo "${CYAN}Compiling${S} ${IGREY}$<${S} ${YELLOW}➡️  ${S}${SBLUE}$@${S}"
 
 ${NAME}:	${OBJS}
 		@${CC} ${OBJS} ${CFLAGS} -o ${NAME} -lreadline -I ${I_PATH}
 		@echo ""
-		@echo "${CYAN}Building${S} ${IGREY}$@${S}"
+		@echo "${PURPLE}Building${S} ${IGREY}$@${S} 🔨"
 		@echo ""
-		@echo "\033[3;32mCompilation is completed !${S}"
+		@echo "\033[3;92mCompilation is completed !${S} 🎉"
 
 all:		${NAME}
 
 clean:
 		@${RM} ${O_PATH}
-		@echo "${RED}Removing${S} ${IGREY}${O_PATH}${S}"
+		@echo "${SRED}Removing${S} ${IGREY}${O_PATH}${S} 🗑️"
 
 fclean:		clean
 		@${RM} ${NAME}
-		@echo "${RED}Removing${S} ${IGREY}${NAME}${S}"
+		@echo "${SRED}Removing${S} ${IGREY}${NAME}${S} 🗑️"
 
 space:
 		@echo ""
@@ -66,6 +66,7 @@ re:		fclean space  all
 
 S	=	\033[0m
 BOLD	=	\033[1m
+ITALIC	=	\033[3m
 UNDER	=	\033[4m
 REV	=	\033[7m
 

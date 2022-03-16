@@ -6,19 +6,23 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:40:12 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/16 14:47:14 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/03/16 16:09:04 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+void	handler(int signum)
+{
+	(void)signum;
+}
+
 static void exec_ls(char **env)
 {
 	char **toto;
-	toto = malloc(sizeof(char *) * 3);
+	toto = malloc(sizeof(char *) * 2);
 	toto[0] = "ls";
-	toto[1] = "-l";
-	toto[2] = 0;
+	toto[1] = 0;
 	int forke;
 
 	forke = fork();
@@ -31,6 +35,8 @@ static void exec_ls(char **env)
 int	main(int ac, char **av, char **env)
 {
 	char	*str;
+	struct sigaction sa;
+	sa.sa_handler = handler;
 
 	(void)av;
 	if (!env[0])
@@ -39,10 +45,11 @@ int	main(int ac, char **av, char **env)
 		ft_error(2);
 	while (1)
 	{
+		sigaction(SIGINT, &sa, NULL);
 		str = readline("\033[34m➜\033[0m ");
 		if (ft_strncmp(str, "exit", 5) == 0)
 			ft_exit(str);
-		if (ft_strncmp(str, "ls -l", 5) == 0)
+		if (ft_strncmp(str, "ls", 2) == 0)
 			exec_ls(env);
 		if (ft_strncmp(str, "pwd", 3) == 0)
 			ft_pwd();
