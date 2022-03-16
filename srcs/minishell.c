@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:40:12 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/16 16:47:39 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/03/16 16:57:21 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ int	main(int ac, char **av, char **env)
 	while (1)
 	{
 		sigaction(SIGINT, &sa, NULL);
-		toto;
 		str = readline("\033[34m➜\033[0m ");
 		if (ft_strncmp(str, "exit", 5) == 0)
 			ft_exit(str);
@@ -54,6 +53,8 @@ int	main(int ac, char **av, char **env)
 			exec_ls(env);
 		if (ft_strncmp(str, "pwd", 3) == 0)
 			ft_pwd();
+		if (ft_strncmp(str, "cd", 2) == 0)
+			ft_cd("..");
 		free(str);
 	}
 	return (0);

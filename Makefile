@@ -6,13 +6,14 @@
 #    By: lguillau <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/14 14:27:36 by lguillau          #+#    #+#              #
-#    Updated: 2022/03/16 15:27:52 by lguillau         ###   ########.fr        #
+#    Updated: 2022/03/16 16:57:50 by lguillau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 FILES	=	minishell.c \
 		tools/split.c \
 		tools/tools.c \
+		builtins/cd.c \
 		tools/errors.c \
 		builtins/pwd.c \
 		builtins/exit.c \
