@@ -6,13 +6,13 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:40:12 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/16 14:00:37 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/03/16 14:47:14 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static void exec_cat(char **env)
+static void exec_ls(char **env)
 {
 	char **toto;
 	toto = malloc(sizeof(char *) * 3);
@@ -37,18 +37,16 @@ int	main(int ac, char **av, char **env)
 		ft_error(1);
 	if (ac != 1)
 		ft_error(2);
-	ft_putstr_fd("\033[36m➜\033[0m ", 1);
-	str = get_next_line(0);
-	while (str && ft_strncmp(str, "exit\n", 6) != 0)
+	while (1)
 	{
-		if (ft_strncmp(str, "ls -l\n", 6) == 0)
-			exec_cat(env);
-		ft_putstr_fd("\033[36m➜\033[0m ", 1);
+		str = readline("\033[34m➜\033[0m ");
+		if (ft_strncmp(str, "exit", 5) == 0)
+			ft_exit(str);
+		if (ft_strncmp(str, "ls -l", 5) == 0)
+			exec_ls(env);
+		if (ft_strncmp(str, "pwd", 3) == 0)
+			ft_pwd();
 		free(str);
-		str = get_next_line(0);
 	}
-	free(str);
-	get_next_line(42);
-	ft_putstr_fd("Bye! 👋\n", 1);
 	return (0);
 }

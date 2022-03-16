@@ -6,17 +6,19 @@
 #    By: lguillau <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/14 14:27:36 by lguillau          #+#    #+#              #
-#    Updated: 2022/03/16 11:47:41 by lguillau         ###   ########.fr        #
+#    Updated: 2022/03/16 14:42:03 by lguillau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 FILES	=	minishell.c \
-			tools/tools.c \
-			tools/split.c \
-			tools/str_tools.c \
-			tools/errors.c \
-			gnl/get_next_line.c \
-			gnl/get_next_line_utils.c \
+		tools/tools.c \
+		tools/split.c \
+		tools/str_tools.c \
+		tools/errors.c \
+		gnl/get_next_line.c \
+		gnl/get_next_line_utils.c \
+		builtins/pwd.c \
+		builtins/exit.c \
 
 S_PATH	=	srcs/
 O_PATH	=	objs/
@@ -39,7 +41,7 @@ ${O_PATH}%.o:	${S_PATH}%.c
 		@echo "${YELLOW}Compiling${S} ${IGREY}$<${S} \033[1;33m->${S} ${SBLUE}$@${S}"
 
 ${NAME}:	${OBJS}
-		@${CC} ${OBJS} ${CFLAGS} -o ${NAME} -I ${I_PATH}
+		@${CC} ${OBJS} ${CFLAGS} -o ${NAME} -lreadline -I ${I_PATH}
 		@echo ""
 		@echo "${CYAN}Building${S} ${IGREY}$@${S}"
 		@echo ""
