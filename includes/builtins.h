@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 14:05:42 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/16 14:47:29 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/03/16 16:57:44 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include "minishell.h"
 
 /* *** Echo *** */
-void	ft_echo(char **arg);
+void	ft_echo(char *arg);
 /* *** cd *** */
 void	ft_cd(char *arg);
 /* *** pwd *** */

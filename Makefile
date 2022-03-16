@@ -6,7 +6,7 @@
 #    By: lguillau <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/14 14:27:36 by lguillau          #+#    #+#              #
-#    Updated: 2022/03/16 15:27:52 by lguillau         ###   ########.fr        #
+#    Updated: 2022/03/16 16:59:09 by jtaravel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ FILES	=	minishell.c \
 		tools/errors.c \
 		builtins/pwd.c \
 		builtins/exit.c \
+		builtins/echo.c \
 		tools/str_tools.c \
 		gnl/get_next_line.c \
 		gnl/get_next_line_utils.c \
