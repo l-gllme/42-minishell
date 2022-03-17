@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:31:13 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/15 16:31:13 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/03/17 14:45:40 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ char	*ft_strjoin(char *s1, char *s2)
 	if (!join)
 		return (NULL);
 	join = ft_strjoin5(s1, s2, join);
-	free(s1);
 	return (join);
 }
 
