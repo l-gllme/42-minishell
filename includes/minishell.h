@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/16 15:07:20 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/03/18 15:08:02 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,10 @@
 
 # include "get_next_line.h"
 # include "builtins.h"
+
+/* *** *** Parsing *** *** */
+
+int	parsing(char *line);
 
 /* *** *** Tools *** *** */
 
