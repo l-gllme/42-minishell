@@ -6,22 +6,38 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/21 18:11:07 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/03/21 19:29:37 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	get_cmd(char *str, char **tab)
+static int	ft_sq_opened(int sq_opened)
 {
-	int	i;
+	if (sq_opened)
+		sq_opened = 0;
+	else
+		sq_opened = 1;
+	return (sq_opened);
+}
+
+static int	ft_dq_opened(int dq_opened)
+{
+	if (dq_opened)
+		dq_opened = 0;
+	else
+		dq_opened = 1;
+	return (dq_opened);
+}
+
+static int	get_cmd(char *str, char **tab, int i)
+{
 	int	sq_opened;
 	int	dq_opened;
 	int	j;
 	int	k;
 	int	l;
 
-	i = -1;
 	j = 0;
 	k = 0;
 	sq_opened = 0;
@@ -29,19 +45,9 @@ static int	get_cmd(char *str, char **tab)
 	while (str[++i])
 	{
 		if (str[i] == '\'' && dq_opened == 0)
-		{
-			if (sq_opened)
-				sq_opened = 0;
-			else
-				sq_opened = 1;
-		}
+			sq_opened = ft_sq_opened(sq_opened);
 		if (str[i] == '"' && sq_opened == 0)
-		{
-			if (dq_opened)
-				dq_opened = 0;
-			else
-				dq_opened = 1;
-		}
+			dq_opened = ft_dq_opened(dq_opened);
 		if (((str[i] == '&' && str[i + 1] == '&') || (str[i] == '|' && str[i - 1] != '|')
 				|| (str[i] == '|' && str[i + 1] == '|')) && !dq_opened && !sq_opened)
 		{
@@ -279,7 +285,7 @@ int	parsing(char *str, t_g *v)
 	tab = malloc(sizeof(char *) * count_pipes(str));
 	if (!tab)
 		return (-1);
-	if (!get_cmd(str, tab))
+	if (!get_cmd(str, tab, -1))
 		return (-1);
 	if (!check_not_closed_sq(tab))
 		return (-1);
