@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:40:12 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/18 14:24:49 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/03/21 16:06:56 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,17 @@ int	main(int ac, char **av, char **env)
 	char	*str;
 	struct sigaction sa;
 	sa.sa_handler = handler;
+	t_g *v;
 
 	(void)av;
 	if (!env[0])
 		ft_error(1);
 	if (ac != 1)
 		ft_error(2);
+	v = malloc(sizeof(t_g));
+	if (!v)
+		ft_error(2);
+	v->env = env;
 	while (1)
 	{
 		sigaction(SIGINT, &sa, NULL);
@@ -54,7 +59,8 @@ int	main(int ac, char **av, char **env)
 		}
 		if (str[0])
 			add_history(str);
-		parsing(str);
+		if (str[0])
+			parsing(str, v);
 		/*if (ft_strncmp(str, "ls", 2) == 0)
 			exec_ls(env);
 		if (ft_strncmp(str, "pwd", 3) == 0)
