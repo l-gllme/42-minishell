@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/21 15:08:42 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/03/21 17:01:18 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ int		ft_strlen(const char *s);
 void	free_char_tab(char **s);
 char	*ft_strjoin(char *s1, char *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
+/* str_tools_2.c */
+char    *ft_strnstr(const char *haystack, const char *needle, size_t len);
 
 /* split.c */
 char	**ft_split(char const *s, char c);

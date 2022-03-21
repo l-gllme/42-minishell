@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/21 16:35:02 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/03/21 18:11:07 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,9 +164,10 @@ int	ft_reverse_chevron(char **str)
 	return (2);
 }
 
-void	ft_suppr_dq_sq(char *str)
+char	*ft_suppr_dq_sq(char *str)
 {
 	int	i;
+	int	j;
 	int	dq_opened;
 	int	sq_opened;
 
@@ -181,7 +182,10 @@ void	ft_suppr_dq_sq(char *str)
 				sq_opened = 0;
 			else
 				sq_opened = 1;
-			str[i] = 127;
+			j = i - 1;
+			while (str[++j])
+				str[j] = str[j + 1];
+			
 		}
 		if (str[i] == '"' && sq_opened == 0)
 		{
@@ -189,9 +193,12 @@ void	ft_suppr_dq_sq(char *str)
 				dq_opened = 0;
 			else
 				dq_opened = 1;
-			str[i] = 127;
+			j = i - 1;
+			while (str[++j])
+				str[j] = str[j + 1];
 		}
 	}
+	return (str);
 }
 
 int	ft_is_builtin(char *s,  char **cmd)
@@ -199,31 +206,59 @@ int	ft_is_builtin(char *s,  char **cmd)
 	if (ft_strncmp(s, "echo", ft_strlen(s)) == 0 && ft_strlen(s) == 4)
 	{
 		dup2(STDOUT_FILENO, STDIN_FILENO);
-		ft_echo(cmd[0]);
+		if (ft_strnstr(cmd[0], s, ft_strlen(cmd[0])))
+		{
+			ft_echo(ft_strnstr(cmd[0], s, ft_strlen(cmd[0])));
+		}
+		else
+		{
+			ft_putstr_fd("command not found: ", 2);
+			ft_putstr_fd(s, 2);
+		}
 	}
 	return (1);
+}
+
+void	ft_exec_outpout(char **cmd)
+{
+	int	i;
+
+	i = ft_check_outpout(cmd);
+	if (open(cmd[i - 1], O_DIRECTORY))
+		ft_putstr_fd("File is a directory\n", 2);
+	fd = open(cmd[i - 1], O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if (fd == -1)
+		ft_putstr_fd("Permision denied\n", 2);	
+	if (!dup2(fd, STDOUT_FILENO))
+		ft_putstr_fd("dup2 error\n", 2);	
+}
+
+int	ft_check_outpout(char **cmd)
+{
+	int	i;
+	int	fd;
+	
+	i = -1;
+	while (cmd[++i])
+		;
+	if (cmd[i - 2][0] == '>' && cmd[i - 2][1] == 0)
+		return (i);
+	return (0);
 }
 
 void	ft_exec_one_command(t_g *v)
 {
 	int	i;
-	//int	frk;
 
-	//frk = fork();
 	i = 0;
-	//if (frk == -1)
-	//	printf("fork error\n");
-	//if (frk == 0)
-	//{
-		v->cmd = ft_split(v->tab[0], ' ');
-		if (!v->cmd)
-			printf("error tab\n");
-		if (v->cmd[0][0] == '<')
-			i = ft_reverse_chevron(v->cmd);
-		ft_suppr_dq_sq(v->cmd[i]);
-		ft_is_builtin(v->cmd[i], v->tab);
-	//		exit(0);
-	//}//
+	v->cmd = ft_split(v->tab[0], ' ');
+	if (!v->cmd)
+		printf("error tab\n");
+	if (v->cmd[0][0] == '<')
+		i = ft_reverse_chevron(v->cmd);
+	ft_check_outpout(v->cmd);
+	v->cmd[i] = ft_suppr_dq_sq(v->cmd[i]);
+	ft_is_builtin(v->cmd[i], v->tab);
 }
 void	parse_cmd(t_g *v)
 {

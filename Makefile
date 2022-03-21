@@ -6,7 +6,7 @@
 #    By: lguillau <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/14 14:27:36 by lguillau          #+#    #+#              #
-#    Updated: 2022/03/21 16:18:55 by lguillau         ###   ########.fr        #
+#    Updated: 2022/03/21 17:01:30 by lguillau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ FILES	=	minishell.c \
 		builtins/exit.c \
 		builtins/echo.c \
 		tools/str_tools.c \
+		tools/str_tools_2.c \
 		parsing/parsing.c \
 		gnl/get_next_line.c \
 		gnl/get_next_line_utils.c \
