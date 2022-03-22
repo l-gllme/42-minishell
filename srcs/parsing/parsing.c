@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/22 12:50:35 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/03/22 14:48:28 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,6 +191,7 @@ char	*ft_suppr_dq_sq(char *str)
 			j = i - 1;
 			while (str[++j])
 				str[j] = str[j + 1];
+			str[j] = 0;
 			
 		}
 		if (str[i] == '"' && sq_opened == 0)
@@ -202,6 +203,7 @@ char	*ft_suppr_dq_sq(char *str)
 			j = i - 1;
 			while (str[++j])
 				str[j] = str[j + 1];
+			str[j] = 0;
 		}
 	}
 	return (str);
@@ -211,10 +213,12 @@ int	ft_is_builtin(char *s,  char **cmd)
 {
 	if (ft_strncmp(s, "echo", ft_strlen(s)) == 0 && ft_strlen(s) == 4)
 	{
-		dup2(STDOUT_FILENO, STDIN_FILENO);
+			printf("s->%s\n", s);
 		if (ft_strnstr(cmd[0], s, ft_strlen(cmd[0])))
 		{
-			ft_echo(ft_strnstr(cmd[0], s, ft_strlen(cmd[0])));
+			ft_echo(ft_strnstr(cmd[0], s, ft_strlen(cmd[0])) + ft_strlen(s));
+			close(STDOUT_FILENO);
+			dup2(STDIN_FILENO, STDOUT_FILENO);
 		}
 		else
 		{
@@ -231,8 +235,10 @@ void	ft_exec_outpout(char **cmd)
 	int	fd;
 
 	i = ft_check_outpout(cmd);
-	if (open(cmd[i - 1], O_DIRECTORY))
+	if (open(cmd[i - 1], O_DIRECTORY) != -1)
+	{
 		ft_putstr_fd("File is a directory\n", 2);
+	}
 	fd = open(cmd[i - 1], O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1)
 		ft_putstr_fd("Permision denied\n", 2);	
@@ -262,7 +268,8 @@ void	ft_exec_one_command(t_g *v)
 		printf("error tab\n");
 	if (v->cmd[0][0] == '<')
 		i = ft_reverse_chevron(v->cmd);
-	ft_check_outpout(v->cmd);
+	if (ft_check_outpout(v->cmd))
+		ft_exec_outpout(v->cmd);
 	v->cmd[i] = ft_suppr_dq_sq(v->cmd[i]);
 	ft_is_builtin(v->cmd[i], v->tab);
 }
