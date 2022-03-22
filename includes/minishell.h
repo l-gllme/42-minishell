@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/21 17:01:18 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/03/22 12:50:28 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ typedef	struct s_global
 /* *** *** Parsing *** *** */
 
 int	parsing(char *line, t_g *v);
-
+int	ft_check_outpout(char **cmd);
 /* *** *** Tools *** *** */
 
 /* tools.c */
