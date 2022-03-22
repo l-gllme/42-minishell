@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/21 19:29:37 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/03/22 12:50:35 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,6 +228,7 @@ int	ft_is_builtin(char *s,  char **cmd)
 void	ft_exec_outpout(char **cmd)
 {
 	int	i;
+	int	fd;
 
 	i = ft_check_outpout(cmd);
 	if (open(cmd[i - 1], O_DIRECTORY))
@@ -242,7 +243,6 @@ void	ft_exec_outpout(char **cmd)
 int	ft_check_outpout(char **cmd)
 {
 	int	i;
-	int	fd;
 	
 	i = -1;
 	while (cmd[++i])
