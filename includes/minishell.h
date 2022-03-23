@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/23 12:57:51 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/03/23 14:23:42 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,24 +24,7 @@
 
 # include "get_next_line.h"
 # include "builtins.h"
-
-typedef struct s_global
-{
-	char	**env;
-	char	**tab;
-	char	**cmd;
-	int		out;
-	int		in;
-	char	*file_in;
-	char	*file_out;
-	char	*arg;
-}	t_g;
-
-typedef struct s_syntax
-{
-	int	sq_opened;
-	int	dq_opened;
-}	t_s;
+# include "structs.h"
 
 /* *** *** Parsing *** *** */
 
@@ -49,6 +32,9 @@ typedef struct s_syntax
 int		parsing(char *line, t_g *v);
 int		ft_check_outpout(char **cmd);
 char	*ft_suppr_dq_sq(char *str);
+
+/* get_cmd */
+int		get_cmd(char *str, char **tab);
 
 /* in_out_parse */
 int		ft_check_in_out(t_g *v, int nb);
@@ -59,6 +45,7 @@ int		check_not_closed_pipes(char **tab);
 /* parsing_tools.c */
 void	init_syntax_struct(t_s *s);
 char	*ft_suppr_dq_sq(char *str);
+void	init_struct(char **tab, t_g *v);
 
 /* *** *** Tools *** *** */
 
