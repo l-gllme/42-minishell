@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 12:31:15 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/23 13:04:22 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/03/23 14:50:42 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,6 @@ void	init_syntax_struct(t_s *s)
 {
 	s->dq_opened = 0;
 	s->sq_opened = 0;
-}
-
-void	init_struct(char **tab, t_g *v)
-{
-	v->tab = tab;
-	v->file_in = NULL;
-	v->file_out = NULL;
-	v->arg = NULL;
-	v->out = 0;
-	v->in = 0;
 }
 
 static char	*cut_sds(char *str, t_s *s, int i, int c)

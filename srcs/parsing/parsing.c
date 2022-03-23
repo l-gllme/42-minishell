@@ -6,50 +6,11 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/23 14:33:57 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/03/23 15:05:11 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-static int	count_pipes(char *str)
-{
-	int	i;
-	int	sq_opened;
-	int	dq_opened;
-	int	cmd_counter;
-
-	i = -1;
-	sq_opened = 0;
-	dq_opened = 0;
-	cmd_counter = 1;
-	while (str[++i])
-	{
-		if (str[i] == '\'' && dq_opened == 0)
-		{
-			if (sq_opened)
-				sq_opened = 0;
-			else
-				sq_opened = 1;
-		}
-		if (str[i] == '"' && sq_opened == 0)
-		{
-			if (dq_opened)
-				dq_opened = 0;
-			else
-				dq_opened = 1;
-		}
-		if (str[i] == '|' && !dq_opened && !sq_opened)
-			cmd_counter++;
-	}
-	if (sq_opened || dq_opened)
-	{
-		ft_putstr_fd("Invalid syntax\n", 2);
-		return (-1);
-	}
-	return (cmd_counter + 1);
-}
-
 
 int	ft_parse_command(t_g *v, int nb)
 {
@@ -75,6 +36,16 @@ int	parse_cmd(t_g *v)
 		ft_putstr_fd("Multiple commands\n", 1);
 	}
 	return (1);
+}
+
+void	init_struct(char **tab, t_g *v)
+{
+	v->tab = tab;
+	v->file_in = NULL;
+	v->file_out = NULL;
+	v->arg = NULL;
+	v->out = 0;
+	v->in = 0;
 }
 
 int	parsing(char *str, t_g *v)

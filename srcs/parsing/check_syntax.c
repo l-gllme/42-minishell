@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 12:16:42 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/23 12:30:30 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/03/23 15:09:29 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,51 @@ int	check_not_closed_pipes(char **tab)
 		}
 	}
 	return (1);
+}
+
+static int	cut_cp(char str, t_s *s)
+{
+	if (str == '\'' && s->dq_opened == 0)
+	{
+		if (s->sq_opened)
+			s->sq_opened = 0;
+		else
+			s->sq_opened = 1;
+	}
+	if (str == '"' && s->sq_opened == 0)
+	{
+		if (s->dq_opened)
+			s->dq_opened = 0;
+		else
+			s->dq_opened = 1;
+	}
+	if (str == '|' && !s->dq_opened && !s->sq_opened)
+		return (1);
+	return (0);
+}
+
+int	count_pipes(char *str)
+{
+	int	i;
+	int	cmd_counter;
+	t_s	*s;
+
+	i = -1;
+	s = malloc(sizeof(t_s));
+	if (!s)
+	{
+		ft_putstr_fd("Malloc error in count_pipes()\n", 2);
+		return (-1);
+	}
+	init_syntax_struct(s);
+	cmd_counter = 1;
+	while (str[++i])
+		cmd_counter += cut_cp(str[i], s);
+	if (s->sq_opened || s->dq_opened)
+	{
+		ft_putstr_fd("Invalid syntax\n", 2);
+		free(s);
+		return (-1);
+	}
+	return (cmd_counter + 1);
 }
