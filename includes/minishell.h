@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/22 12:50:28 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/03/23 12:57:51 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,41 @@
 # include "get_next_line.h"
 # include "builtins.h"
 
-typedef	struct s_global
+typedef struct s_global
 {
 	char	**env;
 	char	**tab;
 	char	**cmd;
+	int		out;
+	int		in;
+	char	*file_in;
+	char	*file_out;
+	char	*arg;
 }	t_g;
+
+typedef struct s_syntax
+{
+	int	sq_opened;
+	int	dq_opened;
+}	t_s;
 
 /* *** *** Parsing *** *** */
 
-int	parsing(char *line, t_g *v);
-int	ft_check_outpout(char **cmd);
+/* parsing.c */
+int		parsing(char *line, t_g *v);
+int		ft_check_outpout(char **cmd);
+char	*ft_suppr_dq_sq(char *str);
+
+/* in_out_parse */
+int		ft_check_in_out(t_g *v, int nb);
+
+/* check_syntax.c */
+int		check_not_closed_pipes(char **tab);
+
+/* parsing_tools.c */
+void	init_syntax_struct(t_s *s);
+char	*ft_suppr_dq_sq(char *str);
+
 /* *** *** Tools *** *** */
 
 /* tools.c */
@@ -49,8 +73,11 @@ int		ft_strlen(const char *s);
 void	free_char_tab(char **s);
 char	*ft_strjoin(char *s1, char *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
+
 /* str_tools_2.c */
-char    *ft_strnstr(const char *haystack, const char *needle, size_t len);
+char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
+char	*ft_strdup(const char *s);
+size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 
 /* split.c */
 char	**ft_split(char const *s, char c);

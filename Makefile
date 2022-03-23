@@ -6,7 +6,7 @@
 #    By: lguillau <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/14 14:27:36 by lguillau          #+#    #+#              #
-#    Updated: 2022/03/21 17:01:30 by lguillau         ###   ########.fr        #
+#    Updated: 2022/03/23 12:42:35 by lguillau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,9 @@ FILES	=	minishell.c \
 		tools/str_tools.c \
 		tools/str_tools_2.c \
 		parsing/parsing.c \
+		parsing/in_out_parse.c \
+		parsing/check_syntax.c \
+		parsing/parsing_tools.c \
 		gnl/get_next_line.c \
 		gnl/get_next_line_utils.c \
 

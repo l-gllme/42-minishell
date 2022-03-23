@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/22 14:48:28 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/03/23 12:43:59 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,41 +120,6 @@ static int	count_pipes(char *str)
 	return (cmd_counter + 1);
 }
 
-int	check_not_closed_sq(char **tab)
-{
-	int	i;
-	int	j;
-	int	c;
-
-	i = -1;
-	while (tab[++i])
-	{
-		j = -1;
-		c = 0;
-		while (tab[i][++j])
-		{
-			if (tab[i][j] == '|' && j == 0)
-			{
-				j++;
-				if (ft_strlen(tab[i]) == 1)
-				{
-					ft_putstr_fd("Invalid syntax\n", 2);
-					return (-1);
-				}
-			}
-
-			if (tab[i][j] != ' ' && tab[i][j] != '\0' && tab[i][j] != '\n')
-				c = 1;
-		}
-		if (c == 0)
-		{
-			ft_putstr_fd("Invalid syntax\n", 2);
-			return (-1);
-		}
-	}
-	return (1);
-}
-
 int	ft_reverse_chevron(char **str)
 {
 	int	file;
@@ -168,45 +133,6 @@ int	ft_reverse_chevron(char **str)
 		exit(0);
 	}
 	return (2);
-}
-
-char	*ft_suppr_dq_sq(char *str)
-{
-	int	i;
-	int	j;
-	int	dq_opened;
-	int	sq_opened;
-
-	sq_opened = 0;
-	dq_opened = 0;
-	i = -1;
-	while (str[++i])
-	{
-		if (str[i] == '\'' && dq_opened == 0)
-		{
-			if (sq_opened)
-				sq_opened = 0;
-			else
-				sq_opened = 1;
-			j = i - 1;
-			while (str[++j])
-				str[j] = str[j + 1];
-			str[j] = 0;
-			
-		}
-		if (str[i] == '"' && sq_opened == 0)
-		{
-			if (dq_opened)
-				dq_opened = 0;
-			else
-				dq_opened = 1;
-			j = i - 1;
-			while (str[++j])
-				str[j] = str[j + 1];
-			str[j] = 0;
-		}
-	}
-	return (str);
 }
 
 int	ft_is_builtin(char *s,  char **cmd)
@@ -260,7 +186,9 @@ int	ft_check_outpout(char **cmd)
 
 void	ft_exec_one_command(t_g *v)
 {
-	int	i;
+	(void)v->file_in;
+	ft_putstr_fd("Exec one command\n", 1);
+/*	int	i;
 
 	i = 0;
 	v->cmd = ft_split(v->tab[0], ' ');
@@ -271,9 +199,21 @@ void	ft_exec_one_command(t_g *v)
 	if (ft_check_outpout(v->cmd))
 		ft_exec_outpout(v->cmd);
 	v->cmd[i] = ft_suppr_dq_sq(v->cmd[i]);
-	ft_is_builtin(v->cmd[i], v->tab);
+	ft_is_builtin(v->cmd[i], v->tab);*/
 }
-void	parse_cmd(t_g *v)
+
+
+
+int	ft_parse_command(t_g *v, int nb)
+{
+	if (!ft_check_in_out(v, nb))
+		return (-1);
+	printf("in %d %s\n", v->in, v->file_in);
+	printf("out %d %s\n", v->out, v->file_out);
+	return (1);
+}
+
+int	parse_cmd(t_g *v)
 {
 	int	i;
 
@@ -281,7 +221,26 @@ void	parse_cmd(t_g *v)
 	while (v->tab[++i])
 		;
 	if (i == 1)
+	{
+		if (!ft_parse_command(v, 0))
+			return (-1);
 		ft_exec_one_command(v);
+	}
+	else if (i > 1)
+	{
+		ft_putstr_fd("Multiple commands\n", 1);
+	}
+	return (0);
+}
+
+void	init_struct(char **tab, t_g *v)
+{
+	v->tab = tab;
+	v->file_in = NULL;
+	v->file_out = NULL;
+	v->arg = NULL;
+	v->out = 0;
+	v->in = 0;
 }
 
 int	parsing(char *str, t_g *v)
@@ -294,10 +253,11 @@ int	parsing(char *str, t_g *v)
 		return (-1);
 	if (!get_cmd(str, tab, -1))
 		return (-1);
-	if (!check_not_closed_sq(tab))
+	if (!check_not_closed_pipes(tab))
 		return (-1);
-	v->tab = tab;
-	parse_cmd(v);
+	init_struct(tab, v);
+	if (!parse_cmd(v))
+		return (-1);
 	i = -1;
 	while (tab[++i])
 	{
