@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 12:31:15 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/23 14:50:42 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/03/24 12:33:07 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	init_syntax_struct(t_s *s)
 {
 	s->dq_opened = 0;
 	s->sq_opened = 0;
+	s->stat = 0;
 }
 
 static char	*cut_sds(char *str, t_s *s, int i, int c)

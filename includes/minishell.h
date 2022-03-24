@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/23 15:17:55 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/03/24 12:25:52 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 
 /* split.c */
 char	**ft_split(char const *s, char c);
+char	**ft_supersplit(char *str, char c);
 
 /* errors.c */
 void	ft_error(int error);

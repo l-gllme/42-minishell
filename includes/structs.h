@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 14:04:03 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/23 14:36:38 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/03/24 14:46:30 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_syntax
 {
 	int	sq_opened;
 	int	dq_opened;
+	int	stat;
 }	t_s;
 
 typedef struct s_get_cmd

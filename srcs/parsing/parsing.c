@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/23 15:05:11 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/03/24 17:19:50 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,77 @@ int	ft_parse_command(t_g *v, int nb)
 	return (1);
 }
 
+int	try_access(char *cmd)
+{
+	int		i;
+	char	**path;
+
+	if (access(cmd, X_OK) == 0)
+		return (1);
+	path = ft_split(getenv("PATH"), ':');
+	i = -1;
+	while (path[++i])
+	{
+		path[i] = ft_strjoin(path[i], "/");
+		path[i] = ft_strjoin(path[i], cmd);
+	}
+	i = -1;
+	while (path[++i])
+	{
+		if (access(path[i], X_OK) == 0)
+		{
+			free_char_tab(path);
+			return (1);
+		}
+	}
+	free_char_tab(path);
+	return (-1);
+}
+
+int	is_builtin(char *cmd)
+{
+	if (ft_strncmp(cmd, "echo", ft_strlen(cmd)) == 0)
+	{
+		ft_echo(ft_suppr_dq_sq(cmd));
+		return (1);
+	}
+	if (ft_strncmp(cmd, "pwd", ft_strlen(cmd)) == 0)
+	{
+		ft_pwd();
+		return (1);
+	}
+	return (-1);
+}
+
+int	ft_reunite_central_arg(t_g *v)
+{
+	int	i;
+	int	j;
+	
+	v->arg = malloc(sizeof(1));
+	v->arg[0] = 0;
+	i = 0; 
+	while (v->cmd[i][0] == '<' && (v->cmd[i][1] == 0 || (v->cmd[i][1] == '<' && v->cmd[i][2] == 0)))
+		i += 2;
+	if (is_builtin(ft_suppr_dq_sq(v->cmd[i])) == 1)
+		i++;
+	else if (try_access(ft_suppr_dq_sq(v->cmd[i])) == 1)
+		i++;
+	else
+		return (-1);
+	j = i;
+	while (v->cmd[j] && v->cmd[j][0] != '>')
+	{
+		if (j != i)
+			v->arg = ft_strjoin(v->arg, " ");
+		v->arg = ft_strjoin(v->arg, v->cmd[j]);
+		j++;
+	}
+	printf("tyes -= %s\n", ft_suppr_dq_sq(v->arg));
+
+	return (1);
+}
+
 int	parse_cmd(t_g *v)
 {
 	int	i;
@@ -28,8 +99,21 @@ int	parse_cmd(t_g *v)
 		;
 	if (i == 1)
 	{
-		if (!ft_parse_command(v, 0))
+		v->cmd = ft_supersplit(v->tab[0], ' ');
+		if (!v->cmd)
+		{
+			free_char_tab(v->tab);
+			free(v);
 			return (-1);
+		}
+		if(!ft_reunite_central_arg(v))
+		{
+			free_char_tab(v->cmd);
+			free_char_tab(v->tab);
+			free(v);
+			return (-1);
+		}
+			
 	}
 	else if (i > 1)
 	{
@@ -51,7 +135,6 @@ void	init_struct(char **tab, t_g *v)
 int	parsing(char *str, t_g *v)
 {
 	char	**tab;
-	int		i;
 
 	tab = malloc(sizeof(char *) * count_pipes(str));
 	if (!tab)
@@ -63,12 +146,7 @@ int	parsing(char *str, t_g *v)
 	init_struct(tab, v);
 	if (!parse_cmd(v))
 		return (-1);
-	i = -1;
-	while (tab[++i])
-	{
-	//	printf("i:%d = %s\n", i, tab[i]);
-		free(tab[i]);
-	}
+	ft_exec_one(v);
 	free(tab);
 	return (1);
 }

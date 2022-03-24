@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:31:13 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/21 17:24:02 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/03/24 16:29:55 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ static char	*ft_strjoin5(char *s1, char *s2, char *join)
 		s1++;
 		i++;
 	}
-	join[i] = '/';
-	i++;
 	while (*s2)
 	{
 		join[i] = *s2;
@@ -62,11 +60,12 @@ char	*ft_strjoin(char *s1, char *s2)
 
 	if (!s1 || !s2)
 		return (NULL);
-	total_lenght = (ft_strlen(s1) + ft_strlen(s2) + 2);
+	total_lenght = (ft_strlen(s1) + ft_strlen(s2) + 1);
 	join = malloc(sizeof(char *) * total_lenght);
 	if (!join)
 		return (NULL);
 	join = ft_strjoin5(s1, s2, join);
+	free(s1);
 	return (join);
 }
 
