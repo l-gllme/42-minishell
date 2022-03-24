@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/24 17:19:50 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/03/24 17:28:33 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ int	ft_reunite_central_arg(t_g *v)
 	else
 		return (-1);
 	j = i;
+	v->built = v->cmd[i];
 	while (v->cmd[j] && v->cmd[j][0] != '>')
 	{
 		if (j != i)
@@ -99,6 +100,7 @@ int	parse_cmd(t_g *v)
 		;
 	if (i == 1)
 	{
+		v->nb_cmd = 1;
 		v->cmd = ft_supersplit(v->tab[0], ' ');
 		if (!v->cmd)
 		{
@@ -117,6 +119,7 @@ int	parse_cmd(t_g *v)
 	}
 	else if (i > 1)
 	{
+		v->nb_cmd = i;
 		ft_putstr_fd("Multiple commands\n", 1);
 	}
 	return (1);
@@ -130,6 +133,7 @@ void	init_struct(char **tab, t_g *v)
 	v->arg = NULL;
 	v->out = 0;
 	v->in = 0;
+	v->nb_cmd = 0;
 }
 
 int	parsing(char *str, t_g *v)
@@ -146,7 +150,8 @@ int	parsing(char *str, t_g *v)
 	init_struct(tab, v);
 	if (!parse_cmd(v))
 		return (-1);
-	ft_exec_one(v);
+	if (v->nb_cmd == 1)
+		ft_exec_one(v);
 	free(tab);
 	return (1);
 }

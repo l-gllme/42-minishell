@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 14:04:03 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/24 14:46:30 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/03/24 17:27:54 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ typedef struct s_global
 	char	**env;
 	char	**tab;
 	char	**cmd;
+	char	*built;
+	int		nb_cmd;
 	int		out;
 	int		in;
 	char	*file_in;

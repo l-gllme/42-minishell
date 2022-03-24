@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/24 12:25:52 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/03/24 17:55:09 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,12 @@ int		count_pipes(char *str);
 void	init_syntax_struct(t_s *s);
 char	*ft_suppr_dq_sq(char *str);
 
+/* *** *** Parsing *** *** */
+
+/* exec.c */
+void	ft_exec_one(t_g *v);
+int	ft_here_doc(char *limiter);
+
 /* *** *** Tools *** *** */
 
 /* tools.c */
@@ -68,6 +74,8 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 
 /* split.c */
 char	**ft_split(char const *s, char c);
+
+/* supersplit.c */
 char	**ft_supersplit(char *str, char c);
 
 /* errors.c */

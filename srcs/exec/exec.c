@@ -6,90 +6,76 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 13:01:01 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/23 13:02:40 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/03/24 17:58:47 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	ft_reverse_chevron(char **str)
+static int	hd_cmp(char *s1, char *s2)
 {
-	int	file;
+	int	i;
 
-	file = open(str[1], O_RDONLY);
-	if (file == -1)
-		printf("error file\n");
-	if (dup2(file, STDIN_FILENO) == -1)
+	i = ft_strlen(s1);
+	s1[i - 1] = 0;
+	while (*s1 && *s2 && *s1 == *s2)
 	{
-		printf("ERROR DUP\n");
-		exit(0);
+		s1++;
+		s2++;
 	}
-	return (2);
+	return (*s1 - *s2);
 }
 
-int	ft_is_builtin(char *s,  char **cmd)
+int	ft_here_doc(char *limiter)
 {
-	if (ft_strncmp(s, "echo", ft_strlen(s)) == 0 && ft_strlen(s) == 4)
+	int	fd[2];
+	int	frk;
+	char	*str;
+
+	if (pipe(fd) == -1)
 	{
-			printf("s->%s\n", s);
-		if (ft_strnstr(cmd[0], s, ft_strlen(cmd[0])))
+		ft_putstr_fd("pipe error in ft_here_doc()\n", 2);
+		return (-1);
+	}
+	frk = fork();
+	if (frk == -1)
+	{
+		ft_putstr_fd("fork error in ft_here_doc()\n", 2);
+		return (-1);
+	}
+	if (frk == 0)
+	{
+		close(fd[0]);
+		ft_putstr_fd("> ", 1);
+		str = get_next_line(0);
+		while (str && hd_cmp(str, limiter) != 0)
 		{
-			ft_echo(ft_strnstr(cmd[0], s, ft_strlen(cmd[0])) + ft_strlen(s));
-			close(STDOUT_FILENO);
-			dup2(STDIN_FILENO, STDOUT_FILENO);
+			ft_putstr_fd(str, fd[1]);
+			ft_putstr_fd("\n", fd[1]);
+			free(str);
+			ft_putstr_fd("> ", 1);
+			str = get_next_line(0);
 		}
-		else
+		get_next_line(42);
+		free(str);
+		exit(0);
+	}
+	else
+	{
+		close(fd[1]);
+		if (!dup2(fd[0], STDIN_FILENO))
 		{
-			ft_putstr_fd("command not found: ", 2);
-			ft_putstr_fd(s, 2);
+			ft_putstr_fd("dup2 error in ft_here_doc()\n", 2);
+			return (-1);
 		}
+		wait(NULL);
 	}
 	return (1);
 }
 
-void	ft_exec_outpout(char **cmd)
+void	ft_exec_one(t_g *v)
 {
-	int	i;
-	int	fd;
-
-	i = ft_check_outpout(cmd);
-	if (open(cmd[i - 1], O_DIRECTORY) != -1)
-	{
-		ft_putstr_fd("File is a directory\n", 2);
-	}
-	fd = open(cmd[i - 1], O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	if (fd == -1)
-		ft_putstr_fd("Permision denied\n", 2);	
-	if (!dup2(fd, STDOUT_FILENO))
-		ft_putstr_fd("dup2 error\n", 2);	
-}
-
-int	ft_check_outpout(char **cmd)
-{
-	int	i;
-	
-	i = -1;
-	while (cmd[++i])
-		;
-	if (cmd[i - 2][0] == '>' && cmd[i - 2][1] == 0)
-		return (i);
-	return (0);
-}
-
-void	ft_exec_one_command(t_g *v)
-{
-	(void)v->file_in;
-	ft_putstr_fd("Exec one command\n", 1);
-/*	int	i;
-
-	i = 0;
-	v->cmd = ft_split(v->tab[0], ' ');
-	if (!v->cmd)
-		printf("error tab\n");
-	if (v->cmd[0][0] == '<')
-		i = ft_reverse_chevron(v->cmd);
-	if (ft_check_outpout(v->cmd))
-		ft_exec_outpout(v->cmd);
-	v->cmd[i] = ft_suppr_dq_sq(v->cmd[i]);
-	ft_is_builtin(v->cmd[i], v->tab);*/
+	(void)v;
+	ft_here_doc("toto");
+	return ;
 }
