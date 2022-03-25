@@ -6,13 +6,14 @@
 #    By: lguillau <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/14 14:27:36 by lguillau          #+#    #+#              #
-#    Updated: 2022/03/24 17:55:37 by jtaravel         ###   ########.fr        #
+#    Updated: 2022/03/25 14:06:23 by jtaravel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 FILES	=	minishell.c \
 		tools/split.c \
 		tools/supersplit.c \
+		tools/split_double.c \
 		tools/tools.c \
 		builtins/cd.c \
 		tools/errors.c \

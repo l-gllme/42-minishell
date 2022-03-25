@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 14:04:03 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/24 17:27:54 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/03/25 12:55:37 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ typedef struct s_global
 	int		nb_cmd;
 	int		out;
 	int		in;
+	int		access;
 	char	*file_in;
 	char	*file_out;
 	char	*arg;

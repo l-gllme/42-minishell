@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/24 17:28:33 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/03/25 14:48:08 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,10 @@ int	ft_reunite_central_arg(t_g *v)
 	if (is_builtin(ft_suppr_dq_sq(v->cmd[i])) == 1)
 		i++;
 	else if (try_access(ft_suppr_dq_sq(v->cmd[i])) == 1)
+	{
+		v->access = 1;
 		i++;
+	}
 	else
 		return (-1);
 	j = i;
@@ -86,8 +89,6 @@ int	ft_reunite_central_arg(t_g *v)
 		v->arg = ft_strjoin(v->arg, v->cmd[j]);
 		j++;
 	}
-	printf("tyes -= %s\n", ft_suppr_dq_sq(v->arg));
-
 	return (1);
 }
 
@@ -102,6 +103,7 @@ int	parse_cmd(t_g *v)
 	{
 		v->nb_cmd = 1;
 		v->cmd = ft_supersplit(v->tab[0], ' ');
+	//	v->cmd = ft_split_double(v->tab[0], "<<");
 		if (!v->cmd)
 		{
 			free_char_tab(v->tab);
@@ -134,6 +136,7 @@ void	init_struct(char **tab, t_g *v)
 	v->out = 0;
 	v->in = 0;
 	v->nb_cmd = 0;
+	v->access = 0;
 }
 
 int	parsing(char *str, t_g *v)

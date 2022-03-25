@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 13:01:01 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/24 17:58:47 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/03/25 13:56:50 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,46 @@ static int	hd_cmp(char *s1, char *s2)
 	return (*s1 - *s2);
 }
 
-int	ft_here_doc(char *limiter)
+void	ft_here_doc_no_cmd(char *limiter)
 {
-	int	fd[2];
-	int	frk;
 	char	*str;
 
-	if (pipe(fd) == -1)
+	ft_putstr_fd("> ", 1);
+	str = get_next_line(0);
+	while (str && hd_cmp(str, limiter) != 0)
+	{
+		free(str);
+		ft_putstr_fd("> ", 1);
+		str = get_next_line(0);
+	}
+	get_next_line(42);
+	free(str);
+}
+
+int	ft_here_doc(char *limiter, t_g *v)
+{
+	//int	fd[2];
+	//int	frk;
+	//char	*str;
+
+	if (v->access == 0)
+		ft_here_doc_no_cmd(limiter);
+	/*else
+	{
+	ft_putstr_fd("> ", 1);
+	str = get_next_line(0);
+	while (str && hd_cmp(str, limiter) != 0)
+	{
+		//ft_putstr_fd(str, 2);
+		//ft_putstr_fd("\n", 2);
+		free(str);
+		ft_putstr_fd("> ", 1);
+		str = get_next_line(0);
+	}
+	get_next_line(42);
+	free(str);
+	}*/
+	/*if (pipe(fd) == -1)
 	{
 		ft_putstr_fd("pipe error in ft_here_doc()\n", 2);
 		return (-1);
@@ -58,7 +91,7 @@ int	ft_here_doc(char *limiter)
 		}
 		get_next_line(42);
 		free(str);
-		exit(0);
+		return (0);
 	}
 	else
 	{
@@ -69,13 +102,13 @@ int	ft_here_doc(char *limiter)
 			return (-1);
 		}
 		wait(NULL);
-	}
+	}*/
 	return (1);
 }
 
 void	ft_exec_one(t_g *v)
 {
 	(void)v;
-	ft_here_doc("toto");
+	//ft_here_doc("toto", v);
 	return ;
 }

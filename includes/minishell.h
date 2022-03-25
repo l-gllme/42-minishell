@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/24 17:55:09 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/03/25 14:09:43 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	*ft_suppr_dq_sq(char *str);
 
 /* exec.c */
 void	ft_exec_one(t_g *v);
-int	ft_here_doc(char *limiter);
+int	ft_here_doc(char *limiter, t_g *v);
 
 /* *** *** Tools *** *** */
 
@@ -77,6 +77,8 @@ char	**ft_split(char const *s, char c);
 
 /* supersplit.c */
 char	**ft_supersplit(char *str, char c);
+void	check_sq_dq_siuuuuu(t_s *s_s, char c);
+char	**ft_split_double(char *str, char *charset);
 
 /* errors.c */
 void	ft_error(int error);
