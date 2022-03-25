@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:31:13 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/24 16:29:55 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/03/25 16:48:22 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int	ft_strlen(const char *s)
 {
 	int	i;
 
+	if (!s)
+		return (0);
 	i = 0;
 	while (s[i])
 		i++;
@@ -73,6 +75,8 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
 	size_t	i;
 
+	if (!s1 || !s2)
+		return (0);
 	i = 0;
 	if (n == 0)
 		return (0);

@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:40:12 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/21 16:06:56 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/03/25 15:51:03 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ void exec_ls(char **env)
 int	main(int ac, char **av, char **env)
 {
 	char	*str;
-	struct sigaction sa;
-	sa.sa_handler = handler;
+	//struct sigaction sa;
+	//sa.sa_handler = handler;
 	t_g *v;
 
 	(void)av;
@@ -50,7 +50,7 @@ int	main(int ac, char **av, char **env)
 	v->env = env;
 	while (1)
 	{
-		sigaction(SIGINT, &sa, NULL);
+		//sigaction(SIGINT, &sa, NULL);
 		str = readline("\033[34m➜\033[0m ");
 		if (str == NULL || ft_strncmp(str, "exit", 5) == 0)
 		{

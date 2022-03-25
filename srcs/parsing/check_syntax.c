@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 12:16:42 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/23 15:09:29 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/03/25 16:49:59 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,36 @@ static int	cut_cp(char str, t_s *s)
 	if (str == '|' && !s->dq_opened && !s->sq_opened)
 		return (1);
 	return (0);
+}
+
+int	ft_check_invalid_signs(char *str, char c)
+{
+	int	i;
+	int	count;
+	t_s	s;
+
+	i = -1;
+	init_syntax_struct(&s);
+	count = 0;
+	while (str[++i])
+	{
+		check_sq_dq_siuuuuu(&s, str[i]);
+		if (str[i] == c && s.dq_opened == 0 && s.sq_opened == 0)
+		{
+			count++;
+			while (str[++i] == c)
+			{
+				count++;
+				if (count == 3)
+				{
+					ft_putstr_fd("Invalid syntax near <<\n", 2);
+					return (0);
+				}
+			}
+		}
+		count = 0;
+	}
+	return (1);
 }
 
 int	count_pipes(char *str)

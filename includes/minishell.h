@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/25 14:09:43 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/03/25 16:35:26 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int		ft_check_in_out(t_g *v, int nb);
 /* check_syntax.c */
 int		check_not_closed_pipes(char **tab);
 int		count_pipes(char *str);
+int		ft_check_invalid_signs(char *str, char c);
 
 /* parsing_tools.c */
 void	init_syntax_struct(t_s *s);

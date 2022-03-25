@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 14:01:28 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/03/25 14:18:02 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/03/25 17:29:16 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ft_check_charset(char *charset, char c, t_s *s_s)
 	i = 0;
 	while (charset[i] != '\0' && s_s->sq_opened == 0 && s_s->dq_opened == 0)
 	{
-		if (c == charset[0] && c == charset[1])
+		if (c == charset[i])
 			return (1);
 		i++;
 	}
@@ -38,15 +38,19 @@ int	ft_countword(char *str, char *charset)
 	while (str[i] != '\0')
 	{
 		check_sq_dq_siuuuuu(&s_s, str[i]);
-		if (ft_check_charset(charset, str[i], &s_s) == 1)
-			i++;
+		if (ft_check_charset(charset, str[i], &s_s) == 1 && ft_check_charset(charset, str[i + 1], &s_s) == 1)
+		{
+			printf(";p;");
+			i += 2;
+		}
 		else
 		{
-			while (str[i] != '\0' && ft_check_charset(charset, str[i], &s_s) == 0)
+			while (str[i] != '\0' && (ft_check_charset(charset, str[i], &s_s) == 0 || ft_check_charset(charset, str[i + 1], &s_s) == 0))
 				i++;
 			count++;
 		}
 	}
+	printf("count:%d\n", count);
 	return (count);
 }
 
@@ -55,7 +59,7 @@ int	ft_lenword(char *str, char *charset, t_s *s_s)
 	int	i;
 
 	i = 0;
-	while (str[i] != '\0' && ft_check_charset(charset, str[i], s_s) == 0)
+	while (str[i] != '\0' && (ft_check_charset(charset, str[i], s_s) == 0 || ft_check_charset(charset, str[i + 1], s_s) == 0 ))
 	{
 		check_sq_dq_siuuuuu(s_s, str[i]);
 		i++;
@@ -98,8 +102,8 @@ char	**ft_split_double(char *str, char *charset)
 	j = 0;
 	while (str[i] != '\0')
 	{
-		if (ft_check_charset(charset, str[i], &s_s) == 1)
-			i++;
+		if (ft_check_charset(charset, str[i], &s_s) == 1 && str[i] == str[i + 1])
+			i += 2;
 		else
 		{
 			res[j] = ft_cpyword(str + i, charset, ft_lenword(str + i, charset, &s_s), &s_s);

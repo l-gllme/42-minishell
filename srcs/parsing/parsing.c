@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/25 14:48:08 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/03/25 17:00:45 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,12 +102,13 @@ int	parse_cmd(t_g *v)
 	if (i == 1)
 	{
 		v->nb_cmd = 1;
-		v->cmd = ft_supersplit(v->tab[0], ' ');
-	//	v->cmd = ft_split_double(v->tab[0], "<<");
-		if (!v->cmd)
+		//v->cmd = ft_supersplit(v->tab[0], ' ');
+		v->cmd = ft_split_double(v->tab[0], "<");
+		if (!v->cmd || v->cmd[0][0] == 0)
 		{
-			free_char_tab(v->tab);
-			free(v);
+		printf("str = %s\n", v->cmd[1]);
+			//free_char_tab(v->tab);
+			//free(v);
 			return (-1);
 		}
 		if(!ft_reunite_central_arg(v))
@@ -148,13 +149,19 @@ int	parsing(char *str, t_g *v)
 		return (-1);
 	if (!get_cmd(str, tab))
 		return (-1);
-	if (!check_not_closed_pipes(tab))
+	if (check_not_closed_pipes(tab) == -1 || !ft_check_invalid_signs(str, '<') || !ft_check_invalid_signs(str, '>'))
 		return (-1);
 	init_struct(tab, v);
 	if (!parse_cmd(v))
 		return (-1);
 	if (v->nb_cmd == 1)
 		ft_exec_one(v);
+	int	i = 0;
+	while (v->cmd[i])
+	{
+		printf("test = %s\n", v->cmd[i]);
+		i++;
+	}
 	free(tab);
 	return (1);
 }
