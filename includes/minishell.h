@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/25 16:35:26 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/03/28 15:23:00 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 /* *** *** Parsing *** *** */
 
 /* parsing.c */
-int		parsing(char *line, t_g *v);
+int		parsing(char *line, char **env);
 int		ft_check_outpout(char **cmd);
 void	init_struct(char **tab, t_g *v);
 

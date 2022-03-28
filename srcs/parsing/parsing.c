@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/25 17:00:45 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/03/28 15:41:48 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,10 @@ int	ft_reunite_central_arg(t_g *v)
 	v->arg = malloc(sizeof(1));
 	v->arg[0] = 0;
 	i = 0; 
-	while (v->cmd[i][0] == '<' && (v->cmd[i][1] == 0 || (v->cmd[i][1] == '<' && v->cmd[i][2] == 0)))
+	while (v->cmd[i] && v->cmd[i][0] == '<' && v->cmd[i][1] == '<')
 		i += 2;
+	 if (!v->cmd[i])
+		 return (-1);
 	if (is_builtin(ft_suppr_dq_sq(v->cmd[i])) == 1)
 		i++;
 	else if (try_access(ft_suppr_dq_sq(v->cmd[i])) == 1)
@@ -92,6 +94,69 @@ int	ft_reunite_central_arg(t_g *v)
 	return (1);
 }
 
+int	ft_add_spaces(t_g *v, char c)
+{
+	int	len;
+	int	j;
+	int	i;
+	t_s	s;
+
+	len = 0;
+	i = 0;
+	init_syntax_struct(&s);
+	while (v->tab[0][i])
+	{
+		check_sq_dq_siuuuuu(&s, v->tab[0][i]);
+		if (s.sq_opened == 0 && s.dq_opened == 0 && i != 0 && v->tab[0][i] == c)
+		{
+			if (v->tab[0][i - 1] != ' ' || v->tab[0][i - 1] != c)
+				len++;
+		}
+		if (s.sq_opened == 0 && s.dq_opened == 0 && v->tab[0][i] == c && v->tab[0][i + 1] == c)
+		{
+			i++;
+			len++;
+		}
+		if (s.sq_opened == 0 && s.dq_opened == 0 && v->tab[0][i] == c && c && v->tab[0][i + 1] != c)
+			len++;
+		i++;
+	}
+	len += ft_strlen(v->tab[0]);
+	v->wagon = malloc(sizeof(char *) * (len + 1));
+	if (!v->wagon)
+		return (0);
+	i = 0;
+	j = 0;
+	init_syntax_struct(&s);
+	while (v->tab[0][i])
+	{
+		check_sq_dq_siuuuuu(&s, v->tab[0][i]);
+		if (s.sq_opened == 0 && s.dq_opened == 0 && i != 0 && v->tab[0][i] == c)
+		{
+			if (v->tab[0][i - 1] != ' ' || v->tab[0][i - 1] != c)
+				v->wagon[j++] = ' ';
+		}
+		v->wagon[j] = v->tab[0][i];
+		if (s.sq_opened == 0 && s.dq_opened == 0 && v->tab[0][i] == c && v->tab[0][i + 1] == c)
+		{
+			v->wagon[j] = c;
+			j++;
+			i++;
+			v->wagon[j] = ' ';
+		}
+		if (s.sq_opened == 0 && s.dq_opened == 0 && v->tab[0][i] == c && v->tab[0][i + 1] != c)
+		{
+			v->wagon[j] = c;
+			j++;
+			v->wagon[j] = ' ';
+		}
+		j++;
+		i++;
+	}
+	v->wagon[j] = 0;
+	return (1);
+}
+
 int	parse_cmd(t_g *v)
 {
 	int	i;
@@ -102,19 +167,22 @@ int	parse_cmd(t_g *v)
 	if (i == 1)
 	{
 		v->nb_cmd = 1;
-		//v->cmd = ft_supersplit(v->tab[0], ' ');
-		v->cmd = ft_split_double(v->tab[0], "<");
+		ft_add_spaces(v, '<');
+		v->cmd = ft_supersplit(v->wagon, ' ');
+		//v->cmd = ft_split_double(v->tab[0], "<");
 		if (!v->cmd || v->cmd[0][0] == 0)
 		{
-		printf("str = %s\n", v->cmd[1]);
-			//free_char_tab(v->tab);
-			//free(v);
+			free_char_tab(v->tab);
+			free(v->arg);
+			free(v);
 			return (-1);
 		}
-		if(!ft_reunite_central_arg(v))
+		if(ft_reunite_central_arg(v) == -1)
 		{
 			free_char_tab(v->cmd);
 			free_char_tab(v->tab);
+			free(v->wagon);
+			free(v->arg);
 			free(v);
 			return (-1);
 		}
@@ -133,35 +201,45 @@ void	init_struct(char **tab, t_g *v)
 	v->tab = tab;
 	v->file_in = NULL;
 	v->file_out = NULL;
-	v->arg = NULL;
+	//v->arg = NULL;
 	v->out = 0;
 	v->in = 0;
 	v->nb_cmd = 0;
 	v->access = 0;
 }
 
-int	parsing(char *str, t_g *v)
+int	parsing(char *str, char **env)
 {
 	char	**tab;
+	t_g	*v;
 
 	tab = malloc(sizeof(char *) * count_pipes(str));
+	v = malloc(sizeof(t_g));
+	if (!v)
+		ft_error(2);
+	v->env = env;
 	if (!tab)
 		return (-1);
-	if (!get_cmd(str, tab))
+	if (get_cmd(str, tab) == -1)
 		return (-1);
 	if (check_not_closed_pipes(tab) == -1 || !ft_check_invalid_signs(str, '<') || !ft_check_invalid_signs(str, '>'))
 		return (-1);
 	init_struct(tab, v);
-	if (!parse_cmd(v))
+	if (parse_cmd(v) == -1)
 		return (-1);
 	if (v->nb_cmd == 1)
 		ft_exec_one(v);
-	int	i = 0;
-	while (v->cmd[i])
-	{
-		printf("test = %s\n", v->cmd[i]);
-		i++;
-	}
-	free(tab);
+//	int	i = 0;
+	//while (v->cmd[i])
+//	{
+//		printf("test = %s\n", v->cmd[i]);
+//		i++;
+//	}
+	if (v->cmd)
+		free_char_tab(v->cmd);
+	free_char_tab(tab);
+	free(v->wagon);
+	free(v->arg);
+	free(v);
 	return (1);
 }
