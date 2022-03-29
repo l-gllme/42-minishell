@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 12:16:42 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/28 15:30:28 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/03/29 14:27:45 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	check_not_closed_pipes(char **tab)
 		if (res == 0 || res == -1)
 		{
 			ft_putstr_fd("Invalid syntax\n", 2);
-			return (-1);
+			return (0);
 		}
 	}
 	return (1);
@@ -92,7 +92,7 @@ int	ft_check_invalid_signs(char *str, char c)
 				count++;
 				if (count == 3)
 				{
-					ft_putstr_fd("Invalid syntax near <<\n", 2);
+					ft_putstr_fd("Invalid syntax near << or >>\n", 2);
 					return (0);
 				}
 			}
@@ -113,7 +113,7 @@ int	count_pipes(char *str)
 	if (!s)
 	{
 		ft_putstr_fd("Malloc error in count_pipes()\n", 2);
-		return (-1);
+		return (0);
 	}
 	init_syntax_struct(s);
 	cmd_counter = 1;
@@ -123,7 +123,7 @@ int	count_pipes(char *str)
 	{
 		ft_putstr_fd("Invalid syntax\n", 2);
 		free(s);
-		return (-1);
+		return (0);
 	}
 	free(s);
 	return (cmd_counter + 1);

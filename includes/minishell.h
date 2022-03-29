@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/28 15:23:00 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/03/29 14:14:58 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	init_struct(char **tab, t_g *v);
 int		get_cmd(char *str, char **tab);
 
 /* in_out_parse */
-int		ft_check_in_out(t_g *v, int nb);
+int		ft_add_spaces(t_g *v, char c, int index);
 
 /* check_syntax.c */
 int		check_not_closed_pipes(char **tab);
@@ -48,7 +48,7 @@ int		ft_check_invalid_signs(char *str, char c);
 void	init_syntax_struct(t_s *s);
 char	*ft_suppr_dq_sq(char *str);
 
-/* *** *** Parsing *** *** */
+/* *** *** Exec *** *** */
 
 /* exec.c */
 void	ft_exec_one(t_g *v);
@@ -83,5 +83,7 @@ char	**ft_split_double(char *str, char *charset);
 
 /* errors.c */
 void	ft_error(int error);
+int		ft_custom_error(char *str, int ret, t_g *v);
+void	ft_free(t_g *v);
 
 #endif

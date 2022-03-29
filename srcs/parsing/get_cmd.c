@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 14:07:03 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/28 15:36:26 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/03/29 14:30:44 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static int	cut_gc_2(t_c *c, char *str, char **tab)
 		if (!tab[c->k])
 		{
 			ft_putstr_fd("Malloc Error in get_cmd()\n", 2);
-			return (-1);
+			return (0);
 		}
 		c->l = 0;
 		while (c->j < c->i)
@@ -72,7 +72,7 @@ static int	cut_gc_3(t_c *c, char *str, char **tab)
 	if (!tab[c->k])
 	{
 		ft_putstr_fd("Malloc Error in get_cmd()\n", 2);
-		return (-1);
+		return (0);
 	}
 	c->i = 0;
 	while (str[c->j])
@@ -95,7 +95,7 @@ int	get_cmd(char *str, char **tab)
 	if (!c)
 	{
 		ft_putstr_fd("Malloc Error in get_cmd()\n", 2);
-		return (-1);
+		return (0);
 	}
 	init_gc_struct(c);
 	c->k = 0;
@@ -103,10 +103,10 @@ int	get_cmd(char *str, char **tab)
 	{
 		cut_gc(str[c->i], c);
 		if (!cut_gc_2(c, str, tab))
-			return (-1);
+			return (0);
 	}
 	if (!cut_gc_3(c, str, tab))
-		return (-1);
+		return (0);
 	free(c);
 	return (1);
 }
