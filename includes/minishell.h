@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/29 14:39:35 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/03/29 16:09:20 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,9 @@ char	*ft_suppr_dq_sq(char *str);
 /* exec.c */
 void	ft_exec_one(t_g *v);
 int	ft_here_doc(char *limiter, t_g *v);
+
+/* in_exec.c */
+int	check_valid_infile(char *file);
 
 /* *** *** Tools *** *** */
 

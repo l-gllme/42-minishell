@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:40:12 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/28 15:22:47 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/03/29 16:27:59 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,6 @@
 void	handler(int signum)
 {
 	(void)signum;
-}
-
-void exec_ls(char **env)
-{
-	char **toto;
-	toto = malloc(sizeof(char *) * 2);
-	toto[0] = "ls";
-	toto[1] = 0;
-	int forke;
-
-	forke = fork();
-	if (forke == 0)
-		execve("/usr/bin/ls", toto, env);	
-	else
-		wait(NULL);
 }
 
 int	main(int ac, char **av, char **env)
@@ -56,13 +41,7 @@ int	main(int ac, char **av, char **env)
 			add_history(str);
 		if (str[0])
 			parsing(str, env);
-		/*if (ft_strncmp(str, "ls", 2) == 0)
-			exec_ls(env);
-		if (ft_strncmp(str, "pwd", 3) == 0)
-			ft_pwd();
-		if (ft_strncmp(str, "cd", 2) == 0)
-			ft_cd(str + 3);
-		*/free(str);
+		free(str);
 	}
 	return (0);
 }

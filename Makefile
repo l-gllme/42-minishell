@@ -6,7 +6,7 @@
 #    By: lguillau <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/14 14:27:36 by lguillau          #+#    #+#              #
-#    Updated: 2022/03/29 13:13:48 by lguillau         ###   ########.fr        #
+#    Updated: 2022/03/29 16:09:32 by lguillau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ FILES	=	minishell.c \
 		parsing/parsing_tools.c \
 		parsing/get_cmd.c \
 		exec/exec.c \
+		exec/in_exec.c \
 		gnl/get_next_line.c \
 		gnl/get_next_line_utils.c \
 

@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/29 14:34:56 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/03/29 15:03:14 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	ft_reunite_central_arg(t_g *v)
 	while (v->cmd[i] && v->cmd[i][0] == '<' && v->cmd[i][1] == '<')
 		i += 2;
 	 if (!v->cmd[i])
-		 return (-1);
+		 return (0);
 	if (is_builtin(ft_suppr_dq_sq(v->cmd[i])) == 1)
 		i++;
 	else if (try_access(ft_suppr_dq_sq(v->cmd[i])) == 1)
@@ -108,8 +108,7 @@ int	parse_cmd(t_g *v)
 	else if (i > 1)
 	{
 		v->nb_cmd = i;
-		ft_putstr_fd("Multiple commands\n", 1);
-		return (0);
+		return (ft_custom_error("Multiple commands\n", 0, v));
 	}
 	return (1);
 }
