@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/29 14:14:58 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/03/29 14:39:35 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 /* parsing.c */
 int		parsing(char *line, char **env);
 int		ft_check_outpout(char **cmd);
-void	init_struct(char **tab, t_g *v);
+void	init_struct(char **tab, t_g *v, char **env);
 
 /* get_cmd */
 int		get_cmd(char *str, char **tab);
