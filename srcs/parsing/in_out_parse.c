@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 11:19:08 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/29 14:00:33 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/03/29 17:13:44 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	count_len(t_g *v, char c, int k, int len)
 	init_syntax_struct(&s);
 	while (v->tab[k][i])
 	{
-		check_sq_dq_siuuuuu(&s, v->tab[k][i]);
+		check_sq_dq(&s, v->tab[k][i]);
 		if (s.sq_opened == 0 && s.dq_opened == 0 && i != 0 && v->tab[k][i] == c)
 		{
 			if (v->tab[k][i - 1] != ' ' || v->tab[k][i - 1] != c)
@@ -49,7 +49,7 @@ static int	cut_add_space(t_g *v, char c, int k, int j)
 	init_syntax_struct(&s);
 	while (v->tab[k][i])
 	{
-		check_sq_dq_siuuuuu(&s, v->tab[k][i]);
+		check_sq_dq(&s, v->tab[k][i]);
 		if (s.sq_opened == 0 && s.dq_opened == 0 && i != 0 && v->tab[k][i] == c)
 		{
 			if (v->tab[k][i - 1] != ' ' || v->tab[k][i - 1] != c)

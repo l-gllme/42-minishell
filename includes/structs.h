@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 14:04:03 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/28 14:27:10 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/03/29 16:33:27 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,10 @@ typedef struct s_global
 	char	**tab;
 	char	**cmd;
 	char	*wagon;
-	char	*built;
-	int		nb_cmd;
-	int		out;
-	int		in;
-	int		access;
-	char	*file_in;
-	char	*file_out;
+	char	*funct;
 	char	*arg;
+	int		nb_cmd;
+	int		access;
 }	t_g;
 
 typedef struct s_syntax

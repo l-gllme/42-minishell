@@ -6,29 +6,11 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 13:51:38 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/03/25 15:48:07 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/03/29 17:11:01 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-void	check_sq_dq_siuuuuu(t_s *s_s, char c)
-{
-	if (c == '\'' && s_s->dq_opened == 0)
-	{
-		if (s_s->sq_opened == 0)
-			s_s->sq_opened = 1;
-		else
-			s_s->sq_opened = 0;
-	}
-	if (c == '"' && s_s->sq_opened == 0)
-	{
-		if (s_s->dq_opened == 0)
-			s_s->dq_opened = 1;
-		else
-			s_s->dq_opened = 0;
-	}
-}
 
 static int	ft_check_charset(const char str, char c, t_s *s_s)
 {
@@ -48,7 +30,7 @@ static int	ft_count_word(const char *str, char c)
 	i = 0;
 	while (str[i])
 	{
-		check_sq_dq_siuuuuu(&s_s, str[i]);
+		check_sq_dq(&s_s, str[i]);
 		if (ft_check_charset(str[i], c, &s_s) == 0)
 			i++;
 		else
@@ -68,7 +50,7 @@ static int	ft_lenword(const char *str, char c, t_s *s_s)
 	i = 0;
 	while (str[i] && ft_check_charset(str[i], c, s_s) == 0)
 	{
-		check_sq_dq_siuuuuu(s_s, str[i]);
+		check_sq_dq(s_s, str[i]);
 		i++;
 	}
 	return (i);

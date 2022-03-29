@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/29 15:03:14 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/03/29 17:11:29 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,24 @@ int	is_builtin(char *cmd)
 	return (-1);
 }
 
+int	check_not_followed_sign(char *str)
+{
+	t_s	s;
+	int	i;
+
+	i = ft_strlen(str);
+	init_syntax_struct(&s);
+	check_sq_dq(&s, str[i]);
+	while (str[--i] == ' ' && !s.sq_opened && !s.dq_opened)
+		;
+	if (str[i] == '>' || str[i] == '<')
+	{
+		ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n", 2);
+		return (0);
+	}
+	return (1);
+}
+
 int	ft_reunite_central_arg(t_g *v)
 {
 	int	i;
@@ -76,7 +94,7 @@ int	ft_reunite_central_arg(t_g *v)
 	else
 		return (0);
 	j = i;
-	v->built = v->cmd[i];
+	v->funct = v->cmd[i];
 	while (v->cmd[j] && v->cmd[j][0] != '>')
 	{
 		if (j != i)
@@ -97,7 +115,9 @@ int	parse_cmd(t_g *v)
 	if (i == 1)
 	{
 		if (!ft_add_spaces(v, '<', 0) || !ft_add_spaces(v, '>', 0))
-			ft_custom_error(NULL, 0, v);
+			return (ft_custom_error(NULL, 0, v));
+		if (!check_not_followed_sign(v->tab[0]))
+			return (ft_custom_error(NULL, 0, v));
 		v->nb_cmd = 1;
 		v->cmd = ft_supersplit(v->tab[0], ' ');
 		if (!v->cmd)
