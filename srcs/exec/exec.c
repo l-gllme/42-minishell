@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 13:01:01 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/25 13:56:50 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/03/30 15:32:11 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ static int	hd_cmp(char *s1, char *s2)
 {
 	int	i;
 
+	printf("s1=%s\n", s1);
+	printf("s2=%s\n", s2);
 	i = ft_strlen(s1);
 	s1[i - 1] = 0;
 	while (*s1 && *s2 && *s1 == *s2)
@@ -23,6 +25,7 @@ static int	hd_cmp(char *s1, char *s2)
 		s1++;
 		s2++;
 	}
+	printf("value=%d\n", *s1 - *s2);
 	return (*s1 - *s2);
 }
 
@@ -32,6 +35,7 @@ void	ft_here_doc_no_cmd(char *limiter)
 
 	ft_putstr_fd("> ", 1);
 	str = get_next_line(0);
+	printf("gnl =%s\n", str);
 	while (str && hd_cmp(str, limiter) != 0)
 	{
 		free(str);

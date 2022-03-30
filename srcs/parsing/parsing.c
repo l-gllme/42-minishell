@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/29 17:11:29 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/03/30 15:22:03 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,18 @@ int	ft_reunite_central_arg(t_g *v)
 	v->arg = malloc(sizeof(1));
 	v->arg[0] = 0;
 	i = 0; 
+	j = 0;
+	while (v->cmd[j])
+	{
+		printf("str=%s\n", v->cmd[j]);
+		j++;
+	}
 	while (v->cmd[i] && v->cmd[i][0] == '<' && v->cmd[i][1] == '<')
+	{
+		printf("test = %s\n", v->cmd[i + 1]);
+		ft_here_doc(v->cmd[i + 1], v);
 		i += 2;
+	}
 	 if (!v->cmd[i])
 		 return (0);
 	if (is_builtin(ft_suppr_dq_sq(v->cmd[i])) == 1)

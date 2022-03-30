@@ -3,114 +3,130 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/10 12:49:00 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/15 15:54:36 by lguillau         ###   ########.fr       */
+/*   Created: 2021/11/30 16:20:44 by jtaravel          #+#    #+#             */
+/*   Updated: 2022/03/30 15:41:34 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/get_next_line.h"
+#include "get_next_line.h"
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdio.h>
 
-char	*get_next_line(int fd)
+char	*ft_read(char *buff, int fd)
 {
-	static char	*save[1024];
-	char		*str;
-
-	if (fd == 42)
-	{
-		free(save[0]);
-		return (NULL);
-	}
-	if (BUFFER_SIZE <= 0 || fd < 0)
-		return (NULL);
-	save[fd] = get_read(save[fd], fd);
-	if (!save[fd])
-	{
-		free(save[fd]);
-		return (NULL);
-	}
-	str = get_line(save[fd]);
-	save[fd] = cut_save(save[fd]);
-	return (str);
-}
-
-char	*get_read(char *save, int fd)
-{
-	char	*str;
 	int		ret;
+	char	*tmp;
 
 	ret = 1;
-	str = malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!str)
-		return (NULL);
-	while (!ft_strchr(save, '\n') && ret != 0)
+	tmp = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	while (ret != 0 && !ft_strchr(buff, '\n'))
 	{
-		ret = read(fd, str, BUFFER_SIZE);
+		ret = read(fd, tmp, BUFFER_SIZE);
 		if (ret == -1)
 		{
-			free(str);
+			free(tmp);
 			return (NULL);
 		}
-		str[ret] = 0;
-		save = ft_strjoin2(save, str);
+		tmp[ret] = '\0';
+		buff = ft_strjoin_gnl(buff, tmp);
 	}
-	free(str);
-	return (save);
+	free(tmp);
+	return (buff);
 }
 
-char	*get_line(char *save)
+char	*ft_next_line(char *str)
 {
-	char	*str;
+	char	*tmp;
 	int		i;
+	int		j;
 
 	i = 0;
-	if (save[i] == 0)
-		return (NULL);
-	while (save[i] != '\n' && save [i])
+	while (str[i] && str[i] != '\n')
 		i++;
-	if (save[i] == '\n')
-		i++;
-	str = malloc(sizeof(char) * (i + 1));
-	if (!str)
-		return (NULL);
-	i = -1;
-	while (save[++i] != '\n' && save[i])
-		str[i] = save[i];
-	if (save[i] == '\n')
+	if (!str[i])
 	{
-		str[i] = '\n';
-		i++;
+		free(str);
+		return (NULL);
 	}
-	str[i] = 0;
-	return (str);
+	tmp = malloc(sizeof(char) * (ft_strlen(str) - i) + 1);
+	i++;
+	j = 0;
+	while (str[i + j])
+	{
+		tmp[j] = str[i + j];
+		j++;
+	}
+	tmp[j] = '\0';
+	free(str);
+	return (tmp);
 }
 
-char	*cut_save(char	*save)
+char	*ft_get_line(char *str)
 {
-	char	*str;
+	char	*line;
 	int		i;
 	int		j;
 
 	i = 0;
 	j = 0;
-	while (save[i] && save[i] != '\n')
+	while (str[i] && str[i] != '\n')
 		i++;
-	if (save[i] == 0)
+	if (str[i] == '\n')
+		line = malloc(sizeof(char) * (i + 2));
+	else
+		line = malloc(sizeof(char) * (i + 1));
+	while (str[j] && str[j] != '\n')
 	{
-		free(save);
-		return (NULL);
-	}
-	str = malloc(sizeof(char) * ((ft_strlen(save) - i) + 1));
-	if (!str)
-		return (NULL);
-	i++;
-	while (save[i + j])
-	{
-		str[j] = save[i + j];
+		line[j] = str[j];
 		j++;
 	}
-	str[j] = 0;
-	free(save);
-	return (str);
+	if (str[j] == '\n')
+	{
+		line[j] = '\n';
+		j++;
+	}
+	line[j] = '\0';
+	return (line);
 }
+
+char	*get_next_line(int fd)
+{
+	char		*line;
+	static char	*buff;
+
+	if (fd < 0 || BUFFER_SIZE <= 0)
+		return (NULL);
+	buff = ft_read(buff, fd);
+	if (!buff)
+		return (NULL);
+	if (!buff[0])
+	{
+		free(buff);
+		buff = NULL;
+		return (NULL);
+	}
+	line = ft_get_line(buff);
+	buff = ft_next_line(buff);
+	return (line);
+}
+/*
+int main(void)
+{
+	char	*str;
+	int	fd;
+	fd = open("get_next_line.h", O_RDONLY);
+	
+	while((str = get_next_line(fd)) != NULL)
+	{
+		printf("%s",str);
+		free(str);
+	}
+	return (0);
+}*/
+
