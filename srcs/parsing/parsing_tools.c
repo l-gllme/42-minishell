@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 12:31:15 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/29 17:10:25 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/03/31 15:14:06 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	init_syntax_struct(t_s *s)
 {
 	s->dq_opened = 0;
 	s->sq_opened = 0;
-	s->stat = 0;
 }
 
 void	check_sq_dq(t_s *s_s, char c)

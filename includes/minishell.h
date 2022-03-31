@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/29 17:09:55 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/03/31 15:08:56 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,11 @@
 # include "builtins.h"
 # include "structs.h"
 
-/* *** *** Parsing *** *** */
+/* ******************************* */
+/*                                 */
+/*             Parsing             */
+/*                                 */
+/* ******************************* */
 
 /* parsing.c */
 int		parsing(char *line, char **env);
@@ -49,7 +53,17 @@ void	init_syntax_struct(t_s *s);
 void	check_sq_dq(t_s *s_s, char c);
 char	*ft_suppr_dq_sq(char *str);
 
-/* *** *** Exec *** *** */
+/* stock_line */
+int	stock_in(t_g *v);
+int	stock_out(t_g *v);
+int	stock_exec(t_g *v);
+int	stock_arg(t_g *v);
+
+/* ******************************* */
+/*                                 */
+/*               Exec              */
+/*                                 */
+/* ******************************* */
 
 /* exec.c */
 void	ft_exec_one(t_g *v);
@@ -58,7 +72,11 @@ int		ft_here_doc(char *limiter, t_g *v);
 /* in_exec.c */
 int		check_valid_infile(char *file);
 
-/* *** *** Tools *** *** */
+/* ******************************* */
+/*                                 */
+/*              Tools              */
+/*                                 */
+/* ******************************* */
 
 /* tools.c */
 void	ft_putchar_fd(char c, int fd);

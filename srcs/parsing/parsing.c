@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/30 15:22:03 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/03/31 15:12:53 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	check_not_followed_sign(char *str)
 	return (1);
 }
 
-int	ft_reunite_central_arg(t_g *v)
+/*int	ft_reunite_central_arg(t_g *v)
 {
 	int	i;
 	int	j;
@@ -113,7 +113,7 @@ int	ft_reunite_central_arg(t_g *v)
 		j++;
 	}
 	return (1);
-}
+}*/
 
 int	parse_cmd(t_g *v)
 {
@@ -132,8 +132,16 @@ int	parse_cmd(t_g *v)
 		v->cmd = ft_supersplit(v->tab[0], ' ');
 		if (!v->cmd)
 			return (ft_custom_error("error in ft_supersplit()\n", 0, v));
-		if(!ft_reunite_central_arg(v))
+		if (!stock_in(v))
 			return (ft_custom_error(NULL, 0, v));
+		if (!stock_out(v))
+			return (ft_custom_error(NULL, 0, v));
+		if (!stock_exec(v))
+			return (ft_custom_error(NULL, 0, v));
+		if (!stock_arg(v))
+			return (ft_custom_error(NULL, 0, v));
+		//if(!ft_reunite_central_arg(v))
+		//	return (ft_custom_error(NULL, 0, v));
 	}
 	else if (i > 1)
 	{
@@ -148,9 +156,12 @@ void	init_struct(char **tab, t_g *v, char **env)
 	v->env = env;
 	v->tab = tab;
 	v->cmd = NULL;
-	v->arg = NULL;
 	v->nb_cmd = 0;
 	v->access = 0;
+	v->l.in_tab = NULL;
+	v->l.out_tab = NULL;
+	v->l.exec = NULL;
+	v->l.arg = NULL;
 }
 
 int	parsing(char *str, char **env)
