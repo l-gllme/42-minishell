@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/31 15:12:53 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/03/31 18:05:24 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,13 +133,34 @@ int	parse_cmd(t_g *v)
 		if (!v->cmd)
 			return (ft_custom_error("error in ft_supersplit()\n", 0, v));
 		if (!stock_in(v))
-			return (ft_custom_error(NULL, 0, v));
+			return (ft_custom_error("malloc error in stock_in()\n", 0, v));
 		if (!stock_out(v))
-			return (ft_custom_error(NULL, 0, v));
+			return (ft_custom_error("malloc error in stock_in()\n", 0, v));
 		if (!stock_exec(v))
-			return (ft_custom_error(NULL, 0, v));
+			return (ft_custom_error("error in stock_exec()\n", 0, v));
 		if (!stock_arg(v))
-			return (ft_custom_error(NULL, 0, v));
+			return (ft_custom_error("error in stock_arg()\n", 0, v));
+		printf("in -> ");
+		int k = -1;
+		if (v->l.in_tab)
+		{
+			while (v->l.in_tab[++k])
+				printf("%s ", v->l.in_tab[k]);
+		}
+		else
+			printf("(null)");
+		printf("\ncommande -> %s\n", v->l.exec);
+		printf("arguments -> %s\n", v->l.arg);
+		printf("out -> ");
+		k = -1;
+		if (v->l.in_tab)
+		{
+			while (v->l.out_tab[++k])
+			printf("%s ", v->l.out_tab[k]);
+		}
+		else
+			printf("(null)");
+		printf("\n");
 		//if(!ft_reunite_central_arg(v))
 		//	return (ft_custom_error(NULL, 0, v));
 	}
