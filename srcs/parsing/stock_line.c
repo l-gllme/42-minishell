@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 14:55:37 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/31 17:53:47 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/01 13:59:48 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,10 @@ int	stock_in(t_g *v)
 	{
 		if (v->cmd[i][0] == '<')
 		{
-			v->l.in_tab[j] = v->cmd[i];
+			v->l.in_tab[j] = ft_strdup(v->cmd[i]);
 			i++;
 			j++;
-			v->l.in_tab[j] = v->cmd[i];
+			v->l.in_tab[j] = ft_strdup(v->cmd[i]);
 			j++;
 		}
 	}
@@ -77,10 +77,10 @@ int	stock_out(t_g *v)
 	{
 		if (v->cmd[i][0] == '>')
 		{
-			v->l.out_tab[j] = v->cmd[i];
+			v->l.out_tab[j] = ft_strdup(v->cmd[i]);
 			i++;
 			j++;
-			v->l.out_tab[j] = v->cmd[i];
+			v->l.out_tab[j] = ft_strdup(v->cmd[i]);
 			j++;
 		}
 	}

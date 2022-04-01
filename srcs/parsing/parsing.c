@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/01 12:58:16 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/01 13:52:30 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,11 +141,14 @@ int	parse_cmd(t_g *v)
 		if (!stock_arg(v))
 			return (ft_custom_error("error in stock_arg()\n", 0, v));
 		printf("in -> ");
-		int k = -1;
+		int k = 0;
 		if (v->l.in_tab)
 		{
-			while (v->l.in_tab[++k])
+			while (v->l.in_tab[k])
+			{
 				printf("%s ", v->l.in_tab[k]);
+				k++;
+			}
 		}
 		else
 			printf("(null)");
@@ -153,7 +156,7 @@ int	parse_cmd(t_g *v)
 		printf("arguments -> %s\n", v->l.arg);
 		printf("out -> ");
 		k = -1;
-		if (v->l.in_tab)
+		if (v->l.out_tab)
 		{
 			while (v->l.out_tab[++k])
 			printf("%s ", v->l.out_tab[k]);
@@ -207,5 +210,6 @@ int	parsing(char *str, char **env)
 		return (0);
 	if (v->nb_cmd == 1)
 		ft_exec_one(v);
+	ft_free(v);
 	return (1);
 }
