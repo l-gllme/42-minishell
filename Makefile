@@ -6,7 +6,7 @@
 #    By: lguillau <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/14 14:27:36 by lguillau          #+#    #+#              #
-#    Updated: 2022/03/31 15:31:06 by lguillau         ###   ########.fr        #
+#    Updated: 2022/04/01 19:22:27 by jtaravel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,6 +59,21 @@ ${NAME}:	${OBJS}
 		@echo "${PURPLE}Building${S} ${IGREY}$@${S} 🔨"
 		@echo ""
 		@echo "\033[3;92mCompilation is completed !${S} 🎉"
+		@echo "LIS LE FICHIER TXT GROS TAS VAS !!!!"
+		@echo "LIS LE FICHIER TXT GROS TAS VAS !!!!"
+		@echo "LIS LE FICHIER TXT GROS TAS VAS !!!!"
+		@echo "LIS LE FICHIER TXT GROS TAS VAS !!!!"
+		@echo "LIS LE FICHIER TXT GROS TAS VAS !!!!"
+		@echo "LIS LE FICHIER TXT GROS TAS VAS !!!!"
+		@echo "LIS LE FICHIER TXT GROS TAS VAS !!!!"
+		@echo "LIS LE FICHIER TXT GROS TAS VAS !!!!"
+		@echo "LIS LE FICHIER TXT GROS TAS VAS !!!!"
+		@echo "LIS LE FICHIER TXT GROS TAS VAS !!!!"
+		@echo "LIS LE FICHIER TXT GROS TAS VAS !!!!"
+		@echo "LIS LE FICHIER TXT GROS TAS VAS !!!!"
+		@echo "LIS LE FICHIER TXT GROS TAS VAS !!!!"
+		@echo "LIS LE FICHIER TXT GROS TAS VAS !!!!"
+		@echo "LIS LE FICHIER TXT GROS TAS VAS !!!!"
 
 all:		${NAME}
 

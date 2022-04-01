@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 13:01:01 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/01 19:10:44 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/01 19:19:05 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void	ft_exec_one(t_g *v)
 	redirect_in(v);
 	fd = open(v->urandom, O_RDONLY);
 	dup2(fd, STDIN_FILENO);
-	exec_cat(v->env);
+//	exec_cat(v->env);
 	dup2(STDOUT_FILENO, STDIN_FILENO);
 	if (v->urandom)
 		unlink(v->urandom);

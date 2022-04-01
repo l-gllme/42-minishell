@@ -1,0 +1,3 @@
+bon le free dans le strjoin est inutile vu quon stock nos addr et quon free apres 
+si t'as le temps fini here_doc reste pas grand chose (sans les execs)
+faut bien fermer le fichiers... bref suce pute
