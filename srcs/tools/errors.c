@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:35:00 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/31 15:11:50 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/01 12:52:14 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,36 @@ void	ft_free(t_g *v)
 {
 	if (v)
 	{
-		if (v->cmd)
+		if (v->cmd != NULL)
+		{
 			free_char_tab(v->cmd);
-		if (v->tab)
+			v->cmd = NULL;
+		}
+		if (v->tab != NULL)
+		{
 			free_char_tab(v->tab);
-		if (v->l.in_tab)
+			v->tab = NULL;
+		}
+		if (v->l.in_tab != NULL)
+		{
 			free_char_tab(v->l.in_tab);
-		if (v->l.out_tab)
+			v->l.in_tab = NULL;
+		}
+		if (v->l.out_tab != NULL)
+		{
 			free_char_tab(v->l.out_tab);
-		if (v->l.exec)
+			v->l.out_tab = NULL;
+		}
+		if (v->l.exec != NULL)
+		{
 			free(v->l.exec);
-		if (v->l.arg)
+			v->l.exec = NULL;
+		}
+		if (v->l.arg != NULL)
+		{
 			free(v->l.arg);
+			v->l.arg = NULL;
+		}
 
 		free(v);
 	}
