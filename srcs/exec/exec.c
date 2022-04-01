@@ -6,11 +6,12 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 13:01:01 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/01 16:58:46 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/01 19:10:44 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include <linux/random.h>
 
 static int	hd_cmp(char *s1, char *s2)
 {
@@ -45,14 +46,21 @@ void	ft_here_doc_no_cmd(char *limiter)
 int	ft_here_doc(char *limiter, t_g *v)
 {
 	char	*str;
+	char	random[11];
+	int	dev;
 
+
+	dev = open("/dev/urandom", O_RDONLY);
+	read(dev, random, 10);
+	random[10] = 0;
+	v->urandom = ft_strjoin("tmp_file", random);
 	if (v->l.exec == NULL)
 	{
 		ft_putstr_fd(v->l.exec, 0);
 		ft_here_doc_no_cmd(limiter);
 		return (1);
 	}
-	v->tmp_file = open("tmp_file", O_CREAT | O_WRONLY | O_APPEND, 0644);
+	v->tmp_file = open(v->urandom, O_CREAT | O_WRONLY, 0644);
 	if (v->tmp_file == -1)
 	{
 		ft_putstr_fd("Error tmp_file in ft_here_doc()\n", 2);
@@ -92,9 +100,15 @@ void exec_cat(char **env)
 
 void	ft_exec_one(t_g *v)
 {
+	int	fd;
+
+
 	redirect_in(v);
-	dup2(v->tmp_file, STDIN_FILENO);
+	fd = open(v->urandom, O_RDONLY);
+	dup2(fd, STDIN_FILENO);
 	exec_cat(v->env);
 	dup2(STDOUT_FILENO, STDIN_FILENO);
+	if (v->urandom)
+		unlink(v->urandom);
 	return ;
 }

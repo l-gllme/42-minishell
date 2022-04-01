@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:31:13 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/01 16:43:57 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/01 18:54:04 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,12 @@ void	free_char_tab(char **s)
 
 	if (!s)
 		return ;
-	i = -1;
-	while (s[++i])
+	i = 0;
+	while (s[i])
 	{
 		if (s[i])
 			free(s[i]);
+		i++;
 	}
 	free(s);
 }
@@ -72,7 +73,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	if (!join)
 		return (NULL);
 	join = ft_strjoin5(s1, s2, join);
-	free(s1);
+	//free(s1);
 	return (join);
 }
 
