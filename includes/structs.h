@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 14:04:03 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/31 14:51:26 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/01 16:18:17 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_global
 	char	*wagon;
 	int		nb_cmd;
 	int		access;
+	int		tmp_file;
 	t_l	l;
 }	t_g;
 

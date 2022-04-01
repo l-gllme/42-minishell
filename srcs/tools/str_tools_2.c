@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 17:00:21 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/23 12:27:15 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/01 14:15:39 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,16 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 	if (size != 0)
 		dst[i] = 0;
 	return (return_val);
+}
+
+int	ft_tablen(char **tab)
+{
+	int	i;
+
+	if (!tab)
+		return (0);
+	i = -1;
+	while (tab[++i])
+		;
+	return (i);
 }

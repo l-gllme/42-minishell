@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:31:13 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/01 13:55:09 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/01 16:43:57 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,14 @@ void	free_char_tab(char **s)
 {
 	int	i;
 
+	if (!s)
+		return ;
 	i = -1;
 	while (s[++i])
-		free(s[i]);
+	{
+		if (s[i])
+			free(s[i]);
+	}
 	free(s);
 }
 

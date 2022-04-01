@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/31 15:08:56 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/01 16:18:04 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
+# include <sys/types.h>
+# include <sys/stat.h>
 
 # include "get_next_line.h"
 # include "builtins.h"
@@ -71,6 +73,9 @@ int		ft_here_doc(char *limiter, t_g *v);
 
 /* in_exec.c */
 int		check_valid_infile(char *file);
+int		redirect_in(t_g *v);
+int		exec_in(t_g *v, char **tab);
+
 
 /* ******************************* */
 /*                                 */
@@ -94,6 +99,7 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
 char	*ft_strdup(const char *s);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
+int		ft_tablen(char **tab);
 
 /* split.c */
 char	**ft_split(char const *s, char c);

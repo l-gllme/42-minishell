@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/01 13:52:30 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/01 16:38:22 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,30 +140,6 @@ int	parse_cmd(t_g *v)
 			return (ft_custom_error("error in stock_exec()\n", 0, v));
 		if (!stock_arg(v))
 			return (ft_custom_error("error in stock_arg()\n", 0, v));
-		printf("in -> ");
-		int k = 0;
-		if (v->l.in_tab)
-		{
-			while (v->l.in_tab[k])
-			{
-				printf("%s ", v->l.in_tab[k]);
-				k++;
-			}
-		}
-		else
-			printf("(null)");
-		printf("\ncommande -> %s\n", v->l.exec);
-		printf("arguments -> %s\n", v->l.arg);
-		printf("out -> ");
-		k = -1;
-		if (v->l.out_tab)
-		{
-			while (v->l.out_tab[++k])
-			printf("%s ", v->l.out_tab[k]);
-		}
-		else
-			printf("(null)");
-		printf("\n");
 		//if(!ft_reunite_central_arg(v))
 		//	return (ft_custom_error(NULL, 0, v));
 	}
