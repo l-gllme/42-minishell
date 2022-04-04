@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 15:04:28 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/04 15:13:30 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/04 18:06:00 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ static int	exec_in_dup(t_g *v, char **tab)
 			
 int	redirect_in(t_g *v)
 {
-	printf("exec = %s\n", v->l.exec);
 	if (v->l.exec != NULL)
 		exec_in_dup(v, v->l.in_tab);
 	else

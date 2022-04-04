@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 13:01:01 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/04 16:34:53 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/04 18:05:51 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,23 +86,6 @@ int	ft_here_doc(char *limiter, t_g *v)
 	return (1);
 }
 
-void exec_cat(char **env)
-{
-	char **toto;
-	toto = malloc(sizeof(char *) * 2);
-	toto[0] = "cat";
-	toto[1] = 0;
-	int forke;
-
-	forke = fork();
-	if (forke == 0)
-	{
-		execve("/usr/bin/cat", toto, env);
-	}
-	else
-		wait(NULL);
-}
-
 void	ft_exec_one(t_g *v)
 {
 	//int	fd;
@@ -111,10 +94,9 @@ void	ft_exec_one(t_g *v)
 	if (v->l.in_tab != NULL)
 		redirect_in(v);
 	if (v->l.exec != NULL)
-		ft_exec_cmd(t_g *v);
+		ft_exec_cmd(v);
 	//fd = open(v->urandom, O_RDONLY);
 	//dup2(fd, STDIN_FILENO);
-//	exec_cat(v->env);
 	dup2(STDOUT_FILENO, STDIN_FILENO);
 	if (v->urandom)
 		unlink(v->urandom);

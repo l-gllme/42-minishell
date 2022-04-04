@@ -6,38 +6,11 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/04 15:47:55 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/04 16:48:42 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-int	try_access(char *cmd)
-{
-	int		i;
-	char	**path;
-
-	if (access(cmd, X_OK) == 0)
-		return (1);
-	path = ft_split(getenv("PATH"), ':');
-	i = -1;
-	while (path[++i])
-	{
-		path[i] = ft_strjoin(path[i], "/");
-		path[i] = ft_strjoin(path[i], cmd);
-	}
-	i = -1;
-	while (path[++i])
-	{
-		if (access(path[i], X_OK) == 0)
-		{
-			free_char_tab(path);
-			return (1);
-		}
-	}
-	free_char_tab(path);
-	return (-1);
-}
 
 int	is_builtin(char *cmd)
 {
@@ -190,6 +163,5 @@ int	parsing(char *str, char **env)
 	if (v->nb_cmd == 1)
 		ft_exec_one(v);
 	//ft_free(v);
-	exit(0);
 	return (1);
 }

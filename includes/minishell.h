@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/04 14:20:39 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/04 16:47:06 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,9 @@ int		ft_here_doc(char *limiter, t_g *v);
 int		check_valid_infile(char *file);
 int		redirect_in(t_g *v);
 int		exec_in(t_g *v, char **tab);
+
+/* cmd_exec.c */
+int		ft_exec_cmd(t_g *v);
 
 
 /* ******************************* */
