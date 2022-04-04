@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 13:01:01 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/01 19:19:05 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/04 16:34:53 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,12 @@ int	ft_here_doc(char *limiter, t_g *v)
 	char	*str;
 	char	random[11];
 	int	dev;
-
+	int	fd;
 
 	dev = open("/dev/urandom", O_RDONLY);
 	read(dev, random, 10);
 	random[10] = 0;
-	v->urandom = ft_strjoin("tmp_file", random);
+	v->urandom = ft_strjoin(".tmp_file", random);
 	if (v->l.exec == NULL)
 	{
 		ft_putstr_fd(v->l.exec, 0);
@@ -78,6 +78,11 @@ int	ft_here_doc(char *limiter, t_g *v)
 	}
 	get_next_line(42);
 	free(str);
+	if (v->dup_type == 10)
+	{
+		fd = open(v->urandom, O_RDONLY);
+		dup2(fd, STDIN_FILENO);
+	}
 	return (1);
 }
 
@@ -100,12 +105,15 @@ void exec_cat(char **env)
 
 void	ft_exec_one(t_g *v)
 {
-	int	fd;
+	//int	fd;
 
 
-	redirect_in(v);
-	fd = open(v->urandom, O_RDONLY);
-	dup2(fd, STDIN_FILENO);
+	if (v->l.in_tab != NULL)
+		redirect_in(v);
+	if (v->l.exec != NULL)
+		ft_exec_cmd(t_g *v);
+	//fd = open(v->urandom, O_RDONLY);
+	//dup2(fd, STDIN_FILENO);
 //	exec_cat(v->env);
 	dup2(STDOUT_FILENO, STDIN_FILENO);
 	if (v->urandom)

@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 15:04:28 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/01 16:45:35 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/04 15:13:30 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,9 @@ static int	exec_in_dup(t_g *v, char **tab)
 	len = ft_tablen(tab);
 	i = -1;
 	fd = 0;
+	v->dup_type = 1;
+	if (tab[len - 2][0] == '<' && tab[len - 2][1] == 0)
+		 v->dup_type = 0;
 	if (!tab)
 		return (0);
 	while (tab[++i])
@@ -52,7 +55,11 @@ static int	exec_in_dup(t_g *v, char **tab)
 		if (tab[i][0] == '<' && tab[i][1] == 0)
 			i++;
 		else if (tab[i][0] == '<' && tab[i][1] == '<')
+		{
+			if (len - 2 ==  i)
+				v->dup_type = 10;
 			ft_here_doc(tab[++i], v);
+		}
 	}
 	i = -1;
 	while (tab[++i])
@@ -69,6 +76,8 @@ static int	exec_in_dup(t_g *v, char **tab)
 			if (i == len - 1)
 			{
 				fd = open(tab[i], 0);
+				if (fd == -1)
+					return (0);
 				dup2(fd, STDIN_FILENO);
 				close(fd);
 			}
@@ -79,6 +88,7 @@ static int	exec_in_dup(t_g *v, char **tab)
 			
 int	redirect_in(t_g *v)
 {
+	printf("exec = %s\n", v->l.exec);
 	if (v->l.exec != NULL)
 		exec_in_dup(v, v->l.in_tab);
 	else

@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/01 17:54:55 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/04 15:47:55 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,6 +162,9 @@ void	init_struct(char **tab, t_g *v, char **env)
 	v->l.out_tab = NULL;
 	v->l.exec = NULL;
 	v->l.arg = NULL;
+	//v->fd_in = 0;
+	//v->file_in = NULL;
+	//v->urandom = NULL;
 }
 
 int	parsing(char *str, char **env)
@@ -187,5 +190,6 @@ int	parsing(char *str, char **env)
 	if (v->nb_cmd == 1)
 		ft_exec_one(v);
 	//ft_free(v);
+	exit(0);
 	return (1);
 }
