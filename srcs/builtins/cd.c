@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 16:04:06 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/05 14:35:04 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/05 15:11:52 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,20 @@ static int	error_cd(char *arg)
 	ft_putstr_fd(": No such file or directory\n", 2);
 	return (0);
 }
-
+ 
 int	ft_cd(char *arg)
 {
 	char	*str;
 	int		i;
 
-	ft_putstr_fd(arg, 2);
-	if (!arg)
+	if (arg == NULL)
 	{
 		str = getenv("HOME");
 		if (chdir(str) == -1)
 			return (error_cd(arg));
+		return (1);
 	}
+	ft_suppr_dq_sq(arg);
 	i = -1;
 	while (arg[++i])
 		;
