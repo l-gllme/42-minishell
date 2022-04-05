@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 16:36:42 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/04/04 18:02:16 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/05 13:05:56 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	ft_is_builtin(char *str, t_g *v)
 	(void)v;
 	if (ft_strncmp(str, "echo", ft_strlen(str)) == 0)
 	{
-		ft_echo(v->l.arg);
+		ft_echo(v->cmd);
 		return (1);
 	}
 	if (ft_strncmp(str, "pwd", ft_strlen(str)) == 0)

@@ -6,35 +6,53 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 16:44:28 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/03/21 16:34:35 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/05 13:23:43 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/builtins.h"
 
-void	ft_echo(char *str)
+int	ft_check_options(char **tab)
 {
 	int	i;
-	char	**tab;
-	int	n;
+	int	j;
 
-	n = 0;
 	i = 1;
-	tab = ft_split(str, ' ');
-	if (tab[0][0] == '<')
-		i += 2;
-	if (tab[i] && ft_strncmp(tab[i], "-n", 2) == 0)
+	while (tab[i])
+	{
+		j = 0;
+		if (tab[i][j] && tab[i][j++] == '-' && tab[i][j] == 'n')
+		{
+			while (tab[i][j] == 'n')
+				j++;
+			if (tab[i][j] && tab[i][j] != 'n')
+				return (1);
+		}
+		else
+			return (i);
 		i++;
-	if (i == 2)
-		n = 1;
+	}
+	return (i);
+
+}
+
+
+void	ft_echo(char **tab)
+{
+
+	int	i;
+	int	j;
+
+	i = ft_check_options(tab);
+	printf("test = %d\n", i);
+	j = i;
 	while (tab[i])
 	{
 		ft_putstr_fd(tab[i], 1);
-		if (tab[i + 1])
-			write(1, " ", 1);
 		i++;
+		if (tab[i])
+			ft_putchar_fd(' ', 1);
 	}
-	if (n == 0)
-		printf("\n");
+	if (j == 1)
+		ft_putchar_fd('\n', 1);
 }
-
