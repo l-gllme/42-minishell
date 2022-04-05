@@ -6,26 +6,11 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/04 16:48:42 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/05 13:52:56 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-int	is_builtin(char *cmd)
-{
-	if (ft_strncmp(cmd, "echo", ft_strlen(cmd)) == 0)
-	{
-		ft_echo(ft_suppr_dq_sq(cmd));
-		return (1);
-	}
-	if (ft_strncmp(cmd, "pwd", ft_strlen(cmd)) == 0)
-	{
-		ft_pwd();
-		return (1);
-	}
-	return (-1);
-}
 
 int	check_not_followed_sign(char *str)
 {
@@ -44,49 +29,6 @@ int	check_not_followed_sign(char *str)
 	}
 	return (1);
 }
-
-/*int	ft_reunite_central_arg(t_g *v)
-{
-	int	i;
-	int	j;
-	
-	v->arg = malloc(sizeof(1));
-	v->arg[0] = 0;
-	i = 0; 
-	j = 0;
-	while (v->cmd[j])
-	{
-		printf("str=%s\n", v->cmd[j]);
-		j++;
-	}
-	while (v->cmd[i] && v->cmd[i][0] == '<' && v->cmd[i][1] == '<')
-	{
-		printf("test = %s\n", v->cmd[i + 1]);
-		ft_here_doc(v->cmd[i + 1], v);
-		i += 2;
-	}
-	 if (!v->cmd[i])
-		 return (0);
-	if (is_builtin(ft_suppr_dq_sq(v->cmd[i])) == 1)
-		i++;
-	else if (try_access(ft_suppr_dq_sq(v->cmd[i])) == 1)
-	{
-		v->access = 1;
-		i++;
-	}
-	else
-		return (0);
-	j = i;
-	v->funct = v->cmd[i];
-	while (v->cmd[j] && v->cmd[j][0] != '>')
-	{
-		if (j != i)
-			v->arg = ft_strjoin(v->arg, " ");
-		v->arg = ft_strjoin(v->arg, v->cmd[j]);
-		j++;
-	}
-	return (1);
-}*/
 
 int	parse_cmd(t_g *v)
 {
@@ -113,8 +55,6 @@ int	parse_cmd(t_g *v)
 			return (ft_custom_error("error in stock_exec()\n", 0, v));
 		if (!stock_arg(v))
 			return (ft_custom_error("error in stock_arg()\n", 0, v));
-		//if(!ft_reunite_central_arg(v))
-		//	return (ft_custom_error(NULL, 0, v));
 	}
 	else if (i > 1)
 	{
@@ -135,9 +75,9 @@ void	init_struct(char **tab, t_g *v, char **env)
 	v->l.out_tab = NULL;
 	v->l.exec = NULL;
 	v->l.arg = NULL;
-	//v->fd_in = 0;
-	//v->file_in = NULL;
-	//v->urandom = NULL;
+	v->fd_in = 0;
+	v->file_in = NULL;
+	v->urandom = NULL;
 }
 
 int	parsing(char *str, char **env)
@@ -162,6 +102,5 @@ int	parsing(char *str, char **env)
 		return (0);
 	if (v->nb_cmd == 1)
 		ft_exec_one(v);
-	//ft_free(v);
 	return (1);
 }

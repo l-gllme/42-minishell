@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 14:05:42 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/05 13:20:41 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/05 14:32:16 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 /* *** Echo *** */
 void	ft_echo(char **tab);
 /* *** cd *** */
-void	ft_cd(char *arg);
+int	ft_cd(char *arg);
 /* *** pwd *** */
 void	ft_pwd(void);
 /* *** export *** */

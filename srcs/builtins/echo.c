@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 16:44:28 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/04/05 13:23:43 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/05 13:51:33 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	ft_echo(char **tab)
 	int	j;
 
 	i = ft_check_options(tab);
-	printf("test = %d\n", i);
 	j = i;
 	while (tab[i])
 	{

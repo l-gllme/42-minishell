@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 16:36:42 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/04/05 13:05:56 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/05 14:24:42 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,11 @@ int	ft_is_builtin(char *str, t_g *v)
 		ft_pwd();
 		return (1);
 	}
+	if (ft_strncmp(str, "cd", ft_strlen(str)) == 0)
+	{
+		ft_cd(v->l.arg);
+		return (1);
+	}
 	return (0);
 }
 
@@ -88,9 +93,17 @@ int	ft_exec_cmd(t_g *v)
 
 	if (ft_is_builtin(ft_suppr_dq_sq(v->l.exec), v))
 		return (1);
+	if (getenv("PATH") == NULL || !v->env[0])
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(ft_suppr_dq_sq(v->l.exec), 2);
+		ft_custom_error(": command not found\n", 0, v);
+		return (0);
+	}
 	str = try_access(v->l.exec);
 	if (str == NULL)
 	{
+		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(ft_suppr_dq_sq(v->l.exec), 2);
 		ft_custom_error(": command not found\n", 0, v);
 		return (0);

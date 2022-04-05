@@ -6,29 +6,39 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 16:04:06 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/04 17:26:49 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/05 14:35:04 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/builtins.h"
 
-void	ft_cd(char *arg)
+static int	error_cd(char *arg)
+{
+	
+	ft_putstr_fd("minishell: cd: ", 2);
+	ft_putstr_fd(arg, 2);
+	ft_putstr_fd(": No such file or directory\n", 2);
+	return (0);
+}
+
+int	ft_cd(char *arg)
 {
 	char	*str;
 	int		i;
 
-	i = 0;
+	ft_putstr_fd(arg, 2);
 	if (!arg)
-	{
-		ft_putstr_fd("toto", 2);
-		return ;
-	}
-	if (!arg[0])
 	{
 		str = getenv("HOME");
 		if (chdir(str) == -1)
-			ft_putstr_fd("miniShell: cd: no such file or directory\n", 2);
+			return (error_cd(arg));
 	}
+	i = -1;
+	while (arg[++i])
+		;
+	i--;
+	arg[i] = 0;
+	i = 0;
 	if (arg[0] == '~')
 	{
 		str = getenv("HOME");
@@ -40,7 +50,7 @@ void	ft_cd(char *arg)
 			if (arg[1] == '/')
 			{
 				if (chdir(str) == -1)
-					ft_putstr_fd("miniShell: cd: no such file or directory\n", 2);
+					return (error_cd(arg));
 			}
 			else
 			{
@@ -54,22 +64,14 @@ void	ft_cd(char *arg)
 			i = 1;
 		}
 		if (chdir(str) == -1)
-			ft_putstr_fd("miniShell: cd: no such file or directory\n", 2);
+				return (error_cd(arg));
 		if (i)
 			free(str);
 	}
 	else 
 	{
 		if (chdir(arg) == -1)
-		{
-			arg = ft_strjoin("/", arg);
-			str = ft_strjoin(getcwd(NULL, 0), arg);
-		}
-		if (chdir(str) == -1)
-		{
-			ft_putstr_fd("miniShell: cd: ", 2);
-			ft_putstr_fd(arg, 2);
-			ft_putstr_fd(": No such file or directory\n", 2);
-		}
+			return (error_cd(arg));
 	}
+	return (1);
 }

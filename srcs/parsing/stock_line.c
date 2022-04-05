@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 14:55:37 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/01 16:33:18 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/05 14:16:28 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,9 +119,11 @@ int	stock_arg(t_g *v)
 			if (j == 1)
 			{
 				v->l.arg = ft_strjoin_gnl(v->l.arg, v->cmd[i]);
+				if (!v->l.arg)
+					return (ft_custom_error("malloc error in stock_arg()\n", 0, v));
 				v->l.arg = ft_strjoin_gnl(v->l.arg, " ");
 				if (!v->l.arg)
-					return (0);
+					return (ft_custom_error("malloc error in stock_arg()\n", 0, v));
 			}
 			j = 1;
 		}
