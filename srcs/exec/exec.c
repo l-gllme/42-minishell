@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 13:01:01 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/04 18:05:51 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/05 16:06:19 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ int	ft_here_doc(char *limiter, t_g *v)
 	int	dev;
 	int	fd;
 
+	ft_suppr_dq_sq(limiter);
 	dev = open("/dev/urandom", O_RDONLY);
 	read(dev, random, 10);
 	random[10] = 0;
@@ -93,6 +94,8 @@ void	ft_exec_one(t_g *v)
 
 	if (v->l.in_tab != NULL)
 		redirect_in(v);
+	if (v->l.out_tab != NULL)
+		redirect_out(v);
 	if (v->l.exec != NULL)
 		ft_exec_cmd(v);
 	//fd = open(v->urandom, O_RDONLY);

@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 15:04:28 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/04 18:06:00 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/05 15:20:41 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int	check_valid_infile(char *file)
 	int	dd;
 	int	fd;
 
+	ft_suppr_dq_sq(file);
 	fd = open(file, O_RDONLY);
 	dd = open(file, O_DIRECTORY);
 	if (fd == -1 && dd == -1)
