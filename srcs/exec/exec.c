@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 13:01:01 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/05 16:06:19 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/05 17:40:42 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,18 +89,16 @@ int	ft_here_doc(char *limiter, t_g *v)
 
 void	ft_exec_one(t_g *v)
 {
-	//int	fd;
-
-
 	if (v->l.in_tab != NULL)
 		redirect_in(v);
 	if (v->l.out_tab != NULL)
 		redirect_out(v);
 	if (v->l.exec != NULL)
 		ft_exec_cmd(v);
-	//fd = open(v->urandom, O_RDONLY);
-	//dup2(fd, STDIN_FILENO);
-	dup2(STDOUT_FILENO, STDIN_FILENO);
+	if (v->l.in_tab != NULL && v->l.exec != NULL)
+		dup2(STDOUT_FILENO, STDIN_FILENO);
+	if (v->l.out_tab != NULL && v->l.exec != NULL)
+		dup2(STDIN_FILENO, STDOUT_FILENO);
 	if (v->urandom)
 		unlink(v->urandom);
 	return ;
