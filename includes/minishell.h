@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/05 15:55:09 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/06 10:44:36 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,12 @@ int	stock_arg(t_g *v);
 void	ft_exec_one(t_g *v);
 int		ft_here_doc(char *limiter, t_g *v);
 
+
 /* in_exec.c */
 int		check_valid_infile(char *file);
 int		redirect_in(t_g *v);
 int		exec_in(t_g *v, char **tab);
+int	ft_is_builtin(char *str, t_g *v);
 
 /* cmd_exec.c */
 int		ft_exec_cmd(t_g *v);
@@ -108,6 +110,7 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
 char	*ft_strdup(const char *s);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 int		ft_tablen(char **tab);
+char	*ft_strfind(char *big, char *little, size_t len);
 
 /* split.c */
 char	**ft_split(char const *s, char c);

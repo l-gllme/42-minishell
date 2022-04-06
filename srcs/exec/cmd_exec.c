@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 16:36:42 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/04/05 16:05:43 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/06 11:30:28 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ int	reauckaitte_lygue(t_g *v, char *str)
 
 int	ft_is_builtin(char *str, t_g *v)
 {
-	(void)v;
 	if (ft_strncmp(str, "echo", ft_strlen(str)) == 0)
 	{
 		ft_echo(v->l.arg);

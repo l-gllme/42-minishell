@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 17:00:21 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/01 14:15:39 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/06 11:00:35 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,4 +79,28 @@ int	ft_tablen(char **tab)
 	while (tab[++i])
 		;
 	return (i);
+}
+
+char	*ft_strfind(char *big, char *little, size_t len)
+{
+	size_t	i;
+	size_t	j;
+
+	if (*little == '\0')
+		return ((char *)big);
+	i = 0;
+	while (big[i])
+	{
+		j = 0;
+		while (big[i + j] == little[j] && (i + j) < len)
+		{
+			if (big[i + j] == '\0' && little[j] == '\0')
+				return ((char *)&big[i]);
+			j++;
+		}
+		if (little[j] == '\0')
+			return ((char *)&big[i]);
+		i++;
+	}
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/05 13:52:56 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/06 11:24:27 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,93 @@ void	init_struct(char **tab, t_g *v, char **env)
 	v->urandom = NULL;
 }
 
+char	**ft_check_in_env(t_g *v)
+{
+	int	i;
+	int	j;
+	int	c;
+	char	*recup;
+
+	i = 0;
+	c = 0;
+	if (!v->l.arg)
+	{
+		j = 0;
+		while (!ft_strfind(v->env[i], v->cmd[j] + 1, ft_strlen(v->cmd[j])))
+			i++;
+		v->l.exec = ft_strdup(v->env[i] + ft_strlen(v->l.exec));
+		return (v->cmd);
+	}
+	i = 0;
+	while (v->cmd[i])
+	{
+		j = 0;
+		while (v->cmd[i][j])
+		{
+			if (v->cmd[i][j] == '$')
+			{
+				while (v->cmd[i][j] != ' ' && v->cmd[i][j])
+				{
+					j++;
+					c++;
+				}
+			}
+			j++;
+		}
+		i++;
+	}
+	recup = malloc(sizeof(char) * (c + 2));
+	if (!recup)
+		return (NULL);
+	i = 0;
+	c = 0;
+	while (v->cmd[i])
+	{
+		j = 0;
+		while (v->cmd[i][j])
+		{
+			if (v->cmd[i][j] == '$')
+			{
+				while (v->cmd[i][j] != ' ' && v->cmd[i][j])
+				{
+					recup[c] = v->cmd[i][j];
+					c++;
+					j++;
+				}
+			}
+			j++;
+		}
+		i++;
+	}
+	recup[c] = '=';
+	recup[c + 1] = '\0';
+	i = 0;
+	while (!ft_strfind(v->env[i], recup + 1, ft_strlen(recup)))
+		i++;
+	recup = ft_strdup(v->env[i] + ft_strlen(recup) - 1);
+	i = 0;
+	c = 0;
+	while (v->cmd[i])
+	{
+		j = 0;
+		while (v->cmd[i][j])
+		{
+			if (v->cmd[i][j] == '$')
+			{
+				while (recup[c])
+				{
+					v->l.arg[c] = recup[c];
+					c++;
+					j++;
+				}
+			}
+			j++;
+		}
+		i++;
+	}
+	return (v->cmd);
+}
+
 int	parsing(char *str, char **env)
 {
 	char	**tab;
@@ -100,6 +187,7 @@ int	parsing(char *str, char **env)
 		return (ft_custom_error(NULL, 0, v));
 	if (!parse_cmd(v))
 		return (0);
+//	v->cmd = ft_check_in_env(v);
 	if (v->nb_cmd == 1)
 		ft_exec_one(v);
 	return (1);

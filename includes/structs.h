@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 14:04:03 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/04 15:00:18 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/05 19:17:35 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_global
 	char	*wagon;
 	char	*urandom;
 	int		dup_type;
+	int		nb_built;
 	char		*file_in;
 	int		fd_in;
 	int		nb_cmd;
