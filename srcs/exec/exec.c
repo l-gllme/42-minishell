@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 13:01:01 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/06 11:23:48 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/06 13:57:12 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,27 +87,67 @@ int	ft_here_doc(char *limiter, t_g *v)
 	return (1);
 }
 
+int	ft_is_builtin(char *str, t_g *v)
+{
+	if (ft_strncmp(str, "echo", ft_strlen(str)) == 0)
+	{
+		v->nb_built++;
+		return (1);
+	}
+	if (ft_strncmp(str, "pwd", ft_strlen(str)) == 0)
+	{
+		v->nb_built++;
+		return (1);
+	}
+	if (ft_strncmp(str, "cd", ft_strlen(str)) == 0)
+	{
+		v->nb_built++;
+		return (2);
+	}
+	return (0);
+}
+
 void	ft_exec_one(t_g *v)
 {
 	int	frk;
 
-	frk = fork();
-	if (frk == 0)
+	if (v->l.exec != NULL && ft_is_builtin(ft_suppr_dq_sq(v->l.exec), v) == 2)
 	{
-	if (v->l.in_tab != NULL)
-		redirect_in(v);
-	if (v->l.out_tab != NULL)
-		redirect_out(v);
-	if (v->l.exec != NULL)
-		ft_exec_cmd(v);
-	exit(0);
+		if (v->l.in_tab != NULL)
+			exec_in(v, v->l.in_tab);
+		if (v->l.out_tab != NULL)
+			exec_out(v, v->l.out_tab);
+		ft_exec_builtin(v->l.exec, v);
+	}
+	else if (v->l.exec != NULL && ft_is_builtin(v->l.exec, v) && v->l.out_tab == NULL)
+	{
+		if (v->l.in_tab != NULL)
+			redirect_in(v);
+		if (v->l.out_tab != NULL)
+			redirect_out(v);
+		if (v->l.exec != NULL)
+			ft_exec_cmd(v);
+		if (v->l.in_tab != NULL && v->l.exec != NULL)
+			dup2(1, STDIN_FILENO);
+		if (v->l.out_tab != NULL && v->l.exec != NULL)
+			dup2(0, STDOUT_FILENO);
 	}
 	else
-		wait(NULL);
-	//if (v->l.in_tab != NULL && v->l.exec != NULL)
-	//	dup2(1, STDIN_FILENO);
-	//if (v->l.out_tab != NULL && v->l.exec != NULL)
-//		dup2(0, STDOUT_FILENO);
+	{
+		frk = fork();
+		if (frk == 0)
+		{
+			if (v->l.in_tab != NULL)
+				redirect_in(v);
+			if (v->l.out_tab != NULL)
+				redirect_out(v);
+			if (v->l.exec != NULL)
+				ft_exec_cmd(v);
+			exit(0);
+		}
+		else
+			wait(NULL);
+	}
 	if (v->urandom)
 		unlink(v->urandom);
 	return ;

@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 16:36:42 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/04/06 11:30:28 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/06 13:44:55 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	reauckaitte_lygue(t_g *v, char *str)
 	return (0);
 }
 
-int	ft_is_builtin(char *str, t_g *v)
+int	ft_exec_builtin(char *str, t_g *v)
 {
 	if (ft_strncmp(str, "echo", ft_strlen(str)) == 0)
 	{
@@ -90,12 +90,12 @@ int	ft_exec_cmd(t_g *v)
 {
 	char *str;
 
-	if (ft_is_builtin(ft_suppr_dq_sq(v->l.exec), v))
+	if (ft_exec_builtin(v->l.exec, v))
 		return (1);
 	if (getenv("PATH") == NULL || !v->env[0])
 	{
 		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(ft_suppr_dq_sq(v->l.exec), 2);
+		ft_putstr_fd(v->l.exec, 2);
 		ft_custom_error(": command not found\n", 0, v);
 		return (0);
 	}
@@ -103,7 +103,7 @@ int	ft_exec_cmd(t_g *v)
 	if (str == NULL)
 	{
 		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(ft_suppr_dq_sq(v->l.exec), 2);
+		ft_putstr_fd(v->l.exec, 2);
 		ft_custom_error(": command not found\n", 0, v);
 		return (0);
 	}
