@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/06 11:24:27 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/06 18:28:24 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,22 +80,106 @@ void	init_struct(char **tab, t_g *v, char **env)
 	v->urandom = NULL;
 }
 
+int	ft_isdigit(int c)
+{
+	if (c >= 48 && c <= 57)
+		return (1);
+	return (0);
+}
+
+int	ft_isalpha(int c)
+{
+	if ((c >= 65 && c <= 90) || (c >= 97 && c <= 122))
+		return (1024);
+	return (0);
+}
+
 char	**ft_check_in_env(t_g *v)
 {
 	int	i;
 	int	j;
 	int	c;
-	char	*recup;
+	char	**recup;
+	int	d;
 
+	if (!v->l.arg)
+		return (0);
+	recup = ft_supersplit(v->l.arg, ' ');
+	c = 0;
+	d = 0;
 	i = 0;
+	while (recup[i])
+	{
+		j = 0;
+		while (recup[i][j])
+		{
+			printf("recup = %s\n" , recup[i]);
+			if (recup[i][j] == '$' && recup[i][j + 1] == '$' && recup[i][j + 2] == 0)
+				break;
+			if (recup[i][j] == '$' && recup[i][j + 1] == 0)
+				break;
+			while (recup[i][ft_strlen(recup[i]) - 1] == '$' && ft_strlen(recup[i]) != 1)
+			{
+				recup[i][ft_strlen(recup[i]) - 1] = '\0';
+				d++;
+			}
+			if (recup[i][j] == '$' && (ft_isdigit(recup[i][j + 1]) || ft_isalpha(recup[i][j + 1]) || recup[i][j + 1] == '_'))
+			{
+				if (recup[i][j] == '$' && getenv(recup[i] + 1))
+				{
+					while (!ft_strfind(v->env[c], recup[i] + 1, ft_strlen(recup[i])))
+						c++;
+					recup[i] = ft_strdup(v->env[c] + ft_strlen(recup[i]));
+				}
+				else if (recup[i][j] == '$' && !getenv(recup[i] + 1) && ft_strlen(recup[i]) != 1)
+				{
+					if (d == 0 && ft_strlen(recup[i]) != 1)
+						recup[i] = "";
+				}
+				if (recup[i][j] == '$' && getenv(recup[i] + 2))
+				{
+					while (!ft_strfind(v->env[c], recup[i] + 2, ft_strlen(recup[i])))
+						c++;
+					recup[i] = ft_strdup(v->env[c] + ft_strlen(recup[i]));
+				}
+				else if (recup[i][j] == '$' && !getenv(recup[i] + 2) && ft_strlen(recup[i]) != 1)
+				{
+					if (d == 0 && ft_strlen(recup[i]) != 1)
+						recup[i] = "";
+				}
+			}
+			j++;
+		}
+		i++;
+	}
+	i = 0;
+	free(v->l.arg);
+	while (recup[i])
+	{
+		v->l.arg = ft_strjoin(v->l.arg, recup[i]);
+		if (d)
+		{
+			v->l.arg = ft_strjoin(v->l.arg, "$");
+			d--;
+		}	
+		//printf("recup = %s\n", v->l.arg);
+		v->l.arg = ft_strjoin(v->l.arg, " ");
+		i++;
+	}
+	return (0);
+}
+	/*i = 0;
 	c = 0;
 	if (!v->l.arg)
 	{
 		j = 0;
-		while (!ft_strfind(v->env[i], v->cmd[j] + 1, ft_strlen(v->cmd[j])))
-			i++;
-		v->l.exec = ft_strdup(v->env[i] + ft_strlen(v->l.exec));
-		return (v->cmd);
+		if (v->cmd[i][0] == '$')
+		{
+			while (!ft_strfind(v->env[i], v->cmd[j] + 1, ft_strlen(v->cmd[j])))
+				i++;
+			v->l.exec = ft_strdup(v->env[i] + ft_strlen(v->l.exec));
+			return (v->cmd);
+		}
 	}
 	i = 0;
 	while (v->cmd[i])
@@ -141,6 +225,7 @@ char	**ft_check_in_env(t_g *v)
 	recup[c] = '=';
 	recup[c + 1] = '\0';
 	i = 0;
+	printf("recup = %s\n", recup);
 	while (!ft_strfind(v->env[i], recup + 1, ft_strlen(recup)))
 		i++;
 	recup = ft_strdup(v->env[i] + ft_strlen(recup) - 1);
@@ -155,6 +240,7 @@ char	**ft_check_in_env(t_g *v)
 			{
 				while (recup[c])
 				{
+					free(v->l.arg);
 					v->l.arg[c] = recup[c];
 					c++;
 					j++;
@@ -165,7 +251,7 @@ char	**ft_check_in_env(t_g *v)
 		i++;
 	}
 	return (v->cmd);
-}
+}*/
 
 int	parsing(char *str, char **env)
 {
@@ -187,7 +273,7 @@ int	parsing(char *str, char **env)
 		return (ft_custom_error(NULL, 0, v));
 	if (!parse_cmd(v))
 		return (0);
-//	v->cmd = ft_check_in_env(v);
+	v->cmd = ft_check_in_env(v);
 	if (v->nb_cmd == 1)
 		ft_exec_one(v);
 	return (1);
