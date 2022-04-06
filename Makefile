@@ -6,7 +6,7 @@
 #    By: lguillau <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/14 14:27:36 by lguillau          #+#    #+#              #
-#    Updated: 2022/04/05 15:55:23 by jtaravel         ###   ########.fr        #
+#    Updated: 2022/04/06 14:32:19 by lguillau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ FILES	=	minishell.c \
 		tools/errors.c \
 		builtins/pwd.c \
 		builtins/exit.c \
+		builtins/env.c \
 		builtins/echo.c \
 		tools/str_tools.c \
 		tools/str_tools_2.c \

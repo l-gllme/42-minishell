@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 13:01:01 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/06 13:57:12 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/06 14:40:50 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,11 @@ int	ft_is_builtin(char *str, t_g *v)
 	{
 		v->nb_built++;
 		return (2);
+	}
+	if (ft_strncmp(str, "env", ft_strlen(str)) == 0)
+	{
+		v->nb_built++;
+		return (1);
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 16:44:28 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/04/05 15:09:21 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/06 17:29:11 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,15 @@ int	ft_check_options(char **tab)
 
 void	ft_echo(char *str)
 {
-
 	int	i;
 	int	j;
 	char	**tab;
 
+	if (!str)
+	{
+		ft_putstr_fd("\n", 1);
+		return ;
+	}
 	tab = ft_supersplit(str, ' ');
 	i = ft_check_options(tab);
 	j = i;
