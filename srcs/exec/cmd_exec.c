@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 16:36:42 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/04/07 18:30:28 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/07 20:26:11 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	reauckaitte_lygue(t_g *v, char *str)
 	frk = fork();
 	if (frk == 0)
 	{
-		execve(str, toto, v->env);
+		execve(str, toto, v->new_env);
 	}
 	else
 		wait(NULL);
@@ -68,6 +68,7 @@ int	reauckaitte_lygue(t_g *v, char *str)
 
 int	ft_exec_builtin(char *str, t_g *v)
 {
+
 	if (ft_strncmp(str, "echo", ft_strlen(str)) == 0)
 	{
 		ft_echo(v->l.arg);

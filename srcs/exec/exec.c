@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 13:01:01 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/07 18:12:03 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/07 20:35:07 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,10 +117,40 @@ int	ft_is_builtin(char *str, t_g *v)
 	return (0);
 }
 
+void	ft_shlvl(t_g *v)
+{
+	(void)v;
+	return ;
+}
+
+char	**ft_regroup_env(t_g *v)
+{
+	t_list	*tmp;
+	char	**recup;
+	int	len;
+	int	i;
+
+	tmp = v->list;
+	tmp = tmp->next;
+	len = ft_lstsize(tmp);
+	recup = malloc(sizeof(char *) * (len + 1));
+	i = 0;
+	if (!ft_strncmp(v->l.exec, "./minishell", ft_strlen(v->l.exec)))
+		ft_shlvl(v);
+	while (tmp->next)
+	{
+		recup[i] = ft_strdup(tmp->line);
+		i++;
+		tmp = tmp->next;
+	}
+	return (recup);
+}
+
 void	ft_exec_one(t_g *v)
 {
 	int	frk;
 
+	v->new_env = ft_regroup_env(v);
 	if (v->l.exec != NULL && ft_is_builtin(ft_suppr_dq_sq(v->l.exec), v) == 2)
 	{
 		if (v->l.in_tab != NULL)

@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 16:42:13 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/04/07 17:48:18 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/07 20:22:00 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,3 +78,19 @@ t_list	*ft_lstlast(t_list *lst)
 	}
 	return (tmp);
 }
+
+int	ft_lstsize(t_list *lst)
+{
+	int	i;
+
+	if (!lst)
+		return (0);
+	i = 0;
+	while (lst)
+	{
+		lst = lst->next;
+		i++;
+	}
+	return (i);
+}
+

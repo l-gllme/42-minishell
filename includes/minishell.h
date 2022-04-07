@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/07 19:04:15 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/07 20:22:12 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,5 +138,6 @@ void	ft_lstclear(t_list **lst, void (*del)(void *));
 void	ft_lstdelone(t_list *lst, void (*del)(void *));
 t_list	*ft_lstnew(char	*name, char *content, char *line);
 t_list 	*init_lst(char **env, t_list *list);
+int	ft_lstsize(t_list *lst);
 
 #endif
