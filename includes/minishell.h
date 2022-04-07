@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/06 13:37:06 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/07 19:04:15 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@
 /* ******************************* */
 
 /* parsing.c */
-int		parsing(char *line, char **env);
+int		parsing(char *line, char **env, t_list *list);
 int		ft_check_outpout(char **cmd);
-void	init_struct(char **tab, t_g *v, char **env);
+void	init_struct(char **tab, t_g *v, char **env, t_list *list);
 
 /* get_cmd */
 int		get_cmd(char *str, char **tab);
@@ -124,5 +124,19 @@ char	**ft_split_double(char *str, char *charset);
 void	ft_error(int error);
 int		ft_custom_error(char *str, int ret, t_g *v);
 void	ft_free(t_g *v);
+
+/* ******************************* */
+/*                                 */
+/*              lst                */
+/*                                 */
+/* ******************************* */
+
+/* lst.c */
+t_list	*ft_lstlast(t_list *lst);
+void	ft_lstadd_back(t_list **alst, t_list *new);
+void	ft_lstclear(t_list **lst, void (*del)(void *));
+void	ft_lstdelone(t_list *lst, void (*del)(void *));
+t_list	*ft_lstnew(char	*name, char *content, char *line);
+t_list 	*init_lst(char **env, t_list *list);
 
 #endif

@@ -6,19 +6,20 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 14:05:43 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/06 15:02:44 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/07 18:19:15 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/builtins.h"
 
-void	ft_env(char **env)
+void	ft_env(t_g *v)
 {
-	int	i;
+	t_list	*tmp;
 
-	if (!env || !env[0])
-		return ;
-	i = -1;
-	while (env[++i])
-		printf("%s\n", env[i]);
+	tmp = v->list;
+	while (tmp->next)
+	{
+		printf("%s\n", tmp->line);
+		tmp = tmp->next;
+	}
 }

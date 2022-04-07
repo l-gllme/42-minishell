@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:40:12 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/05 14:19:00 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/07 19:03:52 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@ void	handler(int signum)
 int	main(int ac, char **av, char **env)
 {
 	char	*str;
+	t_list *list;
 
+	list = init_lst(env, NULL);
 	(void)av;
 	if (ac != 1)
 		ft_error(2);
@@ -41,7 +43,7 @@ int	main(int ac, char **av, char **env)
 			add_history(str);
 		if (str[0])
 		{
-			parsing(str, env);
+			parsing(str, env, list);
 		}
 		free(str);
 	}

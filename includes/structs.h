@@ -6,12 +6,20 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 14:04:03 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/05 19:17:35 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/07 17:47:52 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
 # define STRUCTS_H
+
+typedef struct s_list
+{
+	char		*name;
+	char		*content;
+	char		*line;
+	struct s_list	*next;
+}	t_list;
 
 typedef struct s_line
 {
@@ -35,6 +43,7 @@ typedef struct s_global
 	int		nb_cmd;
 	int		access;
 	int		tmp_file;
+	t_list *list;
 	t_l	l;
 }	t_g;
 

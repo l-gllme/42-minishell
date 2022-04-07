@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:31:13 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/01 19:15:28 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/07 18:40:19 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	size_t	i;
 
 	if (!s1 || !s2)
-		return (0);
+		return (1);
 	i = 0;
 	if (n == 0)
 		return (0);

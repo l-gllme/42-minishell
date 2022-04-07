@@ -6,7 +6,7 @@
 #    By: lguillau <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/14 14:27:36 by lguillau          #+#    #+#              #
-#    Updated: 2022/04/06 14:32:19 by lguillau         ###   ########.fr        #
+#    Updated: 2022/04/07 18:09:57 by jtaravel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ FILES	=	minishell.c \
 		builtins/exit.c \
 		builtins/env.c \
 		builtins/echo.c \
+		builtins/unset.c \
 		tools/str_tools.c \
 		tools/str_tools_2.c \
 		parsing/parsing.c \
@@ -32,6 +33,7 @@ FILES	=	minishell.c \
 		exec/in_exec.c \
 		exec/out_exec.c \
 		exec/cmd_exec.c \
+		lst/ft_lst.c \
 		gnl/get_next_line.c \
 		gnl/get_next_line_utils.c \
 

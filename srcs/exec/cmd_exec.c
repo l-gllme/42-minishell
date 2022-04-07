@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 16:36:42 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/04/06 14:32:08 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/07 18:30:28 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,12 @@ int	ft_exec_builtin(char *str, t_g *v)
 	}
 	if (ft_strncmp(str, "env", ft_strlen(str)) == 0)
 	{
-		ft_env(v->env);
+		ft_env(v);
+		return (1);
+	}
+	if (ft_strncmp(str, "unset", ft_strlen(str)) == 0)
+	{
+		ft_unset(v->l.arg, v);
 		return (1);
 	}
 	return (0);

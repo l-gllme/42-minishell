@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 14:05:42 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/06 16:52:38 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/07 18:16:25 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define BUILTINS_H
 
 # include "minishell.h"
+# include "structs.h"
 
 /* *** Echo *** */
 void	ft_echo(char *str);
@@ -24,9 +25,9 @@ void	ft_pwd(void);
 /* *** export *** */
 void	ft_export(char *arg);
 /* *** unset *** */
-void	ft_unset(char *arg, char **env);
+void	ft_unset(char *arg, t_g *v);
 /* *** env *** */
-void	ft_env(char **env);
+void	ft_env(t_g *v);
 /* *** exit *** */
 void	ft_exit(char *line);
 

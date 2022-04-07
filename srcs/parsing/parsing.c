@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/06 18:28:24 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/07 19:04:45 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,11 @@ int	parse_cmd(t_g *v)
 	return (1);
 }
 
-void	init_struct(char **tab, t_g *v, char **env)
+void	init_struct(char **tab, t_g *v, char **env, t_list *list)
 {
-	v->env = env;
 	v->tab = tab;
+	v->list = list;
+	v->env = env;
 	v->cmd = NULL;
 	v->nb_cmd = 0;
 	v->access = 0;
@@ -113,7 +114,6 @@ char	**ft_check_in_env(t_g *v)
 		j = 0;
 		while (recup[i][j])
 		{
-			printf("recup = %s\n" , recup[i]);
 			if (recup[i][j] == '$' && recup[i][j + 1] == '$' && recup[i][j + 2] == 0)
 				break;
 			if (recup[i][j] == '$' && recup[i][j + 1] == 0)
@@ -253,7 +253,52 @@ char	**ft_check_in_env(t_g *v)
 	return (v->cmd);
 }*/
 
-int	parsing(char *str, char **env)
+int	ft_lststrlen(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && str[i] != '=')
+		i++;
+	return (i);
+}
+
+int	ft_recup_name(char *name, char *env)
+{
+	int	i;
+
+	i = 0;
+	while (env[i] != '=')
+	{
+		name[i] = env[i];
+		i++;
+	}	
+	return (1);
+}
+
+t_list	*init_lst(char **env, t_list *list)
+{
+	int		i;
+	char	*name;
+	char	*content;
+	char	*line;
+
+	name = NULL;
+	content = NULL;
+	i = -1;
+	list = ft_lstnew(NULL, NULL, NULL);
+	while(env[++i])
+	{
+		name = malloc(sizeof(char) * (ft_lststrlen(env[i]) + 1));
+		if (!ft_recup_name(name, env[i]))
+			return (0);
+		content = ft_strdup(env[i] + ft_strlen(name));
+		line = ft_strdup(env[i]);
+		ft_lstadd_back(&list, ft_lstnew(name, content, line));
+	}
+	return (list);
+}
+int	parsing(char *str, char **env, t_list *list)
 {
 	char	**tab;
 	t_g	*v;
@@ -266,7 +311,7 @@ int	parsing(char *str, char **env)
 	tab = malloc(sizeof(char *) * count_pipes(str));
 	if (!tab)
 		return (ft_custom_error("Malloc error in parsing()\n", 0, v));
-	init_struct(tab, v, env);
+	init_struct(tab, v, env, list);
 	if (!get_cmd(str, tab))
 		return (ft_custom_error(NULL, 0, v));
 	if (!check_not_closed_pipes(tab))
