@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/07 20:22:12 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/11 17:45:36 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ void	ft_putnbr_fd(int n, int fd);
 int		ft_atoi(const char *str);
 
 /* str_tools.c */
+char	*ft_itoa(int n);
 int		ft_strlen(const char *s);
 void	free_char_tab(char **s);
 char	*ft_strjoin(char *s1, char *s2);

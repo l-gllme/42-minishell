@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 13:01:01 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/07 20:35:07 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/11 18:34:19 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,11 @@ int	ft_is_builtin(char *str, t_g *v)
 		return (1);
 	}
 	if (ft_strncmp(str, "unset", ft_strlen(str)) == 0)
+	{
+		v->nb_built++;
+		return (1);
+	}
+	if (ft_strncmp(str, "export", ft_strlen(str)) == 0)
 	{
 		v->nb_built++;
 		return (1);

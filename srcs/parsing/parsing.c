@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/07 19:04:45 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/11 19:03:37 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -276,6 +276,23 @@ int	ft_recup_name(char *name, char *env)
 	return (1);
 }
 
+t_list	*ft_change_shlvl(t_list *list)
+{
+	int	tmp;
+
+	tmp = 0;
+	while (list->next)
+	{
+		if (ft_strncmp(list->name, "SHLVL", 5) == 0)
+		{
+			tmp = ft_atoi(list->line + 6) + 1;
+			list->line = ft_strjoin("SHLVL=", ft_itoa(tmp));
+		}
+		list = list->next;
+	}
+	return (list);
+}
+
 t_list	*init_lst(char **env, t_list *list)
 {
 	int		i;
@@ -296,6 +313,7 @@ t_list	*init_lst(char **env, t_list *list)
 		line = ft_strdup(env[i]);
 		ft_lstadd_back(&list, ft_lstnew(name, content, line));
 	}
+	ft_change_shlvl(list);
 	return (list);
 }
 int	parsing(char *str, char **env, t_list *list)

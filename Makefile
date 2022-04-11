@@ -6,7 +6,7 @@
 #    By: lguillau <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/14 14:27:36 by lguillau          #+#    #+#              #
-#    Updated: 2022/04/07 18:09:57 by jtaravel         ###   ########.fr        #
+#    Updated: 2022/04/11 18:19:58 by jtaravel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ FILES	=	minishell.c \
 		tools/supersplit.c \
 		tools/tools.c \
 		builtins/cd.c \
+		builtins/export.c \
 		tools/errors.c \
 		builtins/pwd.c \
 		builtins/exit.c \
@@ -22,6 +23,7 @@ FILES	=	minishell.c \
 		builtins/echo.c \
 		builtins/unset.c \
 		tools/str_tools.c \
+		tools/ft_itoa.c \
 		tools/str_tools_2.c \
 		parsing/parsing.c \
 		parsing/stock_line.c \

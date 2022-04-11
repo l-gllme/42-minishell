@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 16:36:42 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/04/07 20:26:11 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/11 18:24:25 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,11 @@ int	ft_exec_builtin(char *str, t_g *v)
 	if (ft_strncmp(str, "unset", ft_strlen(str)) == 0)
 	{
 		ft_unset(v->l.arg, v);
+		return (1);
+	}
+	if (ft_strncmp(str, "export", ft_strlen(str)) == 0)
+	{
+		ft_export(v->l.arg, v);
 		return (1);
 	}
 	return (0);

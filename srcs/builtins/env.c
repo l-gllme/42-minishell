@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 14:05:43 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/07 19:43:37 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/11 18:45:18 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ft_env(t_g *v)
 
 	tmp = v->list;
 	tmp = tmp->next;
-	while (tmp->next)
+	while (tmp)
 	{
 		printf("%s\n", tmp->line);
 		tmp = tmp->next;
