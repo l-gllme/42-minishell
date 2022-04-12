@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 12:35:02 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/03/30 15:37:24 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/12 15:08:15 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,10 @@
 # include <stdlib.h>
 # include <stdio.h>
 
-#ifndef BUFFER_SIZE
-
-#define BUFFER_SIZE 1
-#endif
+# define BUFFER_SIZE 1
 
 char	*ft_strchr(const char *s, int c);
-int	ft_strlen(const char *str);
+int		ft_strlen(const char *str);
 char	*get_next_line(int fd);
 char	*ft_get_line(char *str);
 char	*ft_next_line(char *str);

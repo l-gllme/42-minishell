@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/11 17:45:36 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/12 15:04:59 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,10 @@ void	check_sq_dq(t_s *s_s, char c);
 char	*ft_suppr_dq_sq(char *str);
 
 /* stock_line */
-int	stock_in(t_g *v);
-int	stock_out(t_g *v);
-int	stock_exec(t_g *v);
-int	stock_arg(t_g *v);
+int		stock_in(t_g *v);
+int		stock_out(t_g *v);
+int		stock_exec(t_g *v);
+int		stock_arg(t_g *v);
 
 /* ******************************* */
 /*                                 */
@@ -71,7 +71,6 @@ int	stock_arg(t_g *v);
 /* exec.c */
 void	ft_exec_one(t_g *v);
 int		ft_here_doc(char *limiter, t_g *v);
-
 
 /* in_exec.c */
 int		check_valid_infile(char *file);
@@ -138,7 +137,7 @@ void	ft_lstadd_back(t_list **alst, t_list *new);
 void	ft_lstclear(t_list **lst, void (*del)(void *));
 void	ft_lstdelone(t_list *lst, void (*del)(void *));
 t_list	*ft_lstnew(char	*name, char *content, char *line);
-t_list 	*init_lst(char **env, t_list *list);
-int	ft_lstsize(t_list *lst);
+t_list	*init_lst(char **env, t_list *list);
+int		ft_lstsize(t_list *lst);
 
 #endif

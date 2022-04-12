@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 16:20:44 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/03/30 15:41:34 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/12 15:10:14 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,18 +115,3 @@ char	*get_next_line(int fd)
 	buff = ft_next_line(buff);
 	return (line);
 }
-/*
-int main(void)
-{
-	char	*str;
-	int	fd;
-	fd = open("get_next_line.h", O_RDONLY);
-	
-	while((str = get_next_line(fd)) != NULL)
-	{
-		printf("%s",str);
-		free(str);
-	}
-	return (0);
-}*/
-

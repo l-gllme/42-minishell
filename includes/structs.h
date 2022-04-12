@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 14:04:03 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/07 20:13:22 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/12 15:06:41 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 
 typedef struct s_list
 {
-	char		*name;
-	char		*content;
-	char		*line;
+	char			*name;
+	char			*content;
+	char			*line;
 	struct s_list	*next;
 }	t_list;
 
@@ -39,13 +39,13 @@ typedef struct s_global
 	char	**new_env;
 	int		dup_type;
 	int		nb_built;
-	char		*file_in;
+	char	*file_in;
 	int		fd_in;
 	int		nb_cmd;
 	int		access;
 	int		tmp_file;
-	t_list *list;
-	t_l	l;
+	t_list	*list;
+	t_l		l;
 }	t_g;
 
 typedef struct s_syntax
