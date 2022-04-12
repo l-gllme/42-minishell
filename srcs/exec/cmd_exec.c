@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 16:36:42 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/04/11 18:24:25 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/12 15:46:11 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*try_access(char *cmd)
 
 int	reauckaitte_lygue(t_g *v, char *str)
 {
-	int	frk;
+	int		frk;
 	char	**toto;
 	char	*srt;
 
@@ -55,7 +55,6 @@ int	reauckaitte_lygue(t_g *v, char *str)
 	}
 	else
 		toto = ft_split(v->l.exec, ' ');
-
 	frk = fork();
 	if (frk == 0)
 	{
@@ -66,47 +65,11 @@ int	reauckaitte_lygue(t_g *v, char *str)
 	return (0);
 }
 
-int	ft_exec_builtin(char *str, t_g *v)
-{
-
-	if (ft_strncmp(str, "echo", ft_strlen(str)) == 0)
-	{
-		ft_echo(v->l.arg);
-		return (1);
-	}
-	if (ft_strncmp(str, "pwd", ft_strlen(str)) == 0)
-	{
-		ft_pwd();
-		return (1);
-	}
-	if (ft_strncmp(str, "cd", ft_strlen(str)) == 0)
-	{
-		ft_cd(v->l.arg);
-		return (1);
-	}
-	if (ft_strncmp(str, "env", ft_strlen(str)) == 0)
-	{
-		ft_env(v);
-		return (1);
-	}
-	if (ft_strncmp(str, "unset", ft_strlen(str)) == 0)
-	{
-		ft_unset(v->l.arg, v);
-		return (1);
-	}
-	if (ft_strncmp(str, "export", ft_strlen(str)) == 0)
-	{
-		ft_export(v->l.arg, v);
-		return (1);
-	}
-	return (0);
-}
-
 int	ft_exec_cmd(t_g *v)
 {
-	char *str;
+	char	*str;
 
-	if (ft_exec_builtin(v->l.exec, v))
+	if (ft_is_builtin(v->l.exec, v, 1))
 		return (1);
 	if (getenv("PATH") == NULL || !v->env[0])
 	{

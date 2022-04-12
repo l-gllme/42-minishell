@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/12 15:04:59 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/12 15:58:57 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,17 +70,20 @@ int		stock_arg(t_g *v);
 
 /* exec.c */
 void	ft_exec_one(t_g *v);
+
+/* ft_here_doc */
 int		ft_here_doc(char *limiter, t_g *v);
 
 /* in_exec.c */
 int		check_valid_infile(char *file);
 int		redirect_in(t_g *v);
 int		exec_in(t_g *v, char **tab);
-int		ft_exec_builtin(char *str, t_g *v);
 
 /* cmd_exec.c */
 int		ft_exec_cmd(t_g *v);
-int		ft_is_builtin(char *str, t_g *v);
+
+/* ft_is_builtin.c */
+int		ft_is_builtin(char *str, t_g *v, int choice);
 
 /* out_exec.c */
 int		check_outfile(char *file, int type);

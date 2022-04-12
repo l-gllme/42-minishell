@@ -6,7 +6,7 @@
 #    By: lguillau <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/14 14:27:36 by lguillau          #+#    #+#              #
-#    Updated: 2022/04/11 18:19:58 by jtaravel         ###   ########.fr        #
+#    Updated: 2022/04/12 15:46:47 by lguillau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,8 +33,10 @@ FILES	=	minishell.c \
 		parsing/get_cmd.c \
 		exec/exec.c \
 		exec/in_exec.c \
+		exec/ft_here_doc.c \
 		exec/out_exec.c \
 		exec/cmd_exec.c \
+		exec/ft_is_builtin.c \
 		lst/ft_lst.c \
 		gnl/get_next_line.c \
 		gnl/get_next_line_utils.c \
@@ -79,9 +81,6 @@ fclean:		clean
 
 space:
 		@echo ""
-
-julien:		
-		@cat banner.txt
 
 re:		fclean space  all
 
