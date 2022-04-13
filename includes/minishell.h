@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/13 15:24:17 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/13 17:58:28 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 /* ******************************* */
 
 /* parsing.c */
-int		parsing(char *line, char **env, t_list *list);
+int		parsing(char *line, char **env, t_list *list, t_list *exprt);
 int		ft_check_outpout(char **cmd);
 void	init_struct(char **tab, t_g *v, char **env, t_list *list);
 
@@ -108,6 +108,7 @@ int		ft_isalpha(int c);
 int		ft_isdigit(int c);
 int		ft_recup_name(char *name, char *env);
 int		ft_lststrlen(char *str);
+int		ft_check_equal(char *recup);
 
 /* str_tools.c */
 char	*ft_itoa(int n);

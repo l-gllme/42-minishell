@@ -6,20 +6,12 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 14:04:03 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/13 15:12:39 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/13 17:39:47 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
 # define STRUCTS_H
-
-typedef struct s_exprt
-{
-	char			*name;
-	char			*content;
-	char			*line;
-	struct s_exprt	*next;
-}	t_exprt;
 
 typedef struct s_list
 {

@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/11 19:03:37 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/13 19:14:49 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -268,28 +268,34 @@ int	ft_recup_name(char *name, char *env)
 	int	i;
 
 	i = 0;
-	while (env[i] != '=')
+	while (env[i] && env[i] != '=')
 	{
 		name[i] = env[i];
 		i++;
 	}	
+	name[i] = 0;
 	return (1);
 }
 
 t_list	*ft_change_shlvl(t_list *list)
 {
 	int	tmp;
+	int	c;
 
+	c = 0;
 	tmp = 0;
 	while (list->next)
 	{
 		if (ft_strncmp(list->name, "SHLVL", 5) == 0)
 		{
+			c = 1;
 			tmp = ft_atoi(list->line + 6) + 1;
 			list->line = ft_strjoin("SHLVL=", ft_itoa(tmp));
 		}
 		list = list->next;
 	}
+	if (c == 0)
+		ft_lstadd_back(&list, ft_lstnew("SHLVL", "1", "SHLVL=1"));
 	return (list);
 }
 
@@ -316,7 +322,7 @@ t_list	*init_lst(char **env, t_list *list)
 	ft_change_shlvl(list);
 	return (list);
 }
-int	parsing(char *str, char **env, t_list *list)
+int	parsing(char *str, char **env, t_list *list, t_list *exprt)
 {
 	char	**tab;
 	t_g	*v;
@@ -330,6 +336,7 @@ int	parsing(char *str, char **env, t_list *list)
 	if (!tab)
 		return (ft_custom_error("Malloc error in parsing()\n", 0, v));
 	init_struct(tab, v, env, list);
+	v->exprt = exprt;
 	if (!get_cmd(str, tab))
 		return (ft_custom_error(NULL, 0, v));
 	if (!check_not_closed_pipes(tab))

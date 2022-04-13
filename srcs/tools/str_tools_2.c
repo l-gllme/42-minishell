@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 17:00:21 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/06 15:11:32 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/13 18:08:47 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,12 @@ char	*ft_strdup(const char *s)
 	char	*dup;
 	size_t	len;
 
+	if (!s)
+		return (NULL);
 	len = ft_strlen(s);
-	dup = malloc(sizeof(char) * len + 1);
+	if (len == 0)
+		return ((char*)s);
+	dup = malloc(sizeof(char) * (len + 200000));
 	if (!dup)
 		return (NULL);
 	ft_strlcpy(dup, s, len + 1);

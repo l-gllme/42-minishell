@@ -6,16 +6,18 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 19:35:14 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/04/13 14:47:36 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/13 19:25:44 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/builtins.h"
 
-int	ft_check_name(char *split)
+int	ft_check_name(char *split, t_g *v)
 {
 	int	i;
+	t_list	*tmp;
 
+	tmp = v->list;
 	if (!split)
 		return (1);
 	if (ft_isdigit(split[0]))
@@ -27,6 +29,17 @@ int	ft_check_name(char *split)
 			i++;
 		else
 			return (0);
+	}
+	printf("coucou\n");
+	while (tmp)
+	{
+		if (ft_strncmp(split, tmp->name, ft_strlen(split)))
+			tmp = tmp->next;
+		else
+		{
+			ft_unset(tmp->name, v);
+			tmp = tmp->next;
+		}
 	}
 	return (1);
 }
@@ -51,6 +64,8 @@ char	**ft_list_to_tab_for_exprt(t_g *v)
 	tmp = v->exprt;
 	len = ft_lstsize(tmp);
 	recup = malloc(sizeof(char *) * (len + 1));
+	if (!recup)
+		return (NULL);
 	i = 0;
 	while (tmp)
 	{
@@ -72,8 +87,10 @@ char	**ft_list_to_tab(t_g *v)
 	tmp = tmp->next;
 	len = ft_lstsize(tmp);
 	recup = malloc(sizeof(char *) * (len + 1));
+	if (!recup)
+		return (NULL);
 	i = 0;
-	while (tmp->next)
+	while (tmp)
 	{
 		recup[i] = ft_strdup(tmp->line);
 		i++;
@@ -121,11 +138,13 @@ t_list  *tab_to_list(char **env, t_list *list)
         while(env[++i])
         {
                 name = malloc(sizeof(char) * (ft_lststrlen(env[i]) + 1));
+		if (!name)
+			return (NULL);
                 if (!ft_recup_name(name, env[i]))
                         return (0);
                 content = ft_strdup(env[i] + ft_strlen(name) + 1);
-                line = ft_strdup(env[i]);
-                ft_lstadd_back(&list, ft_lstnew(name, content, line));
+		line = ft_strdup(env[i]);
+        	ft_lstadd_back(&list, ft_lstnew(name, content, line));
         }
         return (list);
 }
@@ -136,25 +155,22 @@ void	ft_export_no_arg(t_g *v)
 	t_list	*list;
 
 	list = NULL;
-	recup = ft_list_to_tab_for_exprt(v);
-	int	i = 0;
-	while (recup[i])
-	{
-		printf("recup = %s\n", recup[i]);
-		i++;
-	}
+	recup = ft_list_to_tab(v);
 	recup = ft_sort_ascii(recup);
 	list = tab_to_list(recup, list);
 	list = list->next;
 	while (list)
 	{
-		printf("export %s=\"%s\"\n", list->name, list->content);
+		if (!ft_check_equal(list->line))
+			printf("export %s\n", list->name);
+		else
+			printf("export %s=\"%s\"\n", list->name, list->content);
 		list = list->next;
 	}
 	return ;
 }
 
-int	ft_check_egual(char *recup)
+int	ft_check_equal(char *recup)
 {
 	int	i;
 
@@ -170,8 +186,9 @@ int	ft_check_egual(char *recup)
 
 void	ft_put_in_export(char *arg, t_g *v)
 {
-
-	ft_lstadd_back(&v->exprt, ft_lstnew(arg, arg, arg));
+	ft_check_name(arg, v);
+	ft_lstadd_back(&v->list, ft_lstnew(ft_strdup(arg), NULL, ft_strdup(arg)));
+	return ;
 }
 
 void	ft_export(char *arg, t_g *v)
@@ -181,8 +198,6 @@ void	ft_export(char *arg, t_g *v)
 	int		i;
 	int		j;
 
-	recup = ft_list_to_tab(v);
-	v->exprt = tab_to_list(recup, v->exprt); 
 	i = 0;
 	j = 0;
 	if (!arg)
@@ -193,9 +208,9 @@ void	ft_export(char *arg, t_g *v)
 	recup = ft_supersplit(arg, ' ');
 	while (recup[i])
 	{
-		if (!ft_check_egual(recup[i]))
+		if (!ft_check_equal(recup[i]))
 		{
-			ft_put_in_export(arg, v);
+			ft_put_in_export(recup[i], v);
 			i++;
 		}
 		else
@@ -210,7 +225,7 @@ void	ft_export(char *arg, t_g *v)
 				ft_suppr_dq_sq(recup[i]);
 				split = ft_split(recup[i], '=');
 				split[j + 1] = ft_strjoin("=", split[j + 1]);
-				if (!ft_check_name(split[j]))
+				if (!ft_check_name(split[j], v))
 				{
 					printf("Invalid identifier\n LOUIS FAIT LES FREE ET ERROR CORRECT STP\n");
 					return ;
@@ -220,6 +235,5 @@ void	ft_export(char *arg, t_g *v)
 				j++;
 			}
 		}	
-	//ft_env(v);
 	}
 }
