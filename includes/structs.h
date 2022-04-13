@@ -6,12 +6,21 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 14:04:03 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/12 15:06:41 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/13 13:55:32 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
 # define STRUCTS_H
+
+
+typedef struct s_exprt
+{
+	char			*name;
+	char			*content;
+	char			*line;
+	struct s_exprt	*next;
+}	t_exprt;
 
 typedef struct s_list
 {
@@ -37,14 +46,16 @@ typedef struct s_global
 	char	*wagon;
 	char	*urandom;
 	char	**new_env;
+	char	*expor;
+	char	*file_in;
 	int		dup_type;
 	int		nb_built;
-	char	*file_in;
 	int		fd_in;
 	int		nb_cmd;
 	int		access;
 	int		tmp_file;
 	t_list	*list;
+	t_list	*exprt;
 	t_l		l;
 }	t_g;
 

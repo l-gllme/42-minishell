@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 19:35:14 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/04/12 18:06:14 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/13 14:47:36 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int	ft_check_name(char *split)
 {
 	int	i;
 
+	if (!split)
+		return (1);
 	if (ft_isdigit(split[0]))
 		return (0);
 	i = 0;
@@ -37,6 +39,26 @@ int	ft_strcmp(char *s1, char *s2)
 	while (s1[i] != '\0' && s2[i] != '\0' && s1[i] == s2[i])
 		i++;
 	return (s1[i] - s2[i]);
+}
+
+char	**ft_list_to_tab_for_exprt(t_g *v)
+{
+	t_list	*tmp;
+	char	**recup;
+	int		len;
+	int		i;
+
+	tmp = v->exprt;
+	len = ft_lstsize(tmp);
+	recup = malloc(sizeof(char *) * (len + 1));
+	i = 0;
+	while (tmp)
+	{
+		recup[i] = ft_strdup(tmp->line);
+		i++;
+		tmp = tmp->next;
+	}
+	return (recup);
 }
 
 char	**ft_list_to_tab(t_g *v)
@@ -114,15 +136,42 @@ void	ft_export_no_arg(t_g *v)
 	t_list	*list;
 
 	list = NULL;
-	recup = ft_list_to_tab(v);
+	recup = ft_list_to_tab_for_exprt(v);
+	int	i = 0;
+	while (recup[i])
+	{
+		printf("recup = %s\n", recup[i]);
+		i++;
+	}
 	recup = ft_sort_ascii(recup);
 	list = tab_to_list(recup, list);
+	list = list->next;
 	while (list)
 	{
 		printf("export %s=\"%s\"\n", list->name, list->content);
 		list = list->next;
 	}
 	return ;
+}
+
+int	ft_check_egual(char *recup)
+{
+	int	i;
+
+	i = 0;
+	while (recup[i])
+	{
+		if (recup[i] == '=')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+void	ft_put_in_export(char *arg, t_g *v)
+{
+
+	ft_lstadd_back(&v->exprt, ft_lstnew(arg, arg, arg));
 }
 
 void	ft_export(char *arg, t_g *v)
@@ -132,6 +181,8 @@ void	ft_export(char *arg, t_g *v)
 	int		i;
 	int		j;
 
+	recup = ft_list_to_tab(v);
+	v->exprt = tab_to_list(recup, v->exprt); 
 	i = 0;
 	j = 0;
 	if (!arg)
@@ -140,27 +191,35 @@ void	ft_export(char *arg, t_g *v)
 		return ;
 	}
 	recup = ft_supersplit(arg, ' ');
-	while (recup[i] != NULL)
+	while (recup[i])
 	{
-		if (recup[i][ft_strlen(recup[i]) - 1] == '=')
+		if (!ft_check_egual(recup[i]))
 		{
-			ft_lstadd_back(&v->list, ft_lstnew(recup[i], NULL, recup[i]));
-			i+=2;
+			ft_put_in_export(arg, v);
+			i++;
 		}
 		else
 		{
-			ft_suppr_dq_sq(recup[i]);
-			split = ft_split(recup[i], '=');
-			split[j + 1] = ft_strjoin("=", split[j + 1]);
-			if (!ft_check_name(split[j]))
+			if (recup[i][ft_strlen(recup[i]) - 1] == '=')
 			{
-				printf("Invalid identifier\n LOUIS FAIT LES FREE ET ERROR CORRECT STP\n");
-				return ;
+				ft_lstadd_back(&v->list, ft_lstnew(recup[i], NULL, recup[i]));
+				i+=2;
 			}
-			ft_lstadd_back(&v->list, ft_lstnew(split[j], split[j + 1], recup[i]));
-			i++;
-			j++;
-		}
-	}
+			else
+			{
+				ft_suppr_dq_sq(recup[i]);
+				split = ft_split(recup[i], '=');
+				split[j + 1] = ft_strjoin("=", split[j + 1]);
+				if (!ft_check_name(split[j]))
+				{
+					printf("Invalid identifier\n LOUIS FAIT LES FREE ET ERROR CORRECT STP\n");
+					return ;
+				}
+				ft_lstadd_back(&v->list, ft_lstnew(split[j], split[j + 1], recup[i]));
+				i++;
+				j++;
+			}
+		}	
 	//ft_env(v);
+	}
 }
