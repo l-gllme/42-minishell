@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 13:01:01 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/12 16:06:57 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/13 15:19:17 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,9 @@ char	**ft_regroup_env(t_g *v)
 	return (recup);
 }
 
-void	ft_exec_one(t_g *v)
+static int	cut_exec_one(t_g *v, int choice)
 {
-	int	frk;
-
-	v->new_env = ft_regroup_env(v);
-	if (v->l.exec != NULL && ft_is_builtin(ft_suppr_dq_sq(v->l.exec), v, 0) == 2)
+	if (choice == 1)
 	{
 		if (v->l.in_tab != NULL)
 			exec_in(v, v->l.in_tab);
@@ -47,8 +44,7 @@ void	ft_exec_one(t_g *v)
 			exec_out(v, v->l.out_tab);
 		ft_is_builtin(v->l.exec, v, 1);
 	}
-	else if (v->l.exec != NULL && ft_is_builtin(v->l.exec, v, 0)
-		&& v->l.out_tab == NULL)
+	else if (choice == 2)
 	{
 		if (v->l.in_tab != NULL)
 			redirect_in(v);
@@ -61,22 +57,40 @@ void	ft_exec_one(t_g *v)
 		if (v->l.out_tab != NULL && v->l.exec != NULL)
 			dup2(0, STDOUT_FILENO);
 	}
-	else
+	return (1);
+}
+
+static int	cut_exec_one_fork(t_g *v)
+{
+	int	frk;
+
+	frk = fork();
+	if (frk == 0)
 	{
-		frk = fork();
-		if (frk == 0)
-		{
-			if (v->l.in_tab != NULL)
-				redirect_in(v);
-			if (v->l.out_tab != NULL)
-				redirect_out(v);
-			if (v->l.exec != NULL)
-				ft_exec_cmd(v);
-			exit(0);
-		}
-		else
-			wait(NULL);
+		if (v->l.in_tab != NULL)
+			redirect_in(v);
+		if (v->l.out_tab != NULL)
+			redirect_out(v);
+		if (v->l.exec != NULL)
+			ft_exec_cmd(v);
+		exit(0);
 	}
+	else
+		wait(NULL);
+	return (1);
+}
+
+void	ft_exec_one(t_g *v)
+{
+	v->new_env = ft_regroup_env(v);
+	if (v->l.exec != NULL && ft_is_builtin(ft_suppr_dq_sq(v->l.exec),
+			v, 0) == 2)
+		cut_exec_one(v, 1);
+	else if (v->l.exec != NULL && ft_is_builtin(v->l.exec, v, 0)
+		&& v->l.out_tab == NULL)
+		cut_exec_one(v, 2);
+	else
+		cut_exec_one_fork(v);
 	if (v->urandom)
 		unlink(v->urandom);
 	return ;

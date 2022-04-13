@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 15:04:28 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/05 15:20:41 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/13 15:37:30 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,32 +37,8 @@ int	check_valid_infile(char *file)
 	return (1);
 }
 
-static int	exec_in_dup(t_g *v, char **tab)
+static int	cut_exec_in_dup(char **tab, int i, int len, int fd)
 {
-	int	i;
-	int	len;
-	int	fd;
-
-	len = ft_tablen(tab);
-	i = -1;
-	fd = 0;
-	v->dup_type = 1;
-	if (tab[len - 2][0] == '<' && tab[len - 2][1] == 0)
-		 v->dup_type = 0;
-	if (!tab)
-		return (0);
-	while (tab[++i])
-	{
-		if (tab[i][0] == '<' && tab[i][1] == 0)
-			i++;
-		else if (tab[i][0] == '<' && tab[i][1] == '<')
-		{
-			if (len - 2 ==  i)
-				v->dup_type = 10;
-			ft_here_doc(tab[++i], v);
-		}
-	}
-	i = -1;
 	while (tab[++i])
 	{
 		if (tab[i][0] == '<' && tab[i][1] == '<')
@@ -86,11 +62,39 @@ static int	exec_in_dup(t_g *v, char **tab)
 	}
 	return (1);
 }
-			
+
+static int	exec_in_dup(t_g *v, char **tab, int i)
+{
+	int	len;
+	int	fd;
+
+	len = ft_tablen(tab);
+	fd = 0;
+	v->dup_type = 1;
+	if (tab[len - 2][0] == '<' && tab[len - 2][1] == 0)
+		v->dup_type = 0;
+	if (!tab)
+		return (0);
+	while (tab[++i])
+	{
+		if (tab[i][0] == '<' && tab[i][1] == 0)
+			i++;
+		else if (tab[i][0] == '<' && tab[i][1] == '<')
+		{
+			if (len - 2 == i)
+				v->dup_type = 10;
+			ft_here_doc(tab[++i], v);
+		}
+	}
+	if (!cut_exec_in_dup(tab, -1, len, fd))
+		return (0);
+	return (1);
+}
+
 int	redirect_in(t_g *v)
 {
 	if (v->l.exec != NULL)
-		exec_in_dup(v, v->l.in_tab);
+		exec_in_dup(v, v->l.in_tab, -1);
 	else
 		exec_in(v, v->l.in_tab);
 	return (1);

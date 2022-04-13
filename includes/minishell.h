@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/12 18:00:33 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/13 15:24:17 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,12 @@ int		ft_exec_cmd(t_g *v);
 int		ft_is_builtin(char *str, t_g *v, int choice);
 
 /* out_exec.c */
-int		check_outfile(char *file, int type);
 int		redirect_out(t_g *v);
 int		exec_out(t_g *v, char **tab);
+
+/* check_outfile.c */
+int		check_outfile(char *file, int type);
+int		check_dup_outfile(char *file, int type);
 
 /* ******************************* */
 /*                                 */

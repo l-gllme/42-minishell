@@ -6,13 +6,12 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 14:04:03 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/13 13:55:32 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/13 15:12:39 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
 # define STRUCTS_H
-
 
 typedef struct s_exprt
 {

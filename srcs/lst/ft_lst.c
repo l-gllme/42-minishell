@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 16:42:13 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/04/11 18:48:52 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/13 15:44:31 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,31 +66,3 @@ t_list	*ft_lstnew(char	*name, char *content, char *line)
 	tmp->next = NULL;
 	return (tmp);
 }
-
-t_list	*ft_lstlast(t_list *lst)
-{
-	t_list	*tmp;
-
-	while (lst)
-	{
-		tmp = lst;
-		lst = lst->next;
-	}
-	return (tmp);
-}
-
-int	ft_lstsize(t_list *lst)
-{
-	int	i;
-
-	if (!lst)
-		return (0);
-	i = 0;
-	while (lst)
-	{
-		lst = lst->next;
-		i++;
-	}
-	return (i);
-}
-
