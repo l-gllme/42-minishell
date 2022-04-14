@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 19:35:14 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/04/13 19:25:44 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/14 17:52:53 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,11 @@ int	ft_check_name(char *split, t_g *v)
 		else
 			return (0);
 	}
-	printf("coucou\n");
 	while (tmp)
 	{
-		if (ft_strncmp(split, tmp->name, ft_strlen(split)))
-			tmp = tmp->next;
-		else
-		{
-			ft_unset(tmp->name, v);
-			tmp = tmp->next;
-		}
+		if (!ft_strncmp(split, tmp->name, ft_strlen(split)))
+			ft_unset(split, v);
+		tmp = tmp->next;
 	}
 	return (1);
 }
@@ -191,6 +186,18 @@ void	ft_put_in_export(char *arg, t_g *v)
 	return ;
 }
 
+int	ft_check_plus_equal(char *str)
+{
+	(void)str;
+	return (0);
+}	
+
+void	ft_export_plus_equal(char *arg, t_g *v)
+{
+	(void)arg;
+	(void)v;
+}
+
 void	ft_export(char *arg, t_g *v)
 {
 	char	**recup;
@@ -208,6 +215,11 @@ void	ft_export(char *arg, t_g *v)
 	recup = ft_supersplit(arg, ' ');
 	while (recup[i])
 	{
+		if (ft_check_plus_equal(recup[i]))
+		{
+			ft_export_plus_equal(recup[i], v);
+			i++;
+		}
 		if (!ft_check_equal(recup[i]))
 		{
 			ft_put_in_export(recup[i], v);
