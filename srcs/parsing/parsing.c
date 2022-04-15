@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/14 17:46:15 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/15 13:50:16 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,16 +124,22 @@ char	*ft_check_in_env(t_g *v)
 	t_list	*tmp;
 	char	*test;
 
+	int	l = 0;
 	i = 0;
 	d = 0;
 	c = 0;
 	recup = NULL;
 	if (v->l.arg)
+	{
+		l = 1;
 		split = ft_supersplit(v->l.arg, ' ');
+
+	}
 	else
 		split = ft_supersplit(v->l.exec, ' ');
-	while (split[i])
+	while (split[i] && l == 1)
 	{
+		ft_suppr_dq_sq(split[i]);
 		if (split[i][0] == '$' && split[i][1] == '$' && split[i][3] == 0)
 			break;
 		if (split[i][0] == '$' && split[i][1] == 0)
@@ -145,9 +151,9 @@ char	*ft_check_in_env(t_g *v)
 		}
 		tmp = v->list;
 		tmp = tmp->next;
+		c = 1;
 		while (tmp && split[i][0] == '$')
 		{
-			c = 1;
 			name = ft_strjoin("$", tmp->name);
 			test = ft_strdup(split[i]);
 			if (!ft_strncmp(split[i], name, ft_strlen(split[i])) && in_env(split[i], v))
