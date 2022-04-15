@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 16:51:45 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/14 15:53:30 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/15 17:00:53 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	ft_unset(char *arg, t_g *v)
 		{
 			if (tmp->next->name)
 				free(tmp->next->name);
-			if (tmp->next->content)
+			if (tmp->next->content && ft_strlen(tmp->next->content) > 0)
 				free(tmp->next->content);
 			if (tmp->next->line)
 				free(tmp->next->line);

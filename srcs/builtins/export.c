@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 19:35:14 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/04/14 17:52:53 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/15 17:22:28 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,16 +186,122 @@ void	ft_put_in_export(char *arg, t_g *v)
 	return ;
 }
 
-int	ft_check_plus_equal(char *str)
+char	*ft_recup_content(char *str, t_g *v)
 {
-	(void)str;
-	return (0);
-}	
+	t_list	*tmp;
 
-void	ft_export_plus_equal(char *arg, t_g *v)
+	tmp = v->list;
+	tmp = tmp->next;
+	while (tmp)
+	{
+		if (!ft_strcmp(str, tmp->name))
+		{
+			return (tmp->content);
+		}
+		tmp = tmp->next;
+	}
+	return (NULL);
+}
+
+int	in_env_sans_dollard(char *str, t_g *v)
 {
-	(void)arg;
-	(void)v;
+	int	i;
+	t_list	*tmp;
+
+	i = 0;
+	tmp = v->list;
+	tmp = tmp->next;
+	while (tmp)
+	{
+		if (!ft_strcmp(str, tmp->name))
+			return (1);
+		tmp = tmp->next;
+	}
+	return (0);
+}
+
+char	*ft_recup_correct_export(char *str)
+{
+	int	i;
+	char	*recup;
+
+	i = 0;
+	while (str[i] != '+' && str[i])
+	{
+		if (str[i] == '+' && str[i + 1] == '=')
+			break;
+		i++;
+	}
+	recup = malloc(sizeof(char) * (i + 1));
+	if (!recup)
+		return (NULL);
+	i = 0;
+	while (str[i] != '+' && str[i])
+	{
+		recup[i] = str[i];
+		i++;
+	}
+	recup[i] = 0;
+	return (recup);
+}
+			
+
+
+int	ft_export_plus_equal(char *arg, t_g *v)
+{
+	int	i;
+	char	*line;
+	char	*recup;
+	char	*test;
+	
+	i = 0;
+	line = NULL;
+	recup = ft_recup_correct_export(arg);
+	while (arg[i])
+	{
+		if (arg[i] == '+' && arg[i + 1] == '=')
+		{
+			if (!in_env_sans_dollard(recup, v))
+			{
+				if (arg[ft_strlen(arg) - 1] == '=')
+				{
+					line = ft_strjoin(recup, "=""");
+					ft_lstadd_back(&v->list, ft_lstnew(recup, ft_strdup(line + ft_strlen(recup) + 1) , line));
+					return (1);
+				}
+				else
+				{
+					line = ft_strjoin_gnl(line, recup);
+					line = ft_strjoin(line, arg + ft_strlen(recup) + 1);
+					ft_lstadd_back(&v->list, ft_lstnew(recup, ft_strdup(arg + ft_strlen(recup) + 1), line));
+					return (1);
+				}
+			}
+			else
+			{
+				test = ft_strdup(recup);
+				if (!ft_recup_content(recup, v))
+				{
+					ft_unset(recup, v);
+					line = ft_strjoin_gnl(recup, ft_strdup(arg + ft_strlen(recup) + 1));
+					ft_lstadd_back(&v->list, ft_lstnew(recup, ft_strdup(arg + ft_strlen(recup) + 1), line));
+				}
+				else
+				{
+					line = ft_strjoin_gnl(line, ft_recup_content(recup, v) + 1);
+					line = ft_strjoin_gnl(line, ft_strdup(arg + ft_strlen(recup) + 2));
+					line = ft_strjoin("=", line);
+					line = ft_strjoin(recup, line);
+					ft_unset(recup, v);
+					recup = ft_strdup(test);
+					ft_lstadd_back(&v->list, ft_lstnew(recup, ft_strdup(line + ft_strlen(recup) + 1), line));
+				}
+				return (1);
+			}
+		}
+		i++;
+	}
+	return (0);
 }
 
 void	ft_export(char *arg, t_g *v)
@@ -215,16 +321,13 @@ void	ft_export(char *arg, t_g *v)
 	recup = ft_supersplit(arg, ' ');
 	while (recup[i])
 	{
-		if (ft_check_plus_equal(recup[i]))
-		{
-			ft_export_plus_equal(recup[i], v);
-			i++;
-		}
 		if (!ft_check_equal(recup[i]))
 		{
 			ft_put_in_export(recup[i], v);
 			i++;
 		}
+		else if (ft_export_plus_equal(recup[i], v))
+			i++;
 		else
 		{
 			if (recup[i][ft_strlen(recup[i]) - 1] == '=')
