@@ -6,13 +6,14 @@
 #    By: lguillau <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/14 14:27:36 by lguillau          #+#    #+#              #
-#    Updated: 2022/04/13 15:44:09 by lguillau         ###   ########.fr        #
+#    Updated: 2022/04/18 14:14:26 by jtaravel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 FILES	=	minishell.c \
 		tools/split.c \
 		tools/supersplit.c \
+		tools/ft_split_by_string.c \
 		tools/tools.c \
 		builtins/cd.c \
 		builtins/export.c \

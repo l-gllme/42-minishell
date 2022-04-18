@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/14 16:46:40 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/18 14:14:48 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ int		ft_recup_name(char *name, char *env);
 int		ft_lststrlen(char *str);
 int		ft_check_equal(char *recup);
 int		ft_strcmp(char *s1, char *s2);
+char	**ft_split_by_string(char *str, char *charset);
 
 /* str_tools.c */
 char	*ft_itoa(int n);

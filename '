@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 19:35:14 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/04/18 16:30:28 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/18 14:40:23 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ int	ft_check_name(char *split)
 {
 	int	i;
 
-	if (!split)
-		return (0);
 	if (ft_isdigit(split[0]))
 		return (0);
 	i = 0;
@@ -40,12 +38,10 @@ void	ft_already_in_env(char *split, t_g *v)
 		return ;
 	while (tmp)
 	{
-		if (tmp->name && !ft_strcmp(split, tmp->name))
+		if (!ft_strncmp(split, tmp->name, ft_strlen(split)))
 			ft_unset(split, v);
 		tmp = tmp->next;
 	}
-
-}
 
 int	ft_strcmp(char *s1, char *s2)
 {
@@ -187,14 +183,10 @@ int	ft_check_equal(char *recup)
 	return (0);
 }
 
-
-int	in_env_sans_dollard(char *str, t_g *v);
-char	*ft_recup_content(char *str, t_g *v);
-
 void	ft_put_in_export(char *arg, t_g *v)
 {
-	if (!in_env_sans_dollard(arg, v) && !ft_recup_content(arg, v))
-		ft_lstadd_back(&v->list, ft_lstnew(ft_strdup(arg), NULL, ft_strdup(arg)));
+	ft_already_in_env(arg, v);
+	ft_lstadd_back(&v->list, ft_lstnew(ft_strdup(arg), NULL, ft_strdup(arg)));
 	return ;
 }
 
@@ -271,21 +263,21 @@ int	ft_export_plus_equal(char *arg, t_g *v)
 	recup = ft_recup_correct_export(arg);
 	while (arg[i])
 	{
-		if (arg[i] == '+' && arg[i + 1] == '=' && arg[i - 1] != '+')
+		if (arg[i] == '+' && arg[i + 1] == '=')
 		{
 			if (!in_env_sans_dollard(recup, v))
 			{
 				if (arg[ft_strlen(arg) - 1] == '=')
 				{
 					line = ft_strjoin(recup, "=""");
-					ft_lstadd_back(&v->list, ft_lstnew(recup, ft_strdup(line + ft_strlen(recup) + 2) , line));
+					ft_lstadd_back(&v->list, ft_lstnew(recup, ft_strdup(line + ft_strlen(recup) + 1) , line));
 					return (1);
 				}
 				else
 				{
 					line = ft_strjoin_gnl(line, recup);
 					line = ft_strjoin(line, arg + ft_strlen(recup) + 1);
-					ft_lstadd_back(&v->list, ft_lstnew(recup, ft_strdup(arg + ft_strlen(recup) + 2), line));
+					ft_lstadd_back(&v->list, ft_lstnew(recup, ft_strdup(arg + ft_strlen(recup) + 1), line));
 					return (1);
 				}
 			}
@@ -294,20 +286,18 @@ int	ft_export_plus_equal(char *arg, t_g *v)
 				test = ft_strdup(recup);
 				if (!ft_recup_content(recup, v))
 				{
-					line = ft_strjoin_gnl(test, ft_strdup(arg + ft_strlen(test) + 1));
 					ft_unset(recup, v);
-					ft_lstadd_back(&v->list, ft_lstnew(recup, ft_strdup(arg + ft_strlen(test) + 1), line));
+					line = ft_strjoin_gnl(recup, ft_strdup(arg + ft_strlen(recup) + 1));
+					ft_lstadd_back(&v->list, ft_lstnew(recup, ft_strdup(arg + ft_strlen(recup) + 1), line));
 				}
 				else
 				{
-					recup = ft_strdup(test);
-					line = ft_strjoin_gnl(line, ft_recup_content(recup, v));
-					recup = ft_strdup(test);
+					line = ft_strjoin_gnl(line, ft_recup_content(recup, v) + 1);
 					line = ft_strjoin_gnl(line, ft_strdup(arg + ft_strlen(recup) + 2));
 					line = ft_strjoin("=", line);
 					line = ft_strjoin(recup, line);
+					ft_unset(recup, v);
 					recup = ft_strdup(test);
-					ft_already_in_env(recup, v);
 					ft_lstadd_back(&v->list, ft_lstnew(recup, ft_strdup(line + ft_strlen(recup) + 1), line));
 				}
 				return (1);
@@ -318,38 +308,15 @@ int	ft_export_plus_equal(char *arg, t_g *v)
 	return (0);
 }
 
-void	*ft_memcpy(const void *src, size_t n)
-{
-	size_t		i;
-	char	*dest;
-	char		*cpydest;
-	const char	*cpysrc;
-
-	if (!src)
-		return (NULL);
-	i = 0;
-	if (n <= 0)
-		return (NULL);
-	dest = malloc(sizeof(char) * (n + 1));
-	cpydest = dest;
-	cpysrc = src;
-	while (i < n)
-	{
-		cpydest[i] = cpysrc[i];
-		i++;
-	}
-	cpydest[i] = 0;
-	dest = cpydest;
-	return (dest);
-}
-
 void	ft_export(char *arg, t_g *v)
 {
 	char	**recup;
 	char	**split;
 	int		i;
+	int		j;
 
 	i = 0;
+	j = 0;
 	if (!arg)
 	{
 		ft_export_no_arg(v);
@@ -359,44 +326,36 @@ void	ft_export(char *arg, t_g *v)
 	while (recup[i])
 	{
 		split = ft_split_by_string(recup[i], "+=");
-		if (!ft_check_name(split[0]) || (recup[i][0] == '+' && recup[i][1] == '=') || recup[i][0] == '=')
+		if (!ft_check_name(split[0], v) || (recup[i][0] == '+' && recup[i][1] == '=') || recup[i][0] == '=')
 		{
 			printf("Minishell: export: '%s': not a valid identifier\n", recup[i]);
 			i++;
 		}
 		else if (!ft_check_equal(recup[i]))
 		{
-			if (!ft_check_name(recup[i]))
-				printf("Minishell: export: '%s': not a valid identifier\n", recup[i]);
-			else
-			{
-				ft_put_in_export(recup[i], v);
-			}
+			ft_put_in_export(recup[i], v);
 			i++;
 		}
 		else if (ft_export_plus_equal(recup[i], v))
+		{
 			i++;
+		}
 		else
 		{
 			ft_already_in_env(split[0], v);
 			if (recup[i][ft_strlen(recup[i]) - 1] == '=')
 			{
-				if (!ft_check_name(ft_memcpy(recup[i], ft_strlen(recup[i]) - 1)))
-					printf("Minishell: export: '%s': not a valid identifier\n", recup[i]);
-				else
-					ft_lstadd_back(&v->list, ft_lstnew(split[0], NULL, recup[i]));
-				i++;
+				ft_lstadd_back(&v->list, ft_lstnew(recup[i], NULL, recup[i]));
+				i+=2;
 			}
 			else
 			{
 				ft_suppr_dq_sq(recup[i]);
 				split = ft_split(recup[i], '=');
-				split[1] = ft_strjoin("=", split[1]);
-				if (!ft_check_name(split[0]))
-					printf("Minishell: export: '%s': not a valid identifier\n", recup[i]);
-				else
-					ft_lstadd_back(&v->list, ft_lstnew(split[0], split[1], recup[i]));
+				split[j + 1] = ft_strjoin("=", split[j + 1]);
+				ft_lstadd_back(&v->list, ft_lstnew(split[j], split[j + 1], recup[i]));
 				i++;
+				j++;
 			}
 		}	
 	}
