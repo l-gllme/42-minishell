@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:40:12 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/19 17:54:28 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/19 18:54:16 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	main(int ac, char **av, char **env)
 		signal(SIGINT, handler);
 		signal(SIGQUIT, handler);
 		str = readline("\033[34m➜\033[0m ");
-		if (str == NULL || ft_strncmp(str, "exit", 5) == 0)
+		if (str == NULL)
 		{
 			rl_clear_history();
 			ft_lstclear(&list, &free);

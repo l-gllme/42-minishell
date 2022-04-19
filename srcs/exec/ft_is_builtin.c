@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 15:39:37 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/19 17:07:53 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/19 18:05:48 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,14 @@ int	ft_is_builtin(char *str, t_g *v, int choice)
 	{
 		if (choice)
 			ft_export(v->l.arg, v);
+		else
+			v->nb_built++;
+		return (1);
+	}
+	if (ft_strncmp(str, "exit", ft_strlen(str)) == 0)
+	{
+		if (choice)
+			ft_exit(v->l.arg);
 		else
 			v->nb_built++;
 		return (1);
