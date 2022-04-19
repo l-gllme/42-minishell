@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 14:55:37 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/05 14:16:28 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/19 18:11:20 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ static int	count_signs(char **tab, char c)
 		if (tab[i][0] == c)
 		{
 			count++;
-			i++;
+			if (tab[i + 1])
+				i++;
 		}
 	}
 	return (count);
@@ -49,9 +50,8 @@ int	stock_in(t_g *v)
 		if (v->cmd[i][0] == '<')
 		{
 			v->l.in_tab[j] = ft_strdup(v->cmd[i]);
-			i++;
-			j++;
-			v->l.in_tab[j] = ft_strdup(v->cmd[i]);
+			if (v->cmd[i + 1])
+				i++;
 			j++;
 		}
 	}
@@ -78,9 +78,8 @@ int	stock_out(t_g *v)
 		if (v->cmd[i][0] == '>')
 		{
 			v->l.out_tab[j] = ft_strdup(v->cmd[i]);
-			i++;
-			j++;
-			v->l.out_tab[j] = ft_strdup(v->cmd[i]);
+			if (v->cmd[i + 1])
+				i++;
 			j++;
 		}
 	}
@@ -100,7 +99,10 @@ int	stock_exec(t_g *v)
 			v->l.exec = ft_strdup(v->cmd[i]);
 		}
 		else if (v->cmd[i][0] == '>' || v->cmd[i][0] == '<')
-			i++;
+		{
+			if (v->cmd[i + 1])
+				i++;
+		}
 	}
 	return (1);
 }
@@ -127,7 +129,7 @@ int	stock_arg(t_g *v)
 			}
 			j = 1;
 		}
-		else
+		else if (v->cmd[i + 1])
 			i++;
 	}
 	return (1);

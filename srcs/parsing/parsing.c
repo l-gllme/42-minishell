@@ -6,26 +6,45 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/19 16:56:08 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/19 18:09:53 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	check_not_followed_sign(char *str)
+int	check_not_followed_sign(t_g *v)
 {
-	t_s	s;
 	int	i;
 
-	i = ft_strlen(str);
-	init_syntax_struct(&s);
-	check_sq_dq(&s, str[i]);
-	while (str[--i] == ' ' && !s.sq_opened && !s.dq_opened)
-		;
-	if (str[i] == '>' || str[i] == '<')
+	i = -1;
+	if (v->l.in_tab)
 	{
-		ft_putstr_fd("minishell: syntax error near unexpected token `newline'\n", 2);
-		return (0);
+		while (v->l.in_tab[++i])
+		{
+			if (v->l.in_tab[i + 1] == 0)
+			{
+				if (v->l.in_tab[i][0] == '<')
+					return (ft_custom_error("minishell: syntax error near unexpected token `newline'\n", 0, v));
+			}
+			else if (v->l.in_tab[i][0] == '<' && v->l.in_tab[i + 1][0] == '<')
+			{
+				return (ft_custom_error("minishell: syntax error near unexpected token `<<'\n", 0, v));
+			}
+		}
+	}
+	i = -1;
+	if (v->l.out_tab)
+	{
+		while (v->l.out_tab[++i])
+		{
+			if (v->l.out_tab[i + 1] == 0)
+			{
+				if (v->l.out_tab[i][0] == '>')
+					return (ft_custom_error("minishell: syntax error near unexpected token `newline'\n", 0, v));
+			}
+			else if (v->l.out_tab[i][0] == '>' && v->l.out_tab[i + 1][0] == '>')
+					return (ft_custom_error("minishell: syntax error near unexpected token `>>'\n", 0, v));
+		}
 	}
 	return (1);
 }
@@ -41,8 +60,6 @@ int	parse_cmd(t_g *v)
 	{
 		if (!ft_add_spaces(v, '<', 0) || !ft_add_spaces(v, '>', 0))
 			return (ft_custom_error(NULL, 0, v));
-		if (!check_not_followed_sign(v->tab[0]))
-			return (ft_custom_error(NULL, 0, v));
 		v->nb_cmd = 1;
 		v->cmd = ft_supersplit(v->tab[0], ' ');
 		if (!v->cmd)
@@ -55,6 +72,8 @@ int	parse_cmd(t_g *v)
 			return (ft_custom_error("error in stock_exec()\n", 0, v));
 		if (!stock_arg(v))
 			return (ft_custom_error("error in stock_arg()\n", 0, v));
+		if (!check_not_followed_sign(v))
+			return (ft_custom_error(NULL, 0, NULL));
 	}
 	else if (i > 1)
 	{
