@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 15:04:28 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/13 15:37:30 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/19 16:23:39 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,15 +96,18 @@ int	redirect_in(t_g *v)
 	if (v->l.exec != NULL)
 		exec_in_dup(v, v->l.in_tab, -1);
 	else
-		exec_in(v, v->l.in_tab);
+		if (!exec_in(v, v->l.in_tab))
+			return (0);
 	return (1);
 }
 
 int	exec_in(t_g *v, char **tab)
 {
 	int	i;
+	int	c;
 
 	i = -1;
+	c = 0;
 	if (!tab)
 		return (0);
 	while (tab[++i])

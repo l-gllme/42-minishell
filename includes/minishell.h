@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/19 14:01:54 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/19 14:11:00 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # include "get_next_line.h"
 # include "builtins.h"
 # include "structs.h"
+extern int	g_retour;
 
 /* ******************************* */
 /*                                 */

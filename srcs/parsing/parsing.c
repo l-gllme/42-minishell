@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/19 14:03:22 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/19 16:56:08 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,21 +114,29 @@ int	in_env(char *str, t_g *v)
 	return (0);
 }
 
-char	*ft_if_doll(char *str, t_g *v)
+char	*ft_recup_retour(char *str)
 {
-	int	i;
+	int		i;
+	char	*tmp;
+	char	*recup;
 
+	tmp = ft_itoa(g_retour);
+	recup = malloc(sizeof(char) * (ft_strlen(str) + ft_strlen(tmp)));
 	i = 0;
-	while (str[i])
+	while (str[i]) 
 	{
 		if (str[i] == '$' && str[i + 1] == '?')
 		{
-			str[i] = v->retour + 48;
-			str[i + 1] = 127;
+			recup = ft_strjoin(recup, tmp);
+			i+=2;
 		}
-		i++;
+		else
+		{
+			recup[i] = str[i];
+			i++;
+		}
 	}
-	return (str);
+	return (recup);
 }
 
 char	*ft_check_in_env(t_g *v)
@@ -153,11 +161,15 @@ char	*ft_check_in_env(t_g *v)
 		split = ft_supersplit(v->l.arg, ' ');
 
 	}
-	else
+	else if (v->l.exec)
+	{
 		split = ft_supersplit(v->l.exec, ' ');
+	}
+	else
+		return (NULL);	
 	while (split[i] && l == 1)
 	{
-		split[i] = ft_if_doll(split[i], v);
+		split[i] = ft_recup_retour(split[i]);
 		ft_suppr_dq_sq(split[i]);
 		if (split[i][0] == '$' && split[i][1] == '$' && split[i][3] == 0)
 			break;
@@ -285,12 +297,16 @@ int	parsing(char *str, char **env, t_list *list, t_list *exprt)
 {
 	char	**tab;
 	t_g	*v;
+	int	c;
 
 	if (!ft_check_invalid_signs(str, '<') || !ft_check_invalid_signs(str, '>'))
 		return (0);
 	v = malloc(sizeof(t_g));
 	if (!v)
 		return (ft_custom_error("Malloc error in parsing()\n", 0, v));
+	c = count_pipes(str);
+	if (c == 0)
+		return (0);
 	tab = malloc(sizeof(char *) * count_pipes(str));
 	if (!tab)
 		return (ft_custom_error("Malloc error in parsing()\n", 0, v));

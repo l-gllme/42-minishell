@@ -6,11 +6,12 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:40:12 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/19 12:03:27 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/19 14:20:39 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+int g_retour = 0;
 
 void	handler(int signum)
 {

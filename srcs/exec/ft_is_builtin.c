@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 15:39:37 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/12 16:01:27 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/19 17:07:53 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	ft_is_builtin(char *str, t_g *v, int choice)
 			ft_echo(v->l.arg);
 		else
 			v->nb_built++;
+		g_retour = 0;
 		return (1);
 	}
 	if (ft_strncmp(str, "pwd", ft_strlen(str)) == 0)
@@ -33,7 +34,10 @@ int	ft_is_builtin(char *str, t_g *v, int choice)
 	if (ft_strncmp(str, "cd", ft_strlen(str)) == 0)
 	{
 		if (choice)
-			ft_cd(v->l.arg);
+		{
+			if (!ft_cd(v->l.arg))
+				g_retour = 1;
+		}
 		else
 			v->nb_built++;
 		return (2);

@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 16:36:42 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/04/19 13:58:41 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/19 17:06:41 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,9 @@ int	reauckaitte_lygue(t_g *v, char *str)
 	int		frk;
 	char	**toto;
 	char	*srt;
+	int		value;
 
+	value = 0;
 	if (v->l.arg != NULL)
 	{
 		srt = ft_strjoin(v->l.exec, " ");
@@ -61,33 +63,35 @@ int	reauckaitte_lygue(t_g *v, char *str)
 		execve(str, toto, v->new_env);
 	}
 	else
-		wait(NULL);
-	return (0);
+		waitpid(frk, &value, 0);
+	return (WEXITSTATUS(value));
 }
 
 int	ft_exec_cmd(t_g *v)
 {
 	char	*str;
+	int		value;
 
+	value = 0;
 	if (ft_is_builtin(v->l.exec, v, 1))
 		return (1);
 	if (getenv("PATH") == NULL || !v->env[0])
 	{
+		value = 127;
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(v->l.exec, 2);
 		ft_custom_error(": command not found\n", 0, v);
-		v->retour = 127;
-		return (0);
+		return (value);
 	}
 	str = try_access(v->l.exec);
 	if (str == NULL)
 	{
+		value = 127;
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(v->l.exec, 2);
 		ft_custom_error(": command not found\n", 0, v);
-		v->retour = 127;
-		return (0);
+		return (value);
 	}
-	reauckaitte_lygue(v, str);
-	return (1);
+	value = reauckaitte_lygue(v, str);
+	return (value);
 }

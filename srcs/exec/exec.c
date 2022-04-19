@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 13:01:01 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/13 15:19:17 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/19 16:58:12 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,9 @@ static int	cut_exec_one(t_g *v, int choice)
 static int	cut_exec_one_fork(t_g *v)
 {
 	int	frk;
+	int	value;
 
+	value = 0;
 	frk = fork();
 	if (frk == 0)
 	{
@@ -72,11 +74,12 @@ static int	cut_exec_one_fork(t_g *v)
 		if (v->l.out_tab != NULL)
 			redirect_out(v);
 		if (v->l.exec != NULL)
-			ft_exec_cmd(v);
+			exit(ft_exec_cmd(v));
 		exit(0);
 	}
 	else
-		wait(NULL);
+		waitpid(frk, &value, 0);
+	g_retour = WEXITSTATUS(value);
 	return (1);
 }
 
