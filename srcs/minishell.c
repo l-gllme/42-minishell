@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:40:12 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/13 17:58:47 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/19 12:03:27 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ int	main(int ac, char **av, char **env)
 		if (str == NULL || ft_strncmp(str, "exit", 5) == 0)
 		{
 			rl_clear_history();
+			ft_lstclear(&list, &free);
+			ft_lstclear(&exprt, &free);
 			ft_exit(str);
 		}
 		if (str[0])
@@ -50,5 +52,7 @@ int	main(int ac, char **av, char **env)
 		}
 		free(str);
 	}
+	ft_lstclear(&list, &free);
+	ft_lstclear(&exprt, &free);
 	return (0);
 }

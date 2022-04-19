@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/19 11:16:46 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/19 14:03:22 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,8 +232,9 @@ int	ft_recup_name(char *name, char *env)
 
 t_list	*ft_change_shlvl(t_list *list)
 {
-	int	tmp;
-	int	c;
+	int		tmp;
+	int		c;
+	char	*tmp_str;
 
 	c = 0;
 	tmp = 0;
@@ -243,7 +244,9 @@ t_list	*ft_change_shlvl(t_list *list)
 		{
 			c = 1;
 			tmp = ft_atoi(list->line + 6) + 1;
-			list->line = ft_strjoin("SHLVL=", ft_itoa(tmp));
+			tmp_str = ft_itoa(tmp);
+			list->line = ft_strjoin("SHLVL=", tmp_str);
+			free(tmp_str);
 		}
 		list = list->next;
 	}
@@ -259,6 +262,7 @@ t_list	*init_lst(char **env, t_list *list)
 	char	*content;
 	char	*line;
 
+	(void)line;
 	name = NULL;
 	content = NULL;
 	i = -1;
@@ -269,6 +273,8 @@ t_list	*init_lst(char **env, t_list *list)
 		if (!ft_recup_name(name, env[i]))
 			return (0);
 		content = ft_strdup(env[i] + ft_strlen(name));
+		//line = malloc(sizeof(char) * (ft_strlen(env[i]) + 1));
+		//line = ft_strcpy(line, env[i]);
 		line = ft_strdup(env[i]);
 		ft_lstadd_back(&list, ft_lstnew(name, content, line));
 	}

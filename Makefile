@@ -6,7 +6,7 @@
 #    By: lguillau <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/14 14:27:36 by lguillau          #+#    #+#              #
-#    Updated: 2022/04/18 14:14:26 by jtaravel         ###   ########.fr        #
+#    Updated: 2022/04/19 12:15:45 by jtaravel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ FILES	=	minishell.c \
 		tools/str_tools.c \
 		tools/ft_itoa.c \
 		tools/str_tools_2.c \
+		tools/ft_strcpy.c \
 		parsing/parsing.c \
 		parsing/stock_line.c \
 		parsing/in_out_parse.c \

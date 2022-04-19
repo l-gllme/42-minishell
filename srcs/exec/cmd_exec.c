@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 16:36:42 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/04/12 15:46:11 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/19 13:58:41 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int	ft_exec_cmd(t_g *v)
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(v->l.exec, 2);
 		ft_custom_error(": command not found\n", 0, v);
+		v->retour = 127;
 		return (0);
 	}
 	str = try_access(v->l.exec);
@@ -84,6 +85,7 @@ int	ft_exec_cmd(t_g *v)
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(v->l.exec, 2);
 		ft_custom_error(": command not found\n", 0, v);
+		v->retour = 127;
 		return (0);
 	}
 	reauckaitte_lygue(v, str);

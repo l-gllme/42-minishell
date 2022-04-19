@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 16:42:13 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/04/13 15:44:31 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/19 12:29:09 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@ void	ft_lstadd_back(t_list **alst, t_list *new)
 	{
 		*alst = new;
 	}
+}
+
+void	del(void *data)
+{
+	free(data);
 }
 
 void	ft_lstclear(t_list **lst, void (*del)(void *))
@@ -49,7 +54,12 @@ void	ft_lstdelone(t_list *lst, void (*del)(void *))
 {
 	if (!lst || !del)
 		return ;
-	(*del)(lst->content);
+	if (lst->content)
+		(*del)(lst->content);
+	if (lst->name)
+		(*del)(lst->name);
+	//if (lst->line)
+		//(*del)(lst->line);
 	free(lst);
 }
 

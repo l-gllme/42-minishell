@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 17:00:21 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/13 18:08:47 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/19 12:12:44 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,26 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 
 char	*ft_strdup(const char *s)
 {
+	char	*cpy;
+	int		i;
+
+	if (!s)
+		return (NULL);
+	i = 0;
+	cpy = malloc(sizeof(char) * (ft_strlen(s) + 1));
+	if (!cpy)
+		return (0);
+	while (s[i])
+	{
+		cpy[i] = s[i];
+		i++;
+	}
+	cpy[i] = '\0';
+	return (cpy);
+}
+
+/*char	*ft_strdup(const char *s)
+{
 	char	*dup;
 	size_t	len;
 
@@ -47,12 +67,12 @@ char	*ft_strdup(const char *s)
 	len = ft_strlen(s);
 	if (len == 0)
 		return ((char*)s);
-	dup = malloc(sizeof(char) * (len + 200000));
+	dup = malloc(sizeof(char) * (len + 1));
 	if (!dup)
 		return (NULL);
 	ft_strlcpy(dup, s, len + 1);
 	return (dup);
-}
+}*/
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
@@ -77,11 +97,11 @@ int	ft_tablen(char **tab)
 {
 	int	i;
 
-	if (!tab)
+	if (!tab || ft_strlen(tab[0]) == 0)
 		return (0);
-	i = -1;
-	while (tab[++i])
-		;
+	i = 0;
+	while (tab[i])
+		i++;
 	return (i);
 }
 
