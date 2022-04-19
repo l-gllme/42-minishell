@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/15 13:50:16 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/19 11:16:46 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void	init_struct(char **tab, t_g *v, char **env, t_list *list)
 	v->fd_in = 0;
 	v->file_in = NULL;
 	v->urandom = NULL;
+	v->retour = 0;
 }
 
 int	ft_isdigit(int c)
@@ -113,6 +114,23 @@ int	in_env(char *str, t_g *v)
 	return (0);
 }
 
+char	*ft_if_doll(char *str, t_g *v)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '$' && str[i + 1] == '?')
+		{
+			str[i] = v->retour + 48;
+			str[i + 1] = 127;
+		}
+		i++;
+	}
+	return (str);
+}
+
 char	*ft_check_in_env(t_g *v)
 {
 	char	*recup;
@@ -139,6 +157,7 @@ char	*ft_check_in_env(t_g *v)
 		split = ft_supersplit(v->l.exec, ' ');
 	while (split[i] && l == 1)
 	{
+		split[i] = ft_if_doll(split[i], v);
 		ft_suppr_dq_sq(split[i]);
 		if (split[i][0] == '$' && split[i][1] == '$' && split[i][3] == 0)
 			break;

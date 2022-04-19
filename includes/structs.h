@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 14:04:03 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/13 17:39:47 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/19 11:10:13 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct s_global
 	char	**new_env;
 	char	*expor;
 	char	*file_in;
+	int		retour;
 	int		dup_type;
 	int		nb_built;
 	int		fd_in;

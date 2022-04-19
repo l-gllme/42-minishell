@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 19:35:14 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/04/18 18:18:45 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/19 10:59:42 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -268,7 +268,7 @@ void	ft_export_plus_equal_2(t_g *v, char *recup, char *arg)
 		line = ft_strjoin_gnl(test, ft_strdup(arg + ft_strlen(test) + 1));
 		ft_unset(recup, v);
 		ft_lstadd_back(&v->list, ft_lstnew(recup,
-				ft_strdup(arg + ft_strlen(recup) + 2), line));
+				ft_strdup(arg + ft_strlen(recup) + 1), line));
 	}
 	else
 	{
@@ -276,12 +276,11 @@ void	ft_export_plus_equal_2(t_g *v, char *recup, char *arg)
 		line = ft_strjoin_gnl(line, ft_recup_content(recup, v));
 		recup = ft_strdup(test);
 		line = ft_strjoin_gnl(line, ft_strdup(arg + ft_strlen(recup) + 2));
-		line = ft_strjoin("=", line);
 		line = ft_strjoin(recup, line);
 		recup = ft_strdup(test);
 		ft_already_in_env(recup, v);
 		ft_lstadd_back(&v->list, ft_lstnew(recup,
-				ft_strdup(line + ft_strlen(recup) + 1), line));
+				ft_strdup(line + ft_strlen(recup)), line));
 	}
 }
 
@@ -290,14 +289,14 @@ void	ft_export_no_in_env(char *recup, char *line, t_g *v, char *arg)
 	line = ft_strjoin_gnl(line, recup);
 	line = ft_strjoin(line, arg + ft_strlen(recup) + 1);
 	ft_lstadd_back(&v->list, ft_lstnew(recup,
-			ft_strdup(arg + ft_strlen(recup) + 2), line));
+			ft_strdup(arg + ft_strlen(recup) + 1), line));
 }
 
 void	ft_export_plus_equal_no_content(char *recup, t_g *v, char *line)
 {
 	line = ft_strjoin(recup, "=""");
 	ft_lstadd_back(&v->list, ft_lstnew(recup,
-			ft_strdup(line + ft_strlen(recup) + 2), line));
+			ft_strdup(line + ft_strlen(recup)), line));
 }
 
 int	ft_export_plus_equal(char *arg, t_g *v)
@@ -369,6 +368,7 @@ void	ft_normal_export(t_g *v, char **split, char **recup, int i)
 	{
 		ft_suppr_dq_sq(recup[i]);
 		split = ft_split(recup[i], '=');
+		split[1] = ft_strjoin("=", split[1]);
 		if (!ft_check_name(split[0]))
 			printf("Minishell: export: '%s': not a valid identifier\n",
 				recup[i]);
