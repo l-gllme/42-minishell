@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:40:12 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/19 14:20:39 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/19 17:54:28 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,16 @@ int g_retour = 0;
 void	handler(int signum)
 {
 	(void)signum;
-	if (SIGINT == 2)
+	if (signum == 3)
+	{
+		g_retour = 131;
+		printf("A faire...");
+	}
+	if (signum == 2)
+	{
+		g_retour = 130;
 		write(0, "\n\033[34m➜\033[0m ", 15);
+	}
 	else
 		return ;
 }
@@ -37,6 +45,7 @@ int	main(int ac, char **av, char **env)
 	while (1)
 	{
 		signal(SIGINT, handler);
+		signal(SIGQUIT, handler);
 		str = readline("\033[34m➜\033[0m ");
 		if (str == NULL || ft_strncmp(str, "exit", 5) == 0)
 		{

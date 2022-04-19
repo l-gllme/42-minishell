@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 15:17:54 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/19 16:23:06 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/19 17:47:31 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,5 +102,7 @@ int	ft_here_doc(char *limiter, t_g *v)
 		fd = open(v->urandom, O_RDONLY);
 		dup2(fd, STDIN_FILENO);
 	}
+	if (v->urandom)
+		unlink(v->urandom);
 	return (1);
 }
