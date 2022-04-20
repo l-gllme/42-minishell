@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 13:01:01 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/19 16:58:12 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/20 17:55:41 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ char	**ft_regroup_env(t_g *v)
 	int		i;
 
 	tmp = v->list;
-	tmp = tmp->next;
+	if (v->env[0])
+		tmp = tmp->next;
 	len = ft_lstsize(tmp);
 	recup = malloc(sizeof(char *) * (len + 1));
 	i = 0;
@@ -31,6 +32,8 @@ char	**ft_regroup_env(t_g *v)
 		i++;
 		tmp = tmp->next;
 	}
+	recup[i] = ft_strdup(tmp->line);
+	recup[i + 1] = 0;
 	return (recup);
 }
 

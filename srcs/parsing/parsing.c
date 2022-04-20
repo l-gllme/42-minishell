@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/20 16:37:24 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/20 17:56:32 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,11 +182,12 @@ char	*ft_check_in_env(t_g *v)
 	}
 	else if (v->l.exec)
 	{
+		l = 1;
 		split = ft_supersplit(v->l.exec, ' ');
 	}
 	else
 		return (NULL);	
-	while (split[i] && l == 1)
+	while (split[i] && l == 1 && split[i][0] == '$')
 	{
 		split[i] = ft_recup_retour(split[i]);
 		ft_suppr_dq_sq(split[i]);
@@ -234,6 +235,8 @@ char	*ft_check_in_env(t_g *v)
 			recup = ft_strjoin_gnl(recup, " "); 
 		i++;
 	}
+	if (recup[ft_strlen(recup) - 1] == ' ')
+		recup[ft_strlen(recup) - 1] = 0;
 	return (recup);
 }
 
@@ -261,7 +264,7 @@ int	ft_recup_name(char *name, char *env)
 	return (1);
 }
 
-t_list	*ft_change_shlvl(t_list *list)
+t_list	*ft_change_shlvl(t_list *list, char **env)
 {
 	int		tmp;
 	int		c;
@@ -269,29 +272,28 @@ t_list	*ft_change_shlvl(t_list *list)
 
 	c = 0;
 	tmp = 0;
-	if (list->next)
+	(void)env;
+	if (list == NULL)
+		list = list->next;
+	while (list->next)
 	{
-		while (list->next)
+		if (ft_strncmp(list->name, "SHLVL", 5) == 0)
 		{
-			if (ft_strncmp(list->name, "SHLVL", 5) == 0)
-			{
-				c = 1;
-				tmp = ft_atoi(list->line + 6) + 1;
-				tmp_str = ft_itoa(tmp);
-				free(list->content);
-				free(list->name);
-				free(list->line);
-				list->name = ft_strdup("SHLVL");
-				list->content = ft_strjoin("=", tmp_str);
-				list->line = ft_strjoin("SHLVL=", tmp_str);
-				free(tmp_str);
-			}
-			list = list->next;
+			c = 1;
+			tmp = ft_atoi(list->line + 6) + 1;
+			tmp_str = ft_itoa(tmp);
+			free(list->content);
+			free(list->name);
+			free(list->line);
+			list->name = ft_strdup("SHLVL");
+			list->content = ft_strjoin("=", tmp_str);
+			list->line = ft_strjoin("SHLVL=", tmp_str);
+			free(tmp_str);
 		}
+		list = list->next;
 	}
 	if (ft_strncmp(list->name, "SHLVL", 5) == 0)
 	{
-		printf("toto\n");
 		c = 1;
 		tmp = ft_atoi(list->line + 6) + 1;
 		tmp_str = ft_itoa(tmp);
@@ -302,7 +304,7 @@ t_list	*ft_change_shlvl(t_list *list)
 		list->content = ft_strjoin("=", tmp_str);
 		list->line = ft_strjoin("SHLVL=", tmp_str);
 		free(tmp_str);
-	}	
+	}
 	if (c == 0)
 		ft_lstadd_back(&list, ft_lstnew(ft_strdup("SHLVL"), ft_strdup("1"), ft_strdup("SHLVL=1")));
 	return (list);
@@ -328,7 +330,14 @@ t_list	*init_lst(char **env, t_list *list)
 		line = ft_strdup(env[i]);
 		ft_lstadd_back(&list, ft_lstnew(name, content, line));
 	}
-	ft_change_shlvl(list);
+	ft_change_shlvl(list, env);
+	if (!env[0])
+	{
+		printf ("coucou\n");
+ 		line = getcwd(NULL, 0);
+		ft_lstadd_back(&list, ft_lstnew(ft_strdup("PWD"), ft_strjoin("=", line), ft_strjoin("PWD=", line)));
+		free(line);
+	}
 	return (list);
 }
 int	parsing(char *str, char **env, t_list *list)
