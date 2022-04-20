@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 14:33:21 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/19 18:59:06 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/20 13:52:04 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,9 @@ void	ft_exit(char *line)
 	long long	valeur;
 	char	*tmp;
 	char	**split;
+	int	i;
 
+	i = 0;
 	if (!line)
 	{
 		ft_putstr_fd("Bye! 👋\n", 1);
@@ -51,12 +53,26 @@ void	ft_exit(char *line)
 	}
 	split = ft_split(line, ' ');
 	line[ft_strlen(line) - 1] = 0;
+	while (split[0][i])
+	{
+		if (ft_isalpha(split[0][i]))
+		{
+			printf("Minishell: exit: %s: numeric argument required\n", split[0]);
+			valeur = 2;
+			free(line);
+			ft_putstr_fd("Bye! 👋\n", 1);
+			exit(valeur);
+		}
+		i++;
+	}		
 	valeur = ft_mega_atoi(line);
 	tmp = ft_itoa(valeur);
-	if (ft_strcmp(line, tmp) && valeur == 0)
+	if (ft_strcmp(line, tmp))
 	{
 		printf("Minishell: exit: %s: numeric argument required\n", split[0]);
-		valeur = 2;
+		g_retour = 1;
+		free(line);
+		return ;
 	}
 	else if (split[1] != NULL)
 	{

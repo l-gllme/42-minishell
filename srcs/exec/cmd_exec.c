@@ -6,13 +6,13 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 16:36:42 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/04/19 17:06:41 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/20 16:23:48 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	*try_access(char *cmd)
+char	*try_access(char *cmd, t_g *v)
 {
 	int		i;
 	char	**path;
@@ -20,7 +20,7 @@ char	*try_access(char *cmd)
 
 	if (access(cmd, X_OK) == 0)
 		return (ft_strdup(cmd));
-	path = ft_split(getenv("PATH"), ':');
+	path = ft_split(ft_recup_content("PATH", v) + 1, ':');
 	i = -1;
 	while (path[++i])
 	{
@@ -75,7 +75,7 @@ int	ft_exec_cmd(t_g *v)
 	value = 0;
 	if (ft_is_builtin(v->l.exec, v, 1))
 		return (1);
-	if (getenv("PATH") == NULL || !v->env[0])
+	if (ft_recup_content("PATH", v) == NULL && access(v->l.exec, X_OK) != 0)
 	{
 		value = 127;
 		ft_putstr_fd("minishell: ", 2);
@@ -83,7 +83,7 @@ int	ft_exec_cmd(t_g *v)
 		ft_custom_error(": command not found\n", 0, v);
 		return (value);
 	}
-	str = try_access(v->l.exec);
+	str = try_access(v->l.exec, v);
 	if (str == NULL)
 	{
 		value = 127;

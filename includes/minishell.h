@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/19 14:11:00 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/20 15:58:40 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,11 @@ extern int	g_retour;
 /* ******************************* */
 
 /* parsing.c */
-int		parsing(char *line, char **env, t_list *list, t_list *exprt);
+int		parsing(char *line, char **env, t_list *list);
 int		ft_check_outpout(char **cmd);
 void	init_struct(char **tab, t_g *v, char **env, t_list *list);
+int		in_env_sans_dollard(char *str, t_g *v);
+char	*ft_recup_content(char *str, t_g *v);
 
 /* get_cmd */
 int		get_cmd(char *str, char **tab);

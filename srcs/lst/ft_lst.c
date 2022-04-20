@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 16:42:13 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/04/19 12:29:09 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/20 16:19:17 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ void	ft_lstdelone(t_list *lst, void (*del)(void *))
 		(*del)(lst->content);
 	if (lst->name)
 		(*del)(lst->name);
-	//if (lst->line)
-		//(*del)(lst->line);
+	if (lst->line)
+		(*del)(lst->line);
 	free(lst);
 }
 

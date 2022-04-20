@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/19 18:09:53 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/20 16:37:24 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -269,20 +269,42 @@ t_list	*ft_change_shlvl(t_list *list)
 
 	c = 0;
 	tmp = 0;
-	while (list->next)
+	if (list->next)
 	{
-		if (ft_strncmp(list->name, "SHLVL", 5) == 0)
+		while (list->next)
 		{
-			c = 1;
-			tmp = ft_atoi(list->line + 6) + 1;
-			tmp_str = ft_itoa(tmp);
-			list->line = ft_strjoin("SHLVL=", tmp_str);
-			free(tmp_str);
+			if (ft_strncmp(list->name, "SHLVL", 5) == 0)
+			{
+				c = 1;
+				tmp = ft_atoi(list->line + 6) + 1;
+				tmp_str = ft_itoa(tmp);
+				free(list->content);
+				free(list->name);
+				free(list->line);
+				list->name = ft_strdup("SHLVL");
+				list->content = ft_strjoin("=", tmp_str);
+				list->line = ft_strjoin("SHLVL=", tmp_str);
+				free(tmp_str);
+			}
+			list = list->next;
 		}
-		list = list->next;
 	}
+	if (ft_strncmp(list->name, "SHLVL", 5) == 0)
+	{
+		printf("toto\n");
+		c = 1;
+		tmp = ft_atoi(list->line + 6) + 1;
+		tmp_str = ft_itoa(tmp);
+		free(list->content);
+		free(list->name);
+		free(list->line);
+		list->name = ft_strdup("SHLVL");
+		list->content = ft_strjoin("=", tmp_str);
+		list->line = ft_strjoin("SHLVL=", tmp_str);
+		free(tmp_str);
+	}	
 	if (c == 0)
-		ft_lstadd_back(&list, ft_lstnew("SHLVL", "1", "SHLVL=1"));
+		ft_lstadd_back(&list, ft_lstnew(ft_strdup("SHLVL"), ft_strdup("1"), ft_strdup("SHLVL=1")));
 	return (list);
 }
 
@@ -293,7 +315,6 @@ t_list	*init_lst(char **env, t_list *list)
 	char	*content;
 	char	*line;
 
-	(void)line;
 	name = NULL;
 	content = NULL;
 	i = -1;
@@ -304,15 +325,13 @@ t_list	*init_lst(char **env, t_list *list)
 		if (!ft_recup_name(name, env[i]))
 			return (0);
 		content = ft_strdup(env[i] + ft_strlen(name));
-		//line = malloc(sizeof(char) * (ft_strlen(env[i]) + 1));
-		//line = ft_strcpy(line, env[i]);
 		line = ft_strdup(env[i]);
 		ft_lstadd_back(&list, ft_lstnew(name, content, line));
 	}
 	ft_change_shlvl(list);
 	return (list);
 }
-int	parsing(char *str, char **env, t_list *list, t_list *exprt)
+int	parsing(char *str, char **env, t_list *list)
 {
 	char	**tab;
 	t_g	*v;
@@ -330,7 +349,6 @@ int	parsing(char *str, char **env, t_list *list, t_list *exprt)
 	if (!tab)
 		return (ft_custom_error("Malloc error in parsing()\n", 0, v));
 	init_struct(tab, v, env, list);
-	v->exprt = exprt;
 	if (!get_cmd(str, tab))
 		return (ft_custom_error(NULL, 0, v));
 	if (!check_not_closed_pipes(tab))
