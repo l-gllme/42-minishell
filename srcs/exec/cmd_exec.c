@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 16:36:42 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/04/21 15:23:06 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/21 16:15:41 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int	reauckaitte_lygue(t_g *v, char *str)
 		srt = ft_strjoin(v->l.exec, " ");
 		srt = ft_strjoin_gnl(srt, v->l.arg);
 		toto = ft_split(srt, ' ');
+		free(srt);
 	}
 	else
 		toto = ft_split(v->l.exec, ' ');

@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 16:04:06 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/06 16:37:23 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/21 16:56:21 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,6 @@ int	ft_cd(char *arg)
 	}
 	free_char_tab(tab);
 	ft_suppr_dq_sq(arg);
-	i = -1;
-	while (arg[++i])
-		;
-	i--;
-	arg[i] = 0;
 	i = 0;
 	if (arg[0] == '~')
 	{
@@ -88,6 +83,8 @@ int	ft_cd(char *arg)
 		}
 		if (chdir(str) == -1)
 		{
+			if (i)
+				free(str);
 			if (access(str, F_OK))
 				return (error_cd(arg));
 			else
