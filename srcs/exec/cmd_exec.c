@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 16:36:42 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/04/20 16:23:48 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/21 15:23:06 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ int	reauckaitte_lygue(t_g *v, char *str)
 	}
 	else
 		waitpid(frk, &value, 0);
+	free(str);
+	free_char_tab(toto);
 	return (WEXITSTATUS(value));
 }
 

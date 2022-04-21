@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/21 14:08:49 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/21 15:21:44 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,12 +178,14 @@ char	*ft_check_in_env(t_g *v)
 	{
 		l = 1;
 		split = ft_supersplit(v->l.arg, ' ');
+		free(v->l.arg);
 
 	}
 	else if (v->l.exec)
 	{
 		l = 1;
 		split = ft_supersplit(v->l.exec, ' ');
+		free(v->l.exec);
 	}
 	else
 		return (NULL);	
@@ -237,6 +239,7 @@ char	*ft_check_in_env(t_g *v)
 	}
 	if (recup[ft_strlen(recup) - 1] == ' ')
 		recup[ft_strlen(recup) - 1] = 0;
+	free_char_tab(split);
 	return (recup);
 }
 
@@ -365,10 +368,15 @@ int	parsing(char *str, char **env, t_list *list)
 	if (!parse_cmd(v))
 		return (0);
 	if (v->l.arg)
+	{
 		v->l.arg = ft_check_in_env(v);
+	}
 	else
+	{
 		v->l.exec = ft_check_in_env(v);
+	}
 	if (v->nb_cmd == 1)
 		ft_exec_one(v);
+	ft_free(v);
 	return (1);
 }

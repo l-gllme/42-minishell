@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:35:00 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/13 15:41:27 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/21 14:28:30 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,11 @@ static void	cut_ft_free(t_g *v)
 	{
 		free_char_tab(v->l.out_tab);
 		v->l.out_tab = NULL;
+	}
+	if (v->new_env != NULL)
+	{
+		free_char_tab(v->new_env);
+		v->new_env = NULL;
 	}
 }
 
