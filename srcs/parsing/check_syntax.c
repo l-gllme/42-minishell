@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 12:16:42 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/19 16:28:09 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/21 14:08:08 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	ft_check_invalid_signs(char *str, char c)
 			{
 				count++;
 				if (count == 3)
-					ft_custom_error("Invalid syntax near << or >>\n", 0, NULL);
+					return (ft_custom_error("Invalid syntax near << or >>\n", 0, NULL));
 			}
 		}
 		count = 0;

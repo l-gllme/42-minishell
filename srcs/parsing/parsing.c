@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/20 17:56:32 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/21 14:08:49 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	check_not_followed_sign(t_g *v)
 			}
 			else if (v->l.in_tab[i][0] == '<' && v->l.in_tab[i + 1][0] == '<')
 			{
-				return (ft_custom_error("minishell: syntax error near unexpected token `<<'\n", 0, v));
+				return (ft_custom_error("minishell: syntax error near unexpected token `< or <<'\n", 0, v));
 			}
 		}
 	}
@@ -43,7 +43,7 @@ int	check_not_followed_sign(t_g *v)
 					return (ft_custom_error("minishell: syntax error near unexpected token `newline'\n", 0, v));
 			}
 			else if (v->l.out_tab[i][0] == '>' && v->l.out_tab[i + 1][0] == '>')
-					return (ft_custom_error("minishell: syntax error near unexpected token `>>'\n", 0, v));
+					return (ft_custom_error("minishell: syntax error near unexpected token `> or >>'\n", 0, v));
 		}
 	}
 	return (1);
