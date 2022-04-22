@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 16:04:06 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/21 16:56:21 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/22 13:44:12 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	perm_cd(char *arg)
 	return (0);
 }
  
-int	ft_cd(char *arg)
+int	ft_cd(char *arg, t_g *v)
 {
 	char	*str;
 	int		i;
@@ -36,11 +36,11 @@ int	ft_cd(char *arg)
 
 	if (arg == NULL)
 	{
-		str = getenv("HOME");
+		str = ft_recup_content("HOME", v);
 		if (str == NULL)
 			return (ft_custom_error("minishell: cd: HOME not set\n", 0, NULL));
-		if (chdir(str) == -1)
-			return (ft_custom_error("minishell: chdir error in ft_cd()\n", 0, NULL));
+		if (chdir(str + 1) == -1)
+			return (error_cd(str + 1));
 		return (1);
 	}
 	tab = ft_supersplit(arg, ' ');
@@ -57,38 +57,48 @@ int	ft_cd(char *arg)
 	i = 0;
 	if (arg[0] == '~')
 	{
-		str = getenv("HOME");
+		str = ft_recup_content("HOME", v);
+		if (str == NULL)
+			return (ft_custom_error("minishell: cd: HOME not set\n", 0, NULL));
 		if (ft_strlen(arg) == 2)
 		{
 			if (arg[1] == '/')
 			{
-				if (chdir(str) == -1)
+				if (chdir(str + 1) == -1)
 				{
-					if (access(str, F_OK))
+					if (access(str + 1, F_OK))
 						return (error_cd(arg));
 					else
 						return (perm_cd(arg));
 				}
+				else
+					return (1);
 			}
 			else
 			{
-				str = ft_strjoin(str, arg);
+				str = ft_strjoin(str + 1, arg);
 				i = 1;
 			}
 		}
 		else
 		{
-			str = ft_strjoin(str, arg + 1);
+			str = ft_strjoin(str + 1, arg + 1);
 			i = 1;
 		}
 		if (chdir(str) == -1)
 		{
-			if (i)
-				free(str);
 			if (access(str, F_OK))
+			{
+				if (i)
+					free(str);
 				return (error_cd(arg));
+			}
 			else
+			{
+				if (i)
+					free(str);
 				return (perm_cd(arg));
+			}
 		}
 		if (i)
 			free(str);

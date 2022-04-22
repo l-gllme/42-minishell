@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 19:35:14 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/04/20 13:30:50 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/22 13:14:59 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -272,7 +272,6 @@ void	ft_export_plus_equal_2(t_g *v, char *recup, char *arg)
 	}
 	else
 	{
-		printf("coucou\n");
 		recup = ft_strdup(test);
 		line = ft_strjoin_gnl(line, ft_recup_content(recup, v));
 		recup = ft_strdup(test);

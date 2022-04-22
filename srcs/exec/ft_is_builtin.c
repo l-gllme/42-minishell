@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 15:39:37 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/20 17:45:47 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/22 13:15:56 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	ft_is_builtin(char *str, t_g *v, int choice)
 	{
 		if (choice)
 		{
-			if (!ft_cd(v->l.arg))
+			if (!ft_cd(v->l.arg, v))
 				g_retour = 1;
 		}
 		else
