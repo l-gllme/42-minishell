@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/25 12:42:20 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/25 15:48:33 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ void	init_struct(char **tab, t_g *v, char **env, t_list *list)
 	v->file_in = NULL;
 	v->urandom = NULL;
 	v->retour = 0;
+	v->new_env = NULL;
 }
 
 int	ft_isdigit(int c)

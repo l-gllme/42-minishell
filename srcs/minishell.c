@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:40:12 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/25 11:35:58 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/25 15:44:12 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@ void	handler(int signum)
 	if (signum == 2)
 	{
 		g_retour = 130;
-		write(0, "\n\033[34m➜\033[0m ", 15);
+		rl_on_new_line();
+		printf("\n");
+		rl_replace_line("", 1);
+		rl_redisplay();
 	}
 	else
 		return ;
@@ -55,9 +58,7 @@ int	main(int ac, char **av, char **env)
 		if (str[0])
 			add_history(str);
 		if (str[0])
-		{
 			parsing(str, env, list);
-		}
 		free(str);
 	}
 	ft_lstclear(&list, &free);

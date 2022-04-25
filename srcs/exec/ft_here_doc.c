@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 15:17:54 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/19 17:47:31 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/25 15:19:58 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ static int	ft_here_doc_no_cmd(char *limiter)
 	str = get_next_line(0);
 	while (str && hd_cmp(str, limiter) != 0)
 	{
+		if (g_retour == 130)
+			break ;
 		free(str);
 		ft_putstr_fd("> ", 1);
 		str = get_next_line(0);
