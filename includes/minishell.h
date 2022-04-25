@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/25 15:19:39 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/25 18:15:14 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@ extern int	g_retour;
 int		parsing(char *line, char **env, t_list *list);
 int		ft_check_outpout(char **cmd);
 void	init_struct(char **tab, t_g *v, char **env, t_list *list);
-int		in_env_sans_dollard(char *str, t_g *v);
-char	*ft_recup_content(char *str, t_g *v);
 
 /* get_cmd */
 int		get_cmd(char *str, char **tab);
@@ -156,5 +154,20 @@ void	ft_lstdelone(t_list *lst, void (*del)(void *));
 t_list	*ft_lstnew(char	*name, char *content, char *line);
 t_list	*init_lst(char **env, t_list *list);
 int		ft_lstsize(t_list *lst);
+
+/* super_lst.c */
+void	ft_super_lstclear(t_l	**lst, void (*del)(void *));
+void	ft_super_lstdelone(t_l	*lst, void (*del)(void *));
+t_l	*ft_super_lstnew(char **out_tab, char **in_tab, char *arg, char *exec);
+
+/* ******************************* */
+/*                                 */
+/*             Builtins            */
+/*                                 */
+/* ******************************* */
+
+/* export.c */
+int		in_env_sans_dollard(char *str, t_g *v);
+char	*ft_recup_content(char *str, t_g *v);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/30 16:20:44 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/04/12 15:10:14 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/25 17:35:00 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,11 @@ char	*get_next_line(int fd)
 	char		*line;
 	static char	*buff;
 
+	if (fd == 42)
+	{
+		free(buff);
+		return (NULL);
+	}
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	buff = ft_read(buff, fd);

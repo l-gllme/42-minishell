@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/25 15:48:33 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/25 18:09:54 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,12 @@ int	parse_cmd(t_g *v)
 	else if (i > 1)
 	{
 		v->nb_cmd = i;
+		i = -1;
+
+		if (!ft_add_spaces(v, '<', 0) || !ft_add_spaces(v, '>', 0))
+			return (ft_custom_error(NULL, 0, v));
+		while (v->tab[++i])
+			printf("%s\n",v->tab[i]);
 		return (ft_custom_error("Multiple commands\n", 0, v));
 	}
 	return (1);
@@ -430,7 +436,6 @@ t_list	*init_lst(char **env, t_list *list)
 	}
 	if (i == 0)
 	{
-		printf ("coucou\n");
  		line = getcwd(NULL, 0);
 		ft_lstadd_back(&list, ft_lstnew(ft_strdup("SHLVL"), ft_strdup("1"), ft_strdup("SHLVL=1")));
 		ft_lstadd_back(&list, ft_lstnew(ft_strdup("PWD"), ft_strjoin("=", line), ft_strjoin("PWD=", line)));

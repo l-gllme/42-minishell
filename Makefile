@@ -6,7 +6,7 @@
 #    By: lguillau <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/14 14:27:36 by lguillau          #+#    #+#              #
-#    Updated: 2022/04/19 12:15:45 by jtaravel         ###   ########.fr        #
+#    Updated: 2022/04/25 18:13:38 by jtaravel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,6 +41,7 @@ FILES	=	minishell.c \
 		exec/check_outfile.c \
 		exec/ft_is_builtin.c \
 		lst/ft_lst.c \
+		lst/ft_superlst.c \
 		lst/ft_lst_2.c \
 		gnl/get_next_line.c \
 		gnl/get_next_line_utils.c \

@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 13:01:01 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/25 12:16:50 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/25 18:26:43 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,14 @@ static int	cut_exec_one_fork(t_g *v)
 		if (v->l.out_tab != NULL)
 			redirect_out(v);
 		if (v->l.exec != NULL)
-			exit(ft_exec_cmd(v));
+		{
+			value = ft_exec_cmd(v);
+			ft_lstclear(&v->list, &free);
+			ft_free(v);
+			exit(value);
+		}
+		ft_lstclear(&v->list, &free);
+		ft_free(v);
 		exit(0);
 	}
 	else
