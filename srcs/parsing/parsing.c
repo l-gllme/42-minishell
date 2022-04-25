@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/21 15:21:44 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/25 12:42:20 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ char	*ft_recup_retour(char *str)
 	return (recup);
 }
 
-char	*ft_check_in_env(t_g *v)
+char	*ft_check_in_env_2(t_g *v)
 {
 	char	*recup;
 	char	**split;
@@ -174,23 +174,18 @@ char	*ft_check_in_env(t_g *v)
 	d = 0;
 	c = 0;
 	recup = NULL;
-	if (v->l.arg)
-	{
-		l = 1;
-		split = ft_supersplit(v->l.arg, ' ');
-		free(v->l.arg);
-
-	}
-	else if (v->l.exec)
+	if (v->l.exec)
 	{
 		l = 1;
 		split = ft_supersplit(v->l.exec, ' ');
 		free(v->l.exec);
+
 	}
 	else
 		return (NULL);	
 	while (split[i] && l == 1 && split[i][0] == '$')
 	{
+		c = 1;
 		split[i] = ft_recup_retour(split[i]);
 		ft_suppr_dq_sq(split[i]);
 		if (split[i][0] == '$' && split[i][1] == '$' && split[i][3] == 0)
@@ -204,7 +199,6 @@ char	*ft_check_in_env(t_g *v)
 		}
 		tmp = v->list;
 		tmp = tmp->next;
-		c = 1;
 		while (tmp && split[i][0] == '$')
 		{
 			name = ft_strjoin("$", tmp->name);
@@ -233,7 +227,86 @@ char	*ft_check_in_env(t_g *v)
 			recup = ft_strjoin(recup, "$");
 			d--;
 		}
-		if (c == 1)
+		if (split[i + 1])
+			recup = ft_strjoin_gnl(recup, " "); 
+		i++;
+	}
+	if (recup[ft_strlen(recup) - 1] == ' ')
+		recup[ft_strlen(recup) - 1] = 0;
+	free_char_tab(split);
+	return (recup);
+}
+
+char	*ft_check_in_env(t_g *v)
+{
+	char	*recup;
+	char	**split;
+	int		i;
+	int		d;
+	int		c;
+	char	*name;
+	t_list	*tmp;
+	char	*test;
+
+	int	l = 0;
+	i = 0;
+	d = 0;
+	c = 0;
+	recup = NULL;
+	if (v->l.arg)
+	{
+		l = 1;
+		split = ft_supersplit(v->l.arg, ' ');
+		free(v->l.arg);
+
+	}
+	else
+		return (NULL);	
+	while (split[i] && l == 1 && split[i][0] == '$')
+	{
+		c = 1;
+		split[i] = ft_recup_retour(split[i]);
+		ft_suppr_dq_sq(split[i]);
+		if (split[i][0] == '$' && split[i][1] == '$' && split[i][3] == 0)
+			break;
+		if (split[i][0] == '$' && split[i][1] == 0)
+			break;
+		while (split[i][ft_strlen(split[i]) - 1] == '$' && ft_strlen(split[i]) != 1)
+		{
+			split[i][ft_strlen(split[i]) -1] = '\0';
+			d++;
+		}
+		tmp = v->list;
+		tmp = tmp->next;
+		while (tmp && split[i][0] == '$')
+		{
+			name = ft_strjoin("$", tmp->name);
+			test = ft_strdup(split[i]);
+			if (!ft_strncmp(split[i], name, ft_strlen(split[i])) && in_env(split[i], v))
+			{
+				if (tmp->content)
+					split[i] = ft_strdup(tmp->content + 1);
+				else
+					split[i] = ft_strdup("");
+				break;
+			}
+			else if (!in_env(test, v))
+					split[i] = ft_strdup("");
+			tmp = tmp->next;
+			free(name);
+		}
+		i++;
+	}
+	i = 0;
+	while (split[i])
+	{
+		recup = ft_strjoin_gnl(recup, split[i]); 
+		if (d)
+		{
+			recup = ft_strjoin(recup, "$");
+			d--;
+		}
+		if (split[i + 1])
 			recup = ft_strjoin_gnl(recup, " "); 
 		i++;
 	}
@@ -313,6 +386,27 @@ t_list	*ft_change_shlvl(t_list *list, char **env)
 	return (list);
 }
 
+t_list	*ft_replace_pwd(t_list *list)
+{
+	int	c;
+	char	*line;
+
+	c = 0;
+	while (list->next)
+	{
+		if (ft_strcmp(list->name, "PWD") == 0)
+			return (list);
+		list = list->next;
+	}
+	if (ft_strcmp(list->name, "PWD") == 0)
+		return (list);
+ 	line = getcwd(NULL, 0);
+	if (c == 0)
+		ft_lstadd_back(&list, ft_lstnew(ft_strdup("PWD"), ft_strjoin("=", line), ft_strjoin("PWD=", line)));
+	free(line);
+	return (list);
+}	
+
 t_list	*init_lst(char **env, t_list *list)
 {
 	int		i;
@@ -323,7 +417,7 @@ t_list	*init_lst(char **env, t_list *list)
 	name = NULL;
 	content = NULL;
 	i = -1;
-	list = ft_lstnew(NULL, NULL, NULL);
+	list = ft_lstnew(ft_strdup("toto"), ft_strdup("toto"), ft_strdup("toto"));
 	while(env[++i])
 	{
 		name = malloc(sizeof(char) * (ft_lststrlen(env[i]) + 1));
@@ -333,13 +427,18 @@ t_list	*init_lst(char **env, t_list *list)
 		line = ft_strdup(env[i]);
 		ft_lstadd_back(&list, ft_lstnew(name, content, line));
 	}
-	ft_change_shlvl(list, env);
-	if (!env[0])
+	if (i == 0)
 	{
 		printf ("coucou\n");
  		line = getcwd(NULL, 0);
+		ft_lstadd_back(&list, ft_lstnew(ft_strdup("SHLVL"), ft_strdup("1"), ft_strdup("SHLVL=1")));
 		ft_lstadd_back(&list, ft_lstnew(ft_strdup("PWD"), ft_strjoin("=", line), ft_strjoin("PWD=", line)));
 		free(line);
+	}
+	else
+	{
+		ft_change_shlvl(list, env);
+		ft_replace_pwd(list);
 	}
 	return (list);
 }
@@ -368,13 +467,9 @@ int	parsing(char *str, char **env, t_list *list)
 	if (!parse_cmd(v))
 		return (0);
 	if (v->l.arg)
-	{
 		v->l.arg = ft_check_in_env(v);
-	}
-	else
-	{
-		v->l.exec = ft_check_in_env(v);
-	}
+	if (v->l.exec)
+		v->l.exec = ft_check_in_env_2(v);
 	if (v->nb_cmd == 1)
 		ft_exec_one(v);
 	ft_free(v);

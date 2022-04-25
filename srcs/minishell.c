@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:40:12 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/21 14:19:02 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/25 11:35:58 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ int	main(int ac, char **av, char **env)
 	t_list	*list;
 
 
-	list = init_lst(env, NULL);
+	list = NULL;
+	list = init_lst(env, list);
 	(void)av;
 	if (ac != 1)
 		ft_error(2);

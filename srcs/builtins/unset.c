@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 16:51:45 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/20 14:51:37 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/25 13:29:45 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ void	ft_unset(char *arg, t_g *v)
 
 	tmp = v->list;
 	
-	if (arg[ft_strlen(arg) - 1] == ' ')
-		arg[ft_strlen(arg) - 1] = 0;
 	if (!arg)
 		return ;
+	if (arg[ft_strlen(arg) - 1] == ' ')
+		arg[ft_strlen(arg) - 1] = 0;
 	while (tmp->next)
 	{
 		if (!ft_strncmp(arg, tmp->next->name, ft_strlen(arg)))
