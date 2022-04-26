@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/25 18:15:14 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/26 15:12:15 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,10 @@ void	check_sq_dq(t_s *s_s, char c);
 char	*ft_suppr_dq_sq(char *str);
 
 /* stock_line */
-int		stock_in(t_g *v);
-int		stock_out(t_g *v);
-int		stock_exec(t_g *v);
-int		stock_arg(t_g *v);
+char	**stock_in(t_g *v, char **in_tab);
+char	**stock_out(t_g *v, char **out_tab);
+char	*stock_exec(t_g *v, char *exec);
+char	*stock_arg(t_g *v, char *arg);
 
 /* ******************************* */
 /*                                 */
@@ -124,6 +124,7 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 /* str_tools_2.c */
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
 char	*ft_strdup(const char *s);
+char	**ft_tabdup(char **tab);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 int		ft_tablen(char **tab);
 char	*ft_strfind(char *big, char *little, size_t len);
@@ -138,6 +139,7 @@ char	**ft_split_double(char *str, char *charset);
 /* errors.c */
 void	ft_error(int error);
 int		ft_custom_error(char *str, int ret, t_g *v);
+char	*ft_char_error(char *str, char *ret, t_g *v);
 void	ft_free(t_g *v);
 
 /* ******************************* */
@@ -159,6 +161,10 @@ int		ft_lstsize(t_list *lst);
 void	ft_super_lstclear(t_l	**lst, void (*del)(void *));
 void	ft_super_lstdelone(t_l	*lst, void (*del)(void *));
 t_l	*ft_super_lstnew(char **out_tab, char **in_tab, char *arg, char *exec);
+void	ft_super_lstadd_back(t_l **alst, t_l *new);
+t_l	*ft_super_lstlast(t_l *lst);
+int	ft_super_lstsize(t_l *lst);
+
 
 /* ******************************* */
 /*                                 */

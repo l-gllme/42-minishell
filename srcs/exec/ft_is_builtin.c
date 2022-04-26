@@ -17,7 +17,7 @@ int	ft_is_builtin(char *str, t_g *v, int choice)
 	if (ft_strncmp(str, "echo", 4) == 0)
 	{
 		if (choice)
-			ft_echo(v->l.arg);
+			ft_echo(v->l->arg);
 		else
 			v->nb_built++;
 		g_retour = 0;
@@ -35,7 +35,7 @@ int	ft_is_builtin(char *str, t_g *v, int choice)
 	{
 		if (choice)
 		{
-			if (!ft_cd(v->l.arg, v))
+			if (!ft_cd(v->l->arg, v))
 				g_retour = 1;
 		}
 		else
@@ -53,7 +53,7 @@ int	ft_is_builtin(char *str, t_g *v, int choice)
 	if (ft_strncmp(str, "unset", 5) == 0)
 	{
 		if (choice)
-			ft_unset(v->l.arg, v);
+			ft_unset(v->l->arg, v);
 		else
 			v->nb_built++;
 		return (1);
@@ -61,7 +61,7 @@ int	ft_is_builtin(char *str, t_g *v, int choice)
 	if (ft_strncmp(str, "export", 6) == 0)
 	{
 		if (choice)
-			ft_export(v->l.arg, v);
+			ft_export(v->l->arg, v);
 		else
 			v->nb_built++;
 		return (1);
@@ -69,7 +69,7 @@ int	ft_is_builtin(char *str, t_g *v, int choice)
 	if (ft_strncmp(str, "exit", 4) == 0)
 	{
 		if (choice)
-			ft_exit(v->l.arg);
+			ft_exit(v->l->arg);
 		else
 			v->nb_built++;
 		return (1);

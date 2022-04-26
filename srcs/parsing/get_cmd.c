@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 14:07:03 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/29 14:30:44 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/26 14:14:49 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,7 @@ static void	cut_gc(char str, t_c *c)
 
 static int	cut_gc_2(t_c *c, char *str, char **tab)
 {
-	if (((str[c->i] == '&' && str[c->i + 1] == '&') || (str[c->i]
-				== '|' && str[c->i - 1] != '|') || (str[c->i] == '|'
-				&& str[c->i + 1] == '|')) && !c->dq_opened && !c->sq_opened)
+	if ((str[c->i] == '|' && str[c->i + 1] != '|' && str[c->i - 1] != '|') && !c->dq_opened && !c->sq_opened)
 	{
 		tab[c->k] = malloc(sizeof(char *) * (c->i + 1 - c->j));
 		if (!tab[c->k])
@@ -61,7 +59,7 @@ static int	cut_gc_2(t_c *c, char *str, char **tab)
 		}
 		tab[c->k][c->j] = 0;
 		c->k++;
-		c->j = c->i;
+		c->j = c->i + 1;
 	}
 	return (1);
 }

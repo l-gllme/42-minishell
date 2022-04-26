@@ -61,10 +61,10 @@ int	exec_out_dup(t_g *v, char **tab)
 
 int	redirect_out(t_g *v)
 {
-	if (v->l.exec != NULL)
-		exec_out_dup(v, v->l.out_tab);
+	if (v->l->exec != NULL)
+		exec_out_dup(v, v->l->out_tab);
 	else
-		exec_out(v, v->l.out_tab);
+		exec_out(v, v->l->out_tab);
 	return (1);
 }
 

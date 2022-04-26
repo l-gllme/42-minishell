@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 17:54:29 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/04/25 18:14:49 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/26 13:57:50 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,49 @@ t_l	*ft_super_lstnew(char **out_tab, char **in_tab, char *arg, char *exec)
 	tmp->in_tab = in_tab;
 	tmp->arg = arg;
 	tmp->exec = exec;
+	tmp->next = NULL;
 	return (tmp);
+}
+
+void	ft_super_lstadd_back(t_l **alst, t_l *new)
+{
+	t_l	*tmp;
+
+	tmp = *alst;
+	if ((*alst))
+	{
+		tmp = ft_super_lstlast(*alst);
+		tmp->next = new;
+	}
+	else
+	{
+		*alst = new;
+	}
+}
+
+t_l	*ft_super_lstlast(t_l *lst)
+{
+	t_l	*tmp;
+
+	while (lst)
+	{
+		tmp = lst;
+		lst = lst->next;
+	}
+	return (tmp);
+}
+
+int	ft_super_lstsize(t_l *lst)
+{
+	int	i;
+
+	if (!lst)
+		return (0);
+	i = 0;
+	while (lst)
+	{
+		lst = lst->next;
+		i++;
+	}
+	return (i);
 }

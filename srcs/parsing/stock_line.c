@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 14:55:37 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/25 11:04:37 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/26 15:17:54 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	count_signs(char **tab, char c)
 	return (count);
 }
 
-int	stock_in(t_g *v)
+char	**stock_in(t_g *v, char **in_tab)
 {
 	int	i;
 	int	j;
@@ -41,27 +41,30 @@ int	stock_in(t_g *v)
 	j = 0;
 	count = count_signs(v->cmd, '<');
 	if (count == 0)
-		return (1);
-	v->l.in_tab = malloc(sizeof(char *) * (count * 2 + 1));
-	if (!v->l.in_tab)
+		return (in_tab);
+	in_tab = malloc(sizeof(char *) * (count * 2 + 1));
+	if (!in_tab)
+	{
+		g_retour = -999;
 		return (0);
+	}
 	while (v->cmd[++i])
 	{
 		if (v->cmd[i][0] == '<')
 		{
-			v->l.in_tab[j] = ft_strdup(v->cmd[i]);
+			in_tab[j] = ft_strdup(v->cmd[i]);
 			if (v->cmd[i + 1])
 				i++;
 			j++;
-			v->l.in_tab[j] = ft_strdup(v->cmd[i]);
+			in_tab[j] = ft_strdup(v->cmd[i]);
 			j++;
 		}
 	}
-	v->l.in_tab[j] = 0;
-	return (1);
+	in_tab[j] = 0;
+	return (in_tab);
 }
 
-int	stock_out(t_g *v)
+char	**stock_out(t_g *v, char **out_tab)
 {
 	int	i;
 	int	j;
@@ -71,36 +74,39 @@ int	stock_out(t_g *v)
 	j = 0;
 	count = count_signs(v->cmd, '>');
 	if (count == 0)
-		return (1);
-	v->l.out_tab = malloc(sizeof(char *) * (count * 2 + 1));
-	if (!v->l.out_tab)
+		return (out_tab);
+	out_tab = malloc(sizeof(char *) * (count * 2 + 1));
+	if (!out_tab)
+	{
+		g_retour = -999;
 		return (0);
+	}
 	while (v->cmd[++i])
 	{
 		if (v->cmd[i][0] == '>')
 		{
-			v->l.out_tab[j] = ft_strdup(v->cmd[i]);
+			out_tab[j] = ft_strdup(v->cmd[i]);
 			if (v->cmd[i + 1])
 				i++;
 			j++;
-			v->l.out_tab[j] = ft_strdup(v->cmd[i]);
+			out_tab[j] = ft_strdup(v->cmd[i]);
 			j++;
 		}
 	}
-	v->l.out_tab[j] = 0;
-	return (1);
+	out_tab[j] = 0;
+	return (out_tab);
 }
 
-int	stock_exec(t_g *v)
+char	*stock_exec(t_g *v, char *exec)
 {
 	int	i;
 
 	i = -1;
 	while (v->cmd[++i])
 	{
-		if (v->cmd[i][0] != '>' && v->cmd[i][0] != '<' && !v->l.exec)
+		if (v->cmd[i][0] != '>' && v->cmd[i][0] != '<' && !exec)
 		{
-			v->l.exec = ft_strdup(v->cmd[i]);
+			exec = ft_strdup(v->cmd[i]);
 		}
 		else if (v->cmd[i][0] == '>' || v->cmd[i][0] == '<')
 		{
@@ -108,10 +114,10 @@ int	stock_exec(t_g *v)
 				i++;
 		}
 	}
-	return (1);
+	return (exec);
 }
 
-int	stock_arg(t_g *v)
+char	*stock_arg(t_g *v, char *arg)
 {
 	int	i;
 	int	j;
@@ -124,19 +130,23 @@ int	stock_arg(t_g *v)
 		{
 			if (j == 1)
 			{
-				v->l.arg = ft_strjoin_gnl(v->l.arg, v->cmd[i]);
-				if (!v->l.arg)
-					return (ft_custom_error("malloc error in stock_arg()\n", 0, v));
-				v->l.arg = ft_strjoin_gnl(v->l.arg, " ");
-				if (!v->l.arg)
-					return (ft_custom_error("malloc error in stock_arg()\n", 0, v));
+				arg = ft_strjoin_gnl(arg, v->cmd[i]);
+				if (!arg)
+				{
+					g_retour = -999;
+					return (ft_char_error("malloc error in stock_arg()\n", 0, v));
+				}
+				arg = ft_strjoin_gnl(arg, " ");
+				if (!arg)
+				{
+					g_retour = -999;
+					return (ft_char_error("malloc error in stock_arg()\n", 0, v));
+				}
 			}
 			j = 1;
 		}
 		else if (v->cmd[i + 1])
 			i++;
 	}
-	//i = ft_strlen(v->l.arg);
-	//v->l.arg[i] = 0;
-	return (1);
+	return (arg);
 }

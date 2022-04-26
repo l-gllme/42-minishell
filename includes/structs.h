@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 14:04:03 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/25 17:50:36 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/26 13:49:22 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef struct s_line
 	char	**out_tab;
 	char	*exec;
 	char	*arg;
-	void	*next;
+	struct s_line	*next;
 }	t_l;
 
 typedef struct s_global
@@ -49,7 +49,7 @@ typedef struct s_global
 	int		tmp_file;
 	t_list	*list;
 	t_list	*exprt;
-	t_l		l;
+	t_l	*l;
 }	t_g;
 
 typedef struct s_syntax

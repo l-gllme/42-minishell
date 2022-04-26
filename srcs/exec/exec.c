@@ -41,23 +41,23 @@ static int	cut_exec_one(t_g *v, int choice)
 {
 	if (choice == 1)
 	{
-		if (v->l.in_tab != NULL)
-			exec_in(v, v->l.in_tab);
-		if (v->l.out_tab != NULL)
-			exec_out(v, v->l.out_tab);
-		ft_is_builtin(v->l.exec, v, 1);
+		if (v->l->in_tab != NULL)
+			exec_in(v, v->l->in_tab);
+		if (v->l->out_tab != NULL)
+			exec_out(v, v->l->out_tab);
+		ft_is_builtin(v->l->exec, v, 1);
 	}
 	else if (choice == 2)
 	{
-		if (v->l.in_tab != NULL)
+		if (v->l->in_tab != NULL)
 			redirect_in(v);
-		if (v->l.out_tab != NULL)
+		if (v->l->out_tab != NULL)
 			redirect_out(v);
-		if (v->l.exec != NULL)
+		if (v->l->exec != NULL)
 			ft_exec_cmd(v);
-		if (v->l.in_tab != NULL && v->l.exec != NULL)
+		if (v->l->in_tab != NULL && v->l->exec != NULL)
 			dup2(1, STDIN_FILENO);
-		if (v->l.out_tab != NULL && v->l.exec != NULL)
+		if (v->l->out_tab != NULL && v->l->exec != NULL)
 			dup2(0, STDOUT_FILENO);
 	}
 	return (1);
@@ -72,11 +72,11 @@ static int	cut_exec_one_fork(t_g *v)
 	frk = fork();
 	if (frk == 0)
 	{
-		if (v->l.in_tab != NULL)
+		if (v->l->in_tab != NULL)
 			redirect_in(v);
-		if (v->l.out_tab != NULL)
+		if (v->l->out_tab != NULL)
 			redirect_out(v);
-		if (v->l.exec != NULL)
+		if (v->l->exec != NULL)
 		{
 			value = ft_exec_cmd(v);
 			ft_lstclear(&v->list, &free);
@@ -96,11 +96,11 @@ static int	cut_exec_one_fork(t_g *v)
 void	ft_exec_one(t_g *v)
 {
 	v->new_env = ft_regroup_env(v);
-	if (v->l.exec != NULL && ft_is_builtin(ft_suppr_dq_sq(v->l.exec),
+	if (v->l->exec != NULL && ft_is_builtin(ft_suppr_dq_sq(v->l->exec),
 			v, 0) == 2)
 		cut_exec_one(v, 1);
-	else if (v->l.exec != NULL && ft_is_builtin(v->l.exec, v, 0)
-		&& v->l.out_tab == NULL)
+	else if (v->l->exec != NULL && ft_is_builtin(v->l->exec, v, 0)
+		&& v->l->out_tab == NULL)
 		cut_exec_one(v, 2);
 	else
 		cut_exec_one_fork(v);

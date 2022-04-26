@@ -93,10 +93,10 @@ static int	exec_in_dup(t_g *v, char **tab, int i)
 
 int	redirect_in(t_g *v)
 {
-	if (v->l.exec != NULL)
-		exec_in_dup(v, v->l.in_tab, -1);
+	if (v->l->exec != NULL)
+		exec_in_dup(v, v->l->in_tab, -1);
 	else
-		if (!exec_in(v, v->l.in_tab))
+		if (!exec_in(v, v->l->in_tab))
 			return (0);
 	return (1);
 }

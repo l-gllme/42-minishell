@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:35:00 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/25 15:41:25 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/26 15:09:56 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,15 @@ static void	cut_ft_free(t_g *v)
 		free_char_tab(v->tab);
 		v->tab = NULL;
 	}
-	if (v->l.in_tab != NULL)
+	if (v->l->in_tab != NULL)
 	{
-		free_char_tab(v->l.in_tab);
-		v->l.in_tab = NULL;
+		free_char_tab(v->l->in_tab);
+		v->l->in_tab = NULL;
 	}
-	if (v->l.out_tab != NULL)
+	if (v->l->out_tab != NULL)
 	{
-		free_char_tab(v->l.out_tab);
-		v->l.out_tab = NULL;
+		free_char_tab(v->l->out_tab);
+		v->l->out_tab = NULL;
 	}
 	if (v->new_env != NULL)
 	{
@@ -59,21 +59,29 @@ void	ft_free(t_g *v)
 	if (v)
 	{
 		cut_ft_free(v);
-		if (v->l.exec != NULL)
+		if (v->l->exec != NULL)
 		{
-			free(v->l.exec);
-			v->l.exec = NULL;
+			free(v->l->exec);
+			v->l->exec = NULL;
 		}
-		if (v->l.arg != NULL)
+		if (v->l->arg != NULL)
 		{
-			free(v->l.arg);
-			v->l.arg = NULL;
+			free(v->l->arg);
+			v->l->arg = NULL;
 		}
 		free(v);
 	}
 }
 
 int	ft_custom_error(char *str, int ret, t_g *v)
+{
+	ft_free(v);
+	if (str)
+		ft_putstr_fd(str, 2);
+	return (ret);
+}
+
+char	*ft_char_error(char *str, char *ret, t_g *v)
 {
 	ft_free(v);
 	if (str)

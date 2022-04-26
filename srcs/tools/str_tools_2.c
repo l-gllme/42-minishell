@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 17:00:21 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/20 16:01:58 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/26 14:47:58 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,26 +53,30 @@ char	*ft_strdup(const char *s)
 		cpy[i] = s[i];
 		i++;
 	}
-	cpy[i] = '\0';
+	cpy[i] = 0;
 	return (cpy);
 }
 
-/*char	*ft_strdup(const char *s)
+char	**ft_tabdup(char **tab)
 {
-	char	*dup;
-	size_t	len;
+	char	**dup;
+	int	len;
+	int	i;
 
-	if (!s)
+	i = -1;
+	if (!tab)
 		return (NULL);
-	len = ft_strlen(s);
+	len = ft_tablen(tab);
 	if (len == 0)
-		return ((char*)s);
-	dup = malloc(sizeof(char) * (len + 1));
+		return (NULL);
+	dup = malloc(sizeof(char *) * (len + 1));
 	if (!dup)
 		return (NULL);
-	ft_strlcpy(dup, s, len + 1);
+	while (++i < len)
+		dup[i] = ft_strdup(tab[i]);
+	dup[i] = 0;
 	return (dup);
-}*/
+}
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {

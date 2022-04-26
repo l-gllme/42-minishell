@@ -89,7 +89,7 @@ int	ft_here_doc(char *limiter, t_g *v)
 	int		fd;
 
 	ft_suppr_dq_sq(limiter);
-	if (v->l.exec == NULL)
+	if (v->l->exec == NULL)
 	{
 		if (!ft_here_doc_no_cmd(limiter))
 			return (0);
