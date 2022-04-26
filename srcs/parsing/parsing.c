@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/26 15:26:45 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/26 17:30:39 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ int	parse_cmd(t_g *v)
 			return (ft_custom_error("malloc error in stock_out()\n", 0, v));
 		if (!check_not_followed_sign(v))
 			return (ft_custom_error(NULL, 0, NULL));
-		if (!(v->l->exec = stock_exec(v, v->l->exec)))
+		v->l->exec = stock_exec(v, v->l->exec);
+		if (g_retour == -999)
 			return (ft_custom_error("error in stock_exec()\n", 0, v));
 		v->l->arg = stock_arg(v, v->l->arg); 
 		if (g_retour == -999)
@@ -80,15 +81,19 @@ int	parse_cmd(t_g *v)
 	}
 	else if (i > 1)
 	{
-		char **in_tab = NULL;
-		char **out_tab = NULL;
-		char *exec = NULL;
-		char *arg = NULL;
+		char **in_tab;
+		char **out_tab;
+		char *exec;
+		char *arg;
 		v->nb_cmd = i;
 		i = -1;
 		v->l = ft_super_lstnew(NULL, NULL, NULL, NULL);
 		while (v->tab[++i])
 		{
+			exec = NULL;
+			arg = NULL;
+			in_tab = NULL;
+			out_tab = NULL;
 			if (!ft_add_spaces(v, '<', i) || !ft_add_spaces(v, '>', i))
 				return (ft_custom_error(NULL, 0, v));
 			v->cmd = ft_supersplit(v->tab[i], ' ');
@@ -103,7 +108,7 @@ int	parse_cmd(t_g *v)
 			if (!check_not_followed_sign(v))
 				return (ft_custom_error(NULL, 0, NULL));
 			exec = stock_exec(v, exec);
-			if (!exec)
+			if (g_retour == -999)
 				return (ft_custom_error("error in stock_exec()\n", 0, v));
 			arg = stock_arg(v, arg);
 			if (g_retour == -999)
@@ -519,13 +524,8 @@ int	parsing(char *str, char **env, t_list *list)
 	if (v->nb_cmd == 1)
 		ft_exec_one(v);
 	if (v->nb_cmd != 1)
-	{
-		while (v->l)
-		{
-			printf("%s\n", v->l->exec);
-			v->l = v->l->next;
-		}
-	}
-	//ft_free(v);
+		ft_exec_pipes(v);
+	if (v->nb_cmd == 1)
+		ft_free(v);
 	return (1);
 }

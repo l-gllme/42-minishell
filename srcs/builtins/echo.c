@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 16:44:28 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/04/25 10:59:40 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/26 16:58:25 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ void	ft_echo(char *str)
 	int	j;
 	char	**tab;
 
-	printf("arg = %s\n", str);
 	if (!str)
 	{
 		ft_putstr_fd("\n", 1);

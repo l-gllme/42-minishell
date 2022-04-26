@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/26 15:12:15 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/26 16:45:11 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ char	*stock_arg(t_g *v, char *arg);
 
 /* exec.c */
 void	ft_exec_one(t_g *v);
+int	ft_exec_pipes(t_g *v);
+
 
 /* ft_here_doc */
 int		ft_here_doc(char *limiter, t_g *v);

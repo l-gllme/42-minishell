@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 14:55:37 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/26 15:17:54 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/26 16:29:19 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,13 +100,22 @@ char	**stock_out(t_g *v, char **out_tab)
 char	*stock_exec(t_g *v, char *exec)
 {
 	int	i;
+	int	l;
 
 	i = -1;
+	l = -1;
 	while (v->cmd[++i])
 	{
 		if (v->cmd[i][0] != '>' && v->cmd[i][0] != '<' && !exec)
 		{
-			exec = ft_strdup(v->cmd[i]);
+			while (v->cmd[i][++l] == ' ')
+				;
+			exec = ft_strdup(v->cmd[i] + l);
+			if (!exec)
+			{
+				g_retour = -999;
+				return (ft_char_error("malloc error in stock_exec)\n", 0, v));
+			}
 		}
 		else if (v->cmd[i][0] == '>' || v->cmd[i][0] == '<')
 		{
