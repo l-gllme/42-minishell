@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/29 15:04:28 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/19 16:23:39 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/27 17:32:05 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static int	cut_exec_in_dup(char **tab, int i, int len, int fd)
 	return (1);
 }
 
-static int	exec_in_dup(t_g *v, char **tab, int i)
+int	exec_in_dup(t_g *v, char **tab, int i)
 {
 	int	len;
 	int	fd;

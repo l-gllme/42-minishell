@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/26 16:45:11 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/27 17:34:05 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,12 @@ char	*stock_arg(t_g *v, char *arg);
 /* exec.c */
 void	ft_exec_one(t_g *v);
 int	ft_exec_pipes(t_g *v);
+int	cut_exec_one_fork(t_g *v);
+int	reauckaitte_lygue(t_g *v, char *str);
+char	*try_access(char *cmd, t_g *v);
+int     exec_in_dup(t_g *v, char **tab, int i);
+int     exec_out_dup(t_g *v, char **tab);
+
 
 
 /* ft_here_doc */

@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 13:01:01 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/27 12:34:22 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/27 13:28:05 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static int	cut_exec_one(t_g *v, int choice)
 	return (1);
 }
 
-static int	cut_exec_one_fork(t_g *v)
+int	cut_exec_one_fork(t_g *v)
 {
 	int	frk;
 	int	value;

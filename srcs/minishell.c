@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:40:12 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/25 15:44:12 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/27 16:35:09 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,8 @@ int	main(int ac, char **av, char **env)
 		ft_error(2);
 	while (1)
 	{
-		signal(SIGINT, handler);
-		signal(SIGQUIT, handler);
+		//signal(SIGINT, handler);
+		//signal(SIGQUIT, handler);
 		str = readline("\033[34m➜\033[0m ");
 		if (str == NULL)
 		{
