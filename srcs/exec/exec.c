@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 13:01:01 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/26 17:10:23 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/27 12:34:22 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,12 +79,18 @@ static int	cut_exec_one_fork(t_g *v)
 		if (v->l->exec != NULL)
 		{
 			value = ft_exec_cmd(v);
-			ft_lstclear(&v->list, &free);
-			ft_free(v);
+			if (v->list)
+				ft_lstclear(&v->list, &free);
+			if (v && value != 127)
+				ft_free(v);
+			free(v);
 			exit(value);
 		}
-		ft_lstclear(&v->list, &free);
-		ft_free(v);
+		if (v->list)
+			ft_lstclear(&v->list, &free);
+		if (v)
+			ft_free(v);
+		free(v);
 		exit(0);
 	}
 	else

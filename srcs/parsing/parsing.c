@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/26 17:30:39 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/27 12:36:08 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -527,5 +527,6 @@ int	parsing(char *str, char **env, t_list *list)
 		ft_exec_pipes(v);
 	if (v->nb_cmd == 1)
 		ft_free(v);
+	free(v);
 	return (1);
 }
