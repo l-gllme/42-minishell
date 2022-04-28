@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 14:07:03 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/26 14:14:49 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/28 18:50:08 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,13 @@ static int	cut_gc_2(t_c *c, char *str, char **tab)
 {
 	if ((str[c->i] == '|' && str[c->i + 1] != '|' && str[c->i - 1] != '|') && !c->dq_opened && !c->sq_opened)
 	{
-		tab[c->k] = malloc(sizeof(char *) * (c->i + 1 - c->j));
+		tab[c->k] = malloc(sizeof(char *) * ((c->i + 1 - c->j) + (ft_strlen(str) / 2)));
 		if (!tab[c->k])
 		{
-			ft_putstr_fd("Malloc Error in get_cmd()\n", 2);
+			ft_putstr_fd("malloc Error in get_cmd()\n", 2);
 			return (0);
 		}
+		ft_bzero(tab[c->k], ((c->i + 1 - c->j) + (ft_strlen(str) / 2)));
 		c->l = 0;
 		while (c->j < c->i)
 		{
@@ -69,7 +70,7 @@ static int	cut_gc_3(t_c *c, char *str, char **tab)
 	tab[c->k] = malloc(sizeof(char *) * (ft_strlen(str + c->j) + 1));
 	if (!tab[c->k])
 	{
-		ft_putstr_fd("Malloc Error in get_cmd()\n", 2);
+		ft_putstr_fd("malloc Error in get_cmd()\n", 2);
 		return (0);
 	}
 	c->i = 0;

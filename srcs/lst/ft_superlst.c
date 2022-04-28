@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 17:54:29 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/04/26 13:57:50 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/28 18:31:14 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,13 @@ void	ft_super_lstdelone(t_l *lst, void (*del)(void *))
 	if (!lst || !del)
 		return ;
 	if (lst->in_tab)
-		(*del)(lst->in_tab);
+		free_char_tab(lst->in_tab);
 	if (lst->out_tab)
-		(*del)(lst->out_tab);
+		free_char_tab(lst->out_tab);
 	if (lst->exec)
-		free(lst->exec);
+		del(lst->exec);
 	if (lst->arg)
-		free(lst->arg);
+		del(lst->arg);
 	free(lst);
 }
 
@@ -48,7 +48,7 @@ t_l	*ft_super_lstnew(char **out_tab, char **in_tab, char *arg, char *exec)
 {
 	t_l	*tmp;
 
-	tmp = malloc(sizeof(struct s_list));
+	tmp = malloc(sizeof(t_l));
 	if (!tmp)
 		return (0);
 	tmp->out_tab = out_tab;

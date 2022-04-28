@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 14:55:37 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/26 16:29:19 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/28 17:06:35 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,5 +157,7 @@ char	*stock_arg(t_g *v, char *arg)
 		else if (v->cmd[i + 1])
 			i++;
 	}
+	if (arg)
+		arg[ft_strlen(arg) - 1] = 0;
 	return (arg);
 }

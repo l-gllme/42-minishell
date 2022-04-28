@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:35:00 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/28 14:08:11 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/28 16:56:18 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ void	ft_free(t_g *v)
 			free(v->l->arg);
 			v->l->arg = NULL;
 		}
-		free(v->l);
-		//free(v);
+		ft_super_lstclear(&v->l, &free);
+		free(v);
 	}
 }
 
