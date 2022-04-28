@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 15:54:41 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/04/27 17:46:48 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/28 12:55:56 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	exec_command_pipe(t_g *v)
 		return (value);
 	}
 	str = try_access(v->l->exec, v);
-	if (str == NULL)
+	if (str == NULL && !ft_is_builtin(v->l->exec, v, 0))
 	{
 		value = 127;
 		ft_putstr_fd("minishell: ", 2);
@@ -70,7 +70,7 @@ int	pipe_exec(t_g *v)
 		if (v->l->out_tab != NULL)
 			exec_out_dup(v, v->l->out_tab);
 		v->nb_built = 0;
-		ft_is_builtin(v->l->exec, v, 0);
+		//ft_is_builtin(v->l->exec, v, 0);
 		if (v->nb_built != 0)
 			ft_is_builtin(v->l->exec, v, 1);
 		exec_command_pipe(v);

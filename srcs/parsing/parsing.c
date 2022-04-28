@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/28 12:40:11 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/28 15:18:53 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,21 +179,29 @@ int	in_env(char *str, t_g *v)
 	while (tmp)
 	{
 		if (!ft_strcmp(str, tmp->name))
+		{
+			free(str);
 			return (1);
+		}
 		tmp = tmp->next;
 	}
+	free(str);
 	return (0);
 }
 
-char	*ft_recup_retour(char *str)
+char	*ft_recup_retour(char *test)
 {
 	int		i;
 	char	*tmp;
 	char	*recup;
+	char	*str;
 
+	str = ft_strdup(test);
 	tmp = ft_itoa(g_retour);
 	recup = malloc(sizeof(char) * (ft_strlen(str) + ft_strlen(tmp)));
 	i = 0;
+	if (str[i] == ' ')
+		i++;
 	while (str[i]) 
 	{
 		if (str[i] == '$' && str[i + 1] == '?')
@@ -209,6 +217,7 @@ char	*ft_recup_retour(char *str)
 	}
 	recup[i] = 0;
 	free(tmp);
+	free(test);
 	return (recup);
 }
 
@@ -302,12 +311,15 @@ char	*ft_check_in_env_2(t_g *v)
 					split[i] = ft_strdup(tmp->content + 1);
 				else
 					split[i] = ft_strdup("");
+				free(name);
+				free(test);
 				break;
 			}
 			else if (!in_env(test, v))
 					split[i] = ft_strdup("");
 			tmp = tmp->next;
 			free(name);
+			free(test);
 		}
 		i++;
 	}
@@ -336,6 +348,7 @@ char	*ft_check_special(char *str, t_g *v)
 	int	c;
 	char	*res;
 	t_list	*tmp;
+	char	*test;
 
 	tmp = v->list;
 	i = 0;
@@ -350,10 +363,14 @@ char	*ft_check_special(char *str, t_g *v)
 	}
 	res[i] = 0;
 	if (ft_strlen(str) == ft_strlen(res))
+	{
+		free(res);
 		return (str);
+	}
+	test = ft_strdup(res) + 1;
 	while (tmp)
 	{
-		if (!ft_strcmp(ft_strdup(res) + 1, tmp->name))// && in_env(str, v))
+		if (!ft_strcmp(test, tmp->name))// && in_env(str, v))
 		{
 			if (tmp->content)
 				res = ft_strdup(tmp->content + 1);
@@ -363,7 +380,9 @@ char	*ft_check_special(char *str, t_g *v)
 		}
 		tmp = tmp->next;
 	}
-	res = ft_strjoin(res, ft_strdup(str) + i);
+	test = ft_strdup(str) + i;
+	res = ft_strjoin(res, test);
+	free(str);
 	return (res);
 }
 
@@ -396,8 +415,8 @@ char	*ft_check_in_env(t_g *v)
 		return (NULL);	
 	while (split[i] && l == 1)// && split[i][0] == '$')
 	{
-		split[i] = ft_check_special(split[i], v);
 		c = 1;
+		split[i] = ft_check_special(split[i], v);
 		split[i] = ft_recup_retour(split[i]);
 		ft_suppr_dq_sq(split[i]);
 		if (split[i][0] == '$' && split[i][1] == '$' && split[i][3] == 0)

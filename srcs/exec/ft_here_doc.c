@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 15:17:54 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/25 15:19:58 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/28 15:20:56 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,12 @@ static int	ft_here_doc_no_cmd(char *limiter)
 	str = get_next_line(0);
 	while (str && hd_cmp(str, limiter) != 0)
 	{
-		if (g_retour == 130)
-			break ;
 		free(str);
 		ft_putstr_fd("> ", 1);
 		str = get_next_line(0);
 	}
-	get_next_line(42);
 	free(str);
+	get_next_line(42);
 	return (1);
 }
 
@@ -91,6 +89,7 @@ int	ft_here_doc(char *limiter, t_g *v)
 	ft_suppr_dq_sq(limiter);
 	if (v->l->exec == NULL)
 	{
+		printf ("test = %s\n", limiter);
 		if (!ft_here_doc_no_cmd(limiter))
 			return (0);
 		return (1);
