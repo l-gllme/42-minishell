@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/27 15:22:02 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/28 12:40:11 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,8 +207,47 @@ char	*ft_recup_retour(char *str)
 			i++;
 		}
 	}
+	recup[i] = 0;
+	free(tmp);
 	return (recup);
 }
+
+char	*ft_add_space_dol(char *str)
+{
+	int	i;
+	int	c;
+	char	*res;
+
+	i = 0;
+	c = 0;
+	while (str[i])
+	{
+		if (str[i] ==  '$')
+			c++;
+		i++;
+	}
+	res = malloc(sizeof(char) * ((c + i) + 1));
+	if (!res)
+		return (NULL);
+	i = 0;
+	c = 0;
+	while (str[i])
+	{
+		if (str[i] == '$' && str[0] != '$')
+		{
+			g_retour = 7;
+			res[c] = ' ';
+			c++;
+		}
+		res[c] = str[i];
+		i++;
+		c++;
+	}
+	res[c] = 0;
+	return (res);
+}
+
+char	*ft_check_special(char *str, t_g *v);
 
 char	*ft_check_in_env_2(t_g *v)
 {
@@ -228,6 +267,7 @@ char	*ft_check_in_env_2(t_g *v)
 	recup = NULL;
 	if (v->l->exec)
 	{
+		v->l->exec = ft_add_space_dol(v->l->exec);
 		l = 1;
 		split = ft_supersplit(v->l->exec, ' ');
 		free(v->l->exec);
@@ -235,9 +275,10 @@ char	*ft_check_in_env_2(t_g *v)
 	}
 	else
 		return (NULL);	
-	while (split[i] && l == 1 && split[i][0] == '$')
+	while (split[i] && l == 1)// && split[i][0] == '$')
 	{
 		c = 1;
+		split[i] = ft_check_special(split[i], v);
 		split[i] = ft_recup_retour(split[i]);
 		ft_suppr_dq_sq(split[i]);
 		if (split[i][0] == '$' && split[i][1] == '$' && split[i][3] == 0)
@@ -279,7 +320,7 @@ char	*ft_check_in_env_2(t_g *v)
 			recup = ft_strjoin(recup, "$");
 			d--;
 		}
-		if (split[i + 1])
+		if (split[i + 1] && g_retour != 7)
 			recup = ft_strjoin_gnl(recup, " "); 
 		i++;
 	}
@@ -288,6 +329,44 @@ char	*ft_check_in_env_2(t_g *v)
 	free_char_tab(split);
 	return (recup);
 }
+
+char	*ft_check_special(char *str, t_g *v)
+{
+	int	i;
+	int	c;
+	char	*res;
+	t_list	*tmp;
+
+	tmp = v->list;
+	i = 0;
+	c = 0;
+	res = malloc(sizeof(char) * (ft_strlen(str) + 1));
+	while (str[i])
+	{
+		if ((!ft_isdigit(str[i]) && !ft_isalpha(str[i])) && str[i] != '$' && str[i] != '_')
+			break;
+		res[i] = str[i];
+		i++;
+	}
+	res[i] = 0;
+	if (ft_strlen(str) == ft_strlen(res))
+		return (str);
+	while (tmp)
+	{
+		if (!ft_strcmp(ft_strdup(res) + 1, tmp->name))// && in_env(str, v))
+		{
+			if (tmp->content)
+				res = ft_strdup(tmp->content + 1);
+			else
+				res = ft_strdup("");
+			break;
+		}
+		tmp = tmp->next;
+	}
+	res = ft_strjoin(res, ft_strdup(str) + i);
+	return (res);
+}
+
 
 char	*ft_check_in_env(t_g *v)
 {
@@ -307,6 +386,7 @@ char	*ft_check_in_env(t_g *v)
 	recup = NULL;
 	if (v->l->arg)
 	{
+		v->l->arg = ft_add_space_dol(v->l->arg);
 		l = 1;
 		split = ft_supersplit(v->l->arg, ' ');
 		free(v->l->arg);
@@ -314,8 +394,9 @@ char	*ft_check_in_env(t_g *v)
 	}
 	else
 		return (NULL);	
-	while (split[i] && l == 1 && split[i][0] == '$')
+	while (split[i] && l == 1)// && split[i][0] == '$')
 	{
+		split[i] = ft_check_special(split[i], v);
 		c = 1;
 		split[i] = ft_recup_retour(split[i]);
 		ft_suppr_dq_sq(split[i]);
@@ -358,7 +439,7 @@ char	*ft_check_in_env(t_g *v)
 			recup = ft_strjoin(recup, "$");
 			d--;
 		}
-		if (split[i + 1])
+		if (split[i + 1] && g_retour != 7)
 			recup = ft_strjoin_gnl(recup, " "); 
 		i++;
 	}

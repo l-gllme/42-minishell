@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/27 17:34:05 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/28 11:29:33 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	reauckaitte_lygue(t_g *v, char *str);
 char	*try_access(char *cmd, t_g *v);
 int     exec_in_dup(t_g *v, char **tab, int i);
 int     exec_out_dup(t_g *v, char **tab);
-
+int     in_env_sans_dollard(char *str, t_g *v);
 
 
 /* ft_here_doc */
