@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 14:04:03 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/26 13:49:22 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/29 17:42:50 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,12 @@ typedef struct s_line
 	char	**out_tab;
 	char	*exec;
 	char	*arg;
+	int		out;
+	char	*name_out;
+	int		in;
+	char	*name_in;
+	int		pipe;
+	char	*name_pipe;
 	struct s_line	*next;
 }	t_l;
 

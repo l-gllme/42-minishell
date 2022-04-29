@@ -6,7 +6,7 @@
 #    By: lguillau <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/14 14:27:36 by lguillau          #+#    #+#              #
-#    Updated: 2022/04/29 15:53:16 by lguillau         ###   ########.fr        #
+#    Updated: 2022/04/29 17:24:12 by lguillau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,9 @@ FILES	=	minishell.c \
 		parsing/parsing_tools.c \
 		parsing/get_cmd.c \
 		exec/new.c \
+		exec/ft_exec_in.c \
+		exec/ft_exec_out.c \
+		exec/check_outfile.c \
 		lst/ft_lst.c \
 		lst/ft_superlst.c \
 		lst/ft_lst_2.c \

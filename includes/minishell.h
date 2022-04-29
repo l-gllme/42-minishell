@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/29 15:52:57 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/29 17:26:40 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,20 @@ char	*stock_arg(t_g *v, char *arg);
 /* ******************************* */
 
 int	ft_exec(t_g *v, t_l *l);
+int	ft_here_doc_no_cmd(char *limiter);
 
+/* ft_exec_in.c */
+int	ft_exec_in(t_g *v, t_l *tmp, int c);
+int	ft_exec_in_no_cmd(char **tab, int choice);
+int	check_valid_infile(char *file);
+
+/* ft_exec_out.c */
+int	ft_exec_out(t_g *v, t_l *tmp);
+int	ft_exec_out_no_cmd(char **tab);
+
+/* check_outfile.c */
+int		check_outfile(char *file, int type);
+int		check_dup_outfile(char *file, int type);
 
 /* exec.c */
 void	ft_exec_one(t_g *v);
@@ -87,7 +100,6 @@ int     in_env_sans_dollard(char *str, t_g *v);
 int		ft_here_doc(char *limiter, t_g *v);
 
 /* in_exec.c */
-int		check_valid_infile(char *file);
 int		redirect_in(t_g *v);
 int		exec_in(t_g *v, char **tab);
 
@@ -101,9 +113,6 @@ int		ft_is_builtin(char *str, t_g *v, int choice);
 int		redirect_out(t_g *v);
 int		exec_out(t_g *v, char **tab);
 
-/* check_outfile.c */
-int		check_outfile(char *file, int type);
-int		check_dup_outfile(char *file, int type);
 
 /* ******************************* */
 /*                                 */
