@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 14:07:03 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/28 18:50:08 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/29 13:45:50 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static void	cut_gc(char str, t_c *c)
 
 static int	cut_gc_2(t_c *c, char *str, char **tab)
 {
-	if ((str[c->i] == '|' && str[c->i + 1] != '|' && str[c->i - 1] != '|') && !c->dq_opened && !c->sq_opened)
+	if ((ft_strlen(str) > 1 && str[c->i] == '|' && str[c->i + 1] != '|' && str[c->i - 1] != '|') && !c->dq_opened && !c->sq_opened)
 	{
 		tab[c->k] = malloc(sizeof(char *) * ((c->i + 1 - c->j) + (ft_strlen(str) / 2)));
 		if (!tab[c->k])
@@ -90,6 +90,12 @@ int	get_cmd(char *str, char **tab)
 {
 	t_c	*c;
 
+	if (str[0] == '|')
+	{
+		tab[0] = 0;
+		ft_putstr_fd("invalid syntax\n", 2);
+		return (0);
+	}
 	c = malloc(sizeof(t_c));
 	if (!c)
 	{

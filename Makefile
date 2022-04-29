@@ -6,7 +6,7 @@
 #    By: lguillau <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/14 14:27:36 by lguillau          #+#    #+#              #
-#    Updated: 2022/04/26 15:59:10 by jtaravel         ###   ########.fr        #
+#    Updated: 2022/04/29 13:29:40 by lguillau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,18 +15,18 @@ FILES	=	minishell.c \
 		tools/supersplit.c \
 		tools/ft_split_by_string.c \
 		tools/tools.c \
+		tools/str_tools.c \
+		tools/ft_itoa.c \
+		tools/str_tools_2.c \
+		tools/errors.c \
+		tools/ft_strcpy.c \
 		builtins/cd.c \
 		builtins/export.c \
-		tools/errors.c \
 		builtins/pwd.c \
 		builtins/exit.c \
 		builtins/env.c \
 		builtins/echo.c \
 		builtins/unset.c \
-		tools/str_tools.c \
-		tools/ft_itoa.c \
-		tools/str_tools_2.c \
-		tools/ft_strcpy.c \
 		parsing/parsing.c \
 		parsing/stock_line.c \
 		parsing/in_out_parse.c \
@@ -46,6 +46,7 @@ FILES	=	minishell.c \
 		lst/ft_lst_2.c \
 		gnl/get_next_line.c \
 		gnl/get_next_line_utils.c \
+		env/env_lst.c \
 
 S_PATH	=	srcs/
 O_PATH	=	objs/
