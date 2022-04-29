@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 12:16:42 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/29 13:52:32 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/29 16:01:39 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,12 +86,13 @@ int	ft_check_invalid_signs(char *str, char c)
 		check_sq_dq(&s, str[i]);
 		if (str[i] == c && s.dq_opened == 0 && s.sq_opened == 0)
 		{
-			count++;
-			while (str[++i] == c)
+			while (str[i] == c)
 			{
 				count++;
 				if (count == 3)
 					return (ft_custom_error("Invalid syntax near << or >>\n", 0, NULL));
+				if (str[i + 1] != 0)
+					i++;
 			}
 		}
 		count = 0;

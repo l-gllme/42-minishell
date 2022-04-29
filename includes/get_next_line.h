@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 12:35:02 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/04/12 15:08:15 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/29 16:23:56 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <stdlib.h>
 # include <stdio.h>
 
-# define BUFFER_SIZE 1
+# define BUFFER_SIZE 1024
 
 char	*ft_strchr(const char *s, int c);
 int		ft_strlen(const char *str);

@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/29 15:14:54 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/29 15:54:17 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -616,7 +616,7 @@ int	parsing(char *str, char **env, t_list *list)
 			v->l->arg = ft_check_in_env(v, v->l->arg);
 		if (v->l->exec)
 			v->l->exec = ft_check_in_env_2(v, v->l->exec);
-		ft_exec_one(v);
+		ft_exec(v, v->l);
 	}
 	if (v->nb_cmd != 1)
 	{
@@ -629,7 +629,7 @@ int	parsing(char *str, char **env, t_list *list)
 				tmp->exec = ft_check_in_env_2(v, tmp->exec);
 			tmp = tmp->next;
 		}
-		//ft_exec_pipes(v);
+		ft_exec(v, v->l);
 	}
 	ft_free(v);
 	return (1);

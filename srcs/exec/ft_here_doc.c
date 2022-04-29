@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 15:17:54 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/28 15:20:56 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/29 15:52:13 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	hd_cmp(char *s1, char *s2)
 	return (*s1 - *s2);
 }
 
-static int	ft_here_doc_no_cmd(char *limiter)
+int	ft_here_doc_no_cmd(char *limiter)
 {
 	char	*str;
 

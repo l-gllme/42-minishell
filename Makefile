@@ -6,7 +6,7 @@
 #    By: lguillau <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/14 14:27:36 by lguillau          #+#    #+#              #
-#    Updated: 2022/04/29 13:29:40 by lguillau         ###   ########.fr        #
+#    Updated: 2022/04/29 15:53:16 by lguillau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,14 +33,7 @@ FILES	=	minishell.c \
 		parsing/check_syntax.c \
 		parsing/parsing_tools.c \
 		parsing/get_cmd.c \
-		exec/exec.c \
-		exec/in_exec.c \
-		exec/ft_here_doc.c \
-		exec/out_exec.c \
-		exec/cmd_exec.c \
-		exec/exec_pipes.c \
-		exec/check_outfile.c \
-		exec/ft_is_builtin.c \
+		exec/new.c \
 		lst/ft_lst.c \
 		lst/ft_superlst.c \
 		lst/ft_lst_2.c \
