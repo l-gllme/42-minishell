@@ -6,12 +6,13 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 14:04:03 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/29 17:42:50 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/30 14:07:41 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
 # define STRUCTS_H
+
 
 typedef struct s_list
 {
@@ -73,5 +74,15 @@ typedef struct s_get_cmd
 	int		k;
 	int		l;
 }	t_c;
+
+typedef struct g_global
+{
+	int	retour;
+	char	*str;
+	char	*test;
+	t_g *v;
+}	g_g;
+
+extern g_g	g;
 
 #endif

@@ -6,24 +6,25 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:40:12 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/28 13:49:48 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/30 13:35:37 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-int g_retour = 0;
+g_g	g;
+ 
 
 void	handler(int signum)
 {
 	(void)signum;
 	if (signum == 3)
 	{
-		g_retour = 131;
+		g.retour = 131;
 		printf("A faire...");
 	}
 	if (signum == 2)
 	{
-		g_retour = 130;
+		g.retour = 130;
 		rl_on_new_line();
 		printf("\n");
 		rl_replace_line("", 1);
@@ -39,6 +40,7 @@ int	main(int ac, char **av, char **env)
 	t_list	*list;
 
 
+	g.retour = 0;
 	list = NULL;
 	list = init_lst(env, list);
 	(void)av;
@@ -46,7 +48,7 @@ int	main(int ac, char **av, char **env)
 		ft_error(2);
 	while (1)
 	{
-		//signal(SIGINT, handler);
+		signal(SIGINT, handler);
 		//signal(SIGQUIT, handler);
 		str = readline("\033[34m➜\033[0m ");
 		if (str == NULL)

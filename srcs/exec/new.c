@@ -6,31 +6,73 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 15:22:38 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/29 17:45:11 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/30 14:14:32 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	ft_here_doc_no_cmd(char *limiter)
+void	handler2(int signum)
+{
+	if (signum == 3)
+	{
+		g.retour = 131;
+		printf("A faire...");
+	}
+	if (signum == 2)
+	{
+		g.retour = 130;
+		free(g.test);
+		exit(0);
+	}
+	else
+		return ;
+}
+
+int	ft_here_doc_no_cmd(char *limiter, t_g *v)
 {
 	char	*str;
-
-	while (1)
+	int	i;
+	int	value = 0;
+	
+	i = g.retour;
+	int	frk = fork();
+	if (frk == 0)
 	{
-		str = readline("> ");
-		if (str == NULL)
+		g.test = ft_strdup(limiter);
+		ft_lstclear(&v->list, &free);
+		ft_free(v);
+		while (1)
 		{
-			printf("\n");
-			return (1);
-		}
-		if (str[0] != 0 && str && ft_strcmp(str, limiter) == 0)
-		{
+			signal(SIGINT, handler2);
+			str = readline("> ");
+			g.str = str;
+			if (str == NULL)
+			{
+				printf("\n");
+				g.retour = i;
+				exit(0);
+			}
+			else if (str[0] != 0 && str && ft_strcmp(str, g.test) == 0)
+			{
+				free(str);
+				free(g.test);
+				g.retour = i;
+				exit(0);
+			}
 			free(str);
-			return (1);
 		}
-		free(str);
+		exit(0);
 	}
+	else
+	{
+		signal(SIGINT, SIG_IGN);
+		waitpid(frk, &value, 0);
+		if (WTERMSIG(value) == 2)
+			printf("\n");
+
+	}
+	g.retour = i;
 	return (1);
 }
 

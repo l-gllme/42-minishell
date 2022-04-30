@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:19:18 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/29 17:31:06 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/30 13:38:39 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	check_valid_infile(char *file)
 	return (1);
 }
 
-int	ft_exec_in_no_cmd(char **tab, int choice)
+int	ft_exec_in_no_cmd(char **tab, int choice, t_g *v)
 {
 	int	i;
 	int	c;
@@ -51,7 +51,7 @@ int	ft_exec_in_no_cmd(char **tab, int choice)
 		if (tab[i][0] == '<' && tab[i][1] == 0)
 			i++;
 		else if (tab[i][0] == '<' && tab[i][1] == '<')
-			ft_here_doc_no_cmd(tab[++i]);
+			ft_here_doc_no_cmd(tab[++i], v);
 	}
 	i = -1;
 	while (tab[++i] && choice == 1)
@@ -70,7 +70,7 @@ int	ft_exec_in(t_g *v, t_l *tmp, int c)
 	(void)v;
 	if (!tmp->exec)
 	{
-		ft_exec_in_no_cmd(tmp->in_tab, c);
+		ft_exec_in_no_cmd(tmp->in_tab, c, v);
 	}
 	else
 	{

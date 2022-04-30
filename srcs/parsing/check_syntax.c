@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 12:16:42 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/29 16:01:39 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/30 13:33:54 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int	count_pipes(char *str)
 	if (s->sq_opened || s->dq_opened)
 	{
 		ft_putstr_fd("Invalid syntax\n", 2);
-		g_retour = 2;
+		g.retour = 2;
 		free(s);
 		return (0);
 	}

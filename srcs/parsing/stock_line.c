@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 14:55:37 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/28 17:06:35 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/30 13:33:38 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	**stock_in(t_g *v, char **in_tab)
 	in_tab = malloc(sizeof(char *) * (count * 2 + 1));
 	if (!in_tab)
 	{
-		g_retour = -999;
+		g.retour = -999;
 		return (0);
 	}
 	while (v->cmd[++i])
@@ -78,7 +78,7 @@ char	**stock_out(t_g *v, char **out_tab)
 	out_tab = malloc(sizeof(char *) * (count * 2 + 1));
 	if (!out_tab)
 	{
-		g_retour = -999;
+		g.retour = -999;
 		return (0);
 	}
 	while (v->cmd[++i])
@@ -113,7 +113,7 @@ char	*stock_exec(t_g *v, char *exec)
 			exec = ft_strdup(v->cmd[i] + l);
 			if (!exec)
 			{
-				g_retour = -999;
+				g.retour = -999;
 				return (ft_char_error("malloc error in stock_exec)\n", 0, v));
 			}
 		}
@@ -142,13 +142,13 @@ char	*stock_arg(t_g *v, char *arg)
 				arg = ft_strjoin_gnl(arg, v->cmd[i]);
 				if (!arg)
 				{
-					g_retour = -999;
+					g.retour = -999;
 					return (ft_char_error("malloc error in stock_arg()\n", 0, v));
 				}
 				arg = ft_strjoin_gnl(arg, " ");
 				if (!arg)
 				{
-					g_retour = -999;
+					g.retour = -999;
 					return (ft_char_error("malloc error in stock_arg()\n", 0, v));
 				}
 			}

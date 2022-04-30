@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/29 15:54:17 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/04/30 13:32:16 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,18 +65,18 @@ int	parse_cmd(t_g *v)
 		if (!v->cmd)
 			return (ft_custom_error("error in ft_supersplit()\n", 0, v));
 		v->l->in_tab = stock_in(v, v->l->in_tab);
-		if (g_retour == -999)
+		if (g.retour == -999)
 			return (ft_custom_error("malloc error in stock_in()\n", 0, v));
 		v->l->out_tab = stock_out(v, v->l->out_tab);
-		if (g_retour == -999)
+		if (g.retour == -999)
 			return (ft_custom_error("malloc error in stock_out()\n", 0, v));
 		if (!check_not_followed_sign(v))
 			return (ft_custom_error(NULL, 0, NULL));
 		v->l->exec = stock_exec(v, v->l->exec);
-		if (g_retour == -999)
+		if (g.retour == -999)
 			return (ft_custom_error("error in stock_exec()\n", 0, v));
 		v->l->arg = stock_arg(v, v->l->arg); 
-		if (g_retour == -999)
+		if (g.retour == -999)
 			return (0);
 	}
 	else if (i > 1)
@@ -100,18 +100,18 @@ int	parse_cmd(t_g *v)
 			if (!v->cmd)
 				return (ft_custom_error("error in ft_supersplit()\n", 0, v));
 			in_tab = stock_in(v, in_tab);
-			if (g_retour == -999)
+			if (g.retour == -999)
 				return (ft_custom_error("malloc error in stock_in()\n", 0, v));
 			out_tab = stock_out(v, out_tab);
-			if (g_retour == -999)
+			if (g.retour == -999)
 				return (ft_custom_error("malloc error in stock_in()\n", 0, v));
 			if (!check_not_followed_sign(v))
 				return (ft_custom_error(NULL, 0, NULL));
 			exec = stock_exec(v, exec);
-			if (g_retour == -999)
+			if (g.retour == -999)
 				return (ft_custom_error("error in stock_exec()\n", 0, v));
 			arg = stock_arg(v, arg);
-			if (g_retour == -999)
+			if (g.retour == -999)
 				return (0);
 			if (i == 0)
 			{
@@ -198,7 +198,7 @@ char	*ft_recup_retour(char *str)
 	char	*tmp;
 	char	*recup;
 
-	tmp = ft_itoa(g_retour);
+	tmp = ft_itoa(g.retour);
 	recup = malloc(sizeof(char) * (ft_strlen(str) + ft_strlen(tmp)));
 	i = 0;
 	if (str[i] == ' ')
@@ -245,7 +245,7 @@ char	*ft_add_space_dol(char *str)
 	{
 		if (str[i] == '$' && str[0] != '$')
 		{
-			g_retour = 7;
+			g.retour = 7;
 			res[c] = ' ';
 			c++;
 		}
@@ -367,7 +367,7 @@ char	*ft_check_in_env(t_g *v, char *arg)
 			recup = ft_strjoin(recup, "$");
 			d--;
 		}
-		if (split[i + 1] && g_retour != 7)
+		if (split[i + 1] && g.retour != 7)
 			recup = ft_strjoin_gnl(recup, " "); 
 		i++;
 	}
@@ -465,7 +465,7 @@ char	*ft_check_in_env_2(t_g *v, char *exec)
 			recup = ft_strjoin(recup, "$");
 			d--;
 		}
-		if (split[i + 1] && g_retour != 7)
+		if (split[i + 1] && g.retour != 7)
 			recup = ft_strjoin_gnl(recup, " "); 
 		i++;
 	}
