@@ -6,25 +6,25 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:40:12 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/30 13:35:37 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/30 14:41:09 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-g_g	g;
- 
+
+t_shell	g_shell;
 
 void	handler(int signum)
 {
 	(void)signum;
 	if (signum == 3)
 	{
-		g.retour = 131;
+		g_shell.retour = 131;
 		printf("A faire...");
 	}
 	if (signum == 2)
 	{
-		g.retour = 130;
+		g_shell.retour = 130;
 		rl_on_new_line();
 		printf("\n");
 		rl_replace_line("", 1);
@@ -39,8 +39,7 @@ int	main(int ac, char **av, char **env)
 	char	*str;
 	t_list	*list;
 
-
-	g.retour = 0;
+	g_shell.retour = 0;
 	list = NULL;
 	list = init_lst(env, list);
 	(void)av;

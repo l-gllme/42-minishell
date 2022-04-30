@@ -45,7 +45,7 @@ char	**stock_in(t_g *v, char **in_tab)
 	in_tab = malloc(sizeof(char *) * (count * 2 + 1));
 	if (!in_tab)
 	{
-		g.retour = -999;
+		g_shell.retour = -999;
 		return (0);
 	}
 	while (v->cmd[++i])
@@ -78,7 +78,7 @@ char	**stock_out(t_g *v, char **out_tab)
 	out_tab = malloc(sizeof(char *) * (count * 2 + 1));
 	if (!out_tab)
 	{
-		g.retour = -999;
+		g_shell.retour = -999;
 		return (0);
 	}
 	while (v->cmd[++i])
@@ -113,7 +113,7 @@ char	*stock_exec(t_g *v, char *exec)
 			exec = ft_strdup(v->cmd[i] + l);
 			if (!exec)
 			{
-				g.retour = -999;
+				g_shell.retour = -999;
 				return (ft_char_error("malloc error in stock_exec)\n", 0, v));
 			}
 		}
@@ -142,13 +142,13 @@ char	*stock_arg(t_g *v, char *arg)
 				arg = ft_strjoin_gnl(arg, v->cmd[i]);
 				if (!arg)
 				{
-					g.retour = -999;
+					g_shell.retour = -999;
 					return (ft_char_error("malloc error in stock_arg()\n", 0, v));
 				}
 				arg = ft_strjoin_gnl(arg, " ");
 				if (!arg)
 				{
-					g.retour = -999;
+					g_shell.retour = -999;
 					return (ft_char_error("malloc error in stock_arg()\n", 0, v));
 				}
 			}

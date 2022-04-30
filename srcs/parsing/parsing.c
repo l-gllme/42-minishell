@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/30 13:32:16 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/30 17:39:42 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,18 +65,18 @@ int	parse_cmd(t_g *v)
 		if (!v->cmd)
 			return (ft_custom_error("error in ft_supersplit()\n", 0, v));
 		v->l->in_tab = stock_in(v, v->l->in_tab);
-		if (g.retour == -999)
+		if (g_shell.retour == -999)
 			return (ft_custom_error("malloc error in stock_in()\n", 0, v));
 		v->l->out_tab = stock_out(v, v->l->out_tab);
-		if (g.retour == -999)
+		if (g_shell.retour == -999)
 			return (ft_custom_error("malloc error in stock_out()\n", 0, v));
 		if (!check_not_followed_sign(v))
 			return (ft_custom_error(NULL, 0, NULL));
 		v->l->exec = stock_exec(v, v->l->exec);
-		if (g.retour == -999)
+		if (g_shell.retour == -999)
 			return (ft_custom_error("error in stock_exec()\n", 0, v));
 		v->l->arg = stock_arg(v, v->l->arg); 
-		if (g.retour == -999)
+		if (g_shell.retour == -999)
 			return (0);
 	}
 	else if (i > 1)
@@ -100,18 +100,18 @@ int	parse_cmd(t_g *v)
 			if (!v->cmd)
 				return (ft_custom_error("error in ft_supersplit()\n", 0, v));
 			in_tab = stock_in(v, in_tab);
-			if (g.retour == -999)
+			if (g_shell.retour == -999)
 				return (ft_custom_error("malloc error in stock_in()\n", 0, v));
 			out_tab = stock_out(v, out_tab);
-			if (g.retour == -999)
+			if (g_shell.retour == -999)
 				return (ft_custom_error("malloc error in stock_in()\n", 0, v));
 			if (!check_not_followed_sign(v))
 				return (ft_custom_error(NULL, 0, NULL));
 			exec = stock_exec(v, exec);
-			if (g.retour == -999)
+			if (g_shell.retour == -999)
 				return (ft_custom_error("error in stock_exec()\n", 0, v));
 			arg = stock_arg(v, arg);
-			if (g.retour == -999)
+			if (g_shell.retour == -999)
 				return (0);
 			if (i == 0)
 			{
@@ -122,8 +122,10 @@ int	parse_cmd(t_g *v)
 				v->l->next = NULL;
 			}
 			else	
+			{
 				ft_super_lstadd_back(&v->l, ft_super_lstnew(ft_tabdup(out_tab),
 						ft_tabdup(in_tab), ft_strdup(arg), ft_strdup(exec)));
+			}
 			free(arg);
 			free(exec);
 			free_char_tab(in_tab);
@@ -198,7 +200,7 @@ char	*ft_recup_retour(char *str)
 	char	*tmp;
 	char	*recup;
 
-	tmp = ft_itoa(g.retour);
+	tmp = ft_itoa(g_shell.retour);
 	recup = malloc(sizeof(char) * (ft_strlen(str) + ft_strlen(tmp)));
 	i = 0;
 	if (str[i] == ' ')
@@ -245,7 +247,7 @@ char	*ft_add_space_dol(char *str)
 	{
 		if (str[i] == '$' && str[0] != '$')
 		{
-			g.retour = 7;
+			g_shell.retour = 7;
 			res[c] = ' ';
 			c++;
 		}
@@ -276,106 +278,104 @@ int	ft_check_doll(char *str)
 char	*ft_check_in_env(t_g *v, char *arg)
 {
 	char	*recup;
-	char	**split;
 	int		i;
-	int		d;
-	int		c;
 	char	*name;
 	t_list	*tmp;
-	char	*test;
 
-	int	l = 0;
-	int	j;
 	i = 0;
-	d = 0;
-	c = 0;
+	g_shell.d = 0;
+	g_shell.c = 0;
+	g_shell.j = 0;
+	int	l = 0;
 	recup = NULL;
-	if (v->l->arg)
+	if (arg)
 	{
-		test = ft_strdup(arg);
+		g_shell.test = ft_strdup(arg);
 		free(arg);
-		arg = ft_add_space_dol(test);
-		free(test);
+		arg = ft_add_space_dol(g_shell.test);
+		free(g_shell.test);
 		l = 1;
-		split = ft_supersplit(arg, ' ');
+		g_shell.split = ft_supersplit(arg, ' ');
 		free(arg);
 
 	}
 	else
 		return (NULL);	
-	while (split[i] && l == 1)// && split[i][0] == '$')
+	while (g_shell.split[i] && l == 1)// && split[i][0] == '$')
 	{
-		if (!ft_check_doll(split[i]))
-			j = 1;
+		if (!ft_check_doll(g_shell.split[i]))
+			g_shell.j = 1;
 		else
-			j = 0;
-		c = 1;
-		if (j == 0)
+			g_shell.j = 0;
+		g_shell.c = 1;
+		if (g_shell.j == 0)
 		{
-			split[i] = ft_check_special(split[i], v);
-			split[i] = ft_recup_retour(split[i]);
+			g_shell.split[i] = ft_check_special(g_shell.split[i], v);
+			g_shell.split[i] = ft_recup_retour(g_shell.split[i]);
 		}
-		ft_suppr_dq_sq(split[i]);
-		if (split[i][0] == '$' && split[i][1] == '$' && split[i][2] == 0)
-			j = 1;
-		if (split[i][0] == '$' && split[i][1] == 0)
-			j = 1;
-		while (split[i][ft_strlen(split[i]) - 1] == '$' && ft_strlen(split[i]) != 1 && j != 1)
+		ft_suppr_dq_sq(g_shell.split[i]);
+		if (g_shell.split[i][0] == '$' && g_shell.split[i][1] == '$' && g_shell.split[i][2] == 0)
+			g_shell.j = 1;
+		if (g_shell.split[i][0] == '$' && g_shell.split[i][1] == 0)
+			g_shell.j = 1;
+		while (g_shell.split[i][ft_strlen(g_shell.split[i]) - 1] == '$' && ft_strlen(g_shell.split[i]) != 1 && g_shell.j != 1)
 		{
-			split[i][ft_strlen(split[i]) -1] = '\0';
-			d++;
+			g_shell.split[i][ft_strlen(g_shell.split[i]) -1] = '\0';
+			g_shell.d++;
 		}
 		tmp = v->list;
 		tmp = tmp->next;
-		while (tmp && split[i][0] == '$' && j != 1)
+		while (tmp && g_shell.split[i][0] == '$' && g_shell.j != 1)
 		{
 			name = ft_strjoin("$", tmp->name);
-			test = ft_strdup(split[i]);
-			if (!ft_strncmp(split[i], name, ft_strlen(split[i])) && in_env(split[i], v))
+			g_shell.test = ft_strdup(g_shell.split[i]);
+			if (!ft_strncmp(g_shell.split[i], name, ft_strlen(g_shell.split[i])) && in_env(g_shell.split[i], v))
 			{
 				if (tmp->content)
 				{
-					free(split[i]);
-					split[i] = ft_strdup(tmp->content + 1);
+					free(g_shell.split[i]);
+					g_shell.split[i] = ft_strdup(tmp->content + 1);
 				}
 				else
 				{
-					free(split[i]);
-					split[i] = ft_strdup("");
+					free(g_shell.split[i]);
+					g_shell.split[i] = ft_strdup("");
 				}
 				free(name);
-				free(test);
+				free(g_shell.test);
 				break;
 			}
-			else if (!in_env(test, v))
+			else if (!in_env(g_shell.test, v))
 			{
-				free(split[i]);
-				split[i] = ft_strdup("");
+				free(g_shell.split[i]);
+				g_shell.split[i] = ft_strdup("");
 			}
 			tmp = tmp->next;
 			free(name);
-			free(test);
+			free(g_shell.test);
 		}
 		i++;
 	}
 	i = 0;
-	while (split[i])
+	while (g_shell.split[i])
 	{
-		recup = ft_strjoin_gnl(recup, split[i]); 
-		if (d)
+		recup = ft_strjoin_gnl(recup, g_shell.split[i]); 
+		if (g_shell.d)
 		{
-			recup = ft_strjoin(recup, "$");
-			d--;
+			recup = ft_strjoin_gnl(recup, "$");
+			g_shell.d--;
 		}
-		if (split[i + 1] && g.retour != 7)
+		if (g_shell.split[i + 1] && g_shell.retour != 7)
 			recup = ft_strjoin_gnl(recup, " "); 
 		i++;
 	}
 	if (ft_strlen(recup) > 0 && recup[ft_strlen(recup) - 1] == ' ')
 		recup[ft_strlen(recup) - 1] = 0;
-	free_char_tab(split);
+	free_char_tab(g_shell.split);
 	return (recup);
 }
+
+
 
 char	*ft_check_in_env_2(t_g *v, char *exec)
 {
@@ -408,7 +408,7 @@ char	*ft_check_in_env_2(t_g *v, char *exec)
 		return (NULL);
 	if (!ft_check_doll(split[i]))
 		l = 0;
-	while (split[i] && l == 1)// && split[i][0] == '$')
+	while (split[i] && l == 1)
 	{
 		c = 1;
 		split[i] = ft_check_special(split[i], v);
@@ -462,10 +462,10 @@ char	*ft_check_in_env_2(t_g *v, char *exec)
 		recup = ft_strjoin_gnl(recup, split[i]); 
 		if (d)
 		{
-			recup = ft_strjoin(recup, "$");
+			recup = ft_strjoin_gnl(recup, "$");
 			d--;
 		}
-		if (split[i + 1] && g.retour != 7)
+		if (split[i + 1] && g_shell.retour != 7)
 			recup = ft_strjoin_gnl(recup, " "); 
 		i++;
 	}
@@ -474,6 +474,8 @@ char	*ft_check_in_env_2(t_g *v, char *exec)
 	free_char_tab(split);
 	return (recup);
 }
+
+
 
 char	*ft_check_special(char *str, t_g *v)
 {
@@ -631,6 +633,7 @@ int	parsing(char *str, char **env, t_list *list)
 		}
 		ft_exec(v, v->l);
 	}
+	//ft_display(v);
 	ft_free(v);
 	return (1);
 }

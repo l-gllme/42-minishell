@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:19:18 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/30 13:38:39 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/30 17:37:04 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,16 +65,70 @@ int	ft_exec_in_no_cmd(char **tab, int choice, t_g *v)
 	return (1);
 }
 
+char	*try_access(char *cmd, t_g *v)
+{
+	int		i;
+	char	**path;
+	char	*s;
+
+	if (access(cmd, X_OK) == 0)
+		return (ft_strdup(cmd));
+	path = ft_split(ft_recup_content("PATH", v) + 1, ':');
+	i = -1;
+	while (path[++i])
+	{
+		path[i] = ft_strjoin_gnl(path[i], "/");
+		path[i] = ft_strjoin_gnl(path[i], cmd);
+	}
+	i = -1;
+	while (path[++i])
+	{
+		if (access(path[i], X_OK) == 0)
+		{
+			s = ft_strdup(path[i]);
+			free_char_tab(path);
+			return (s);
+		}
+	}
+	free_char_tab(path);
+	return (NULL);
+}
+
+void	ft_exec_cmd_test(t_l *tmp, t_g *v)
+{
+	int	frk;
+	char	*srt;
+	char	**toto;
+
+	if (tmp->arg != NULL)
+	{
+		srt = ft_strjoin(tmp->exec, " ");
+		srt = ft_strjoin_gnl(srt, tmp->arg);
+		toto = ft_split(srt, ' ');
+		free(srt);
+	}
+	else
+		toto = ft_split(tmp->exec, ' ');
+	frk = fork();
+	if (frk == 0)
+	{
+		execve(try_access(tmp->exec, v), toto, v->env);
+	}
+	else
+		wait(NULL);
+}
+
+
 int	ft_exec_in(t_g *v, t_l *tmp, int c)
 {
-	(void)v;
 	if (!tmp->exec)
 	{
 		ft_exec_in_no_cmd(tmp->in_tab, c, v);
 	}
 	else
 	{
-		//ft_exec_in_cmd(tmp->in_tab, c)
+		ft_exec_in_no_cmd(tmp->in_tab, c, v);
+		ft_exec_cmd_test(tmp, v);
 		return (0);
 	}
 	return (0);

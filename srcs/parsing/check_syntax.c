@@ -120,7 +120,7 @@ int	count_pipes(char *str)
 	if (s->sq_opened || s->dq_opened)
 	{
 		ft_putstr_fd("Invalid syntax\n", 2);
-		g.retour = 2;
+		g_shell.retour = 2;
 		free(s);
 		return (0);
 	}

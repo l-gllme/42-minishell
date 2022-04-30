@@ -49,7 +49,7 @@ void	ft_exit(char *line)
 	{
 		ft_putstr_fd("Bye! 👋\n", 1);
 		free(line);
-		exit (g.retour);
+		exit (g_shell.retour);
 	}
 	split = ft_split(line, ' ');
 	line[ft_strlen(line) - 1] = 0;
@@ -70,14 +70,14 @@ void	ft_exit(char *line)
 	if (ft_strcmp(line, tmp))
 	{
 		printf("Minishell: exit: %s: numeric argument required\n", split[0]);
-		g.retour = 1;
+		g_shell.retour = 1;
 		free(line);
 		return ;
 	}
 	else if (split[1] != NULL)
 	{
 		printf("exit\nMinishell: exit: too many arguments\n");
-		g.retour = 2;
+		g_shell.retour = 2;
 		free(line);
 		free (tmp);
 		return ;

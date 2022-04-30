@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 14:04:03 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/30 14:07:41 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/04/30 14:36:56 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,14 +75,18 @@ typedef struct s_get_cmd
 	int		l;
 }	t_c;
 
-typedef struct g_global
+typedef struct g_minishell
 {
 	int	retour;
 	char	*str;
+	char	**split;
 	char	*test;
+	int	j;
+	int	c;
+	int	d;
 	t_g *v;
-}	g_g;
+}	t_shell;
 
-extern g_g	g;
+extern t_shell	g_shell;
 
 #endif
