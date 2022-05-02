@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:19:18 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/02 15:17:13 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/02 17:59:52 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ static int	cut_exec_in_dup(char **tab, int i, t_l *tmp)
 					return (0);
 				tmp->in = fd;
 				tmp->name_in = ft_strdup(tab[i]);
+				close(fd);
 			}
 		}
 	}

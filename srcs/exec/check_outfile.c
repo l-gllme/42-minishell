@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 15:21:14 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/02 14:39:14 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/02 17:13:50 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ int	check_dup_outfile(char *file, int type, t_l *tmp)
 		tmp->name_out = ft_strdup(file);
 		tmp->append = 1;
 	}
-	printf("%d %s\n", tmp->append, tmp->name_out);
 	close(tmp->out);
 	return (1);
 }
