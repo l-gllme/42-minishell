@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 15:22:38 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/02 14:03:16 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/05/02 15:46:47 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,16 +54,22 @@ int	ft_here_doc_no_cmd(char *limiter, t_g *v, t_l *tmp)
 	char	*str;
 	int	i;
 	int	value = 0;
+	int	c;
+	int	fd;
 	
+	fd = 0;
 	i = g_shell.retour;
+	ft_suppr_dq_sq(limiter);
 	if (v->dup_type == 10)
 	{
 		if (!create_tmp_file(tmp))
 			return (0);
 		if (v->dup_type == 10)
 			tmp->in = open(tmp->name_in, O_CREAT | O_WRONLY | O_APPEND, 0644);
+		fd = tmp->in;
 	}
 	int	frk = fork();
+	c = v->dup_type;
 	if (frk == 0)
 	{
 		g_shell.test = ft_strdup(limiter);
@@ -73,11 +79,13 @@ int	ft_here_doc_no_cmd(char *limiter, t_g *v, t_l *tmp)
 		{
 			signal(SIGINT, handler2);
 			str = readline("> ");
-			if (v->dup_type == 10)
+			if (c == 10 && str && str[0] != 0 && ft_strcmp(str, g_shell.test) != 0)
 			{
-				ft_putstr_fd(str, tmp->in);
-				ft_putstr_fd("\n", tmp->in);
+				ft_putstr_fd(str, fd);
+				ft_putstr_fd("\n", fd);
 			}
+			else if (fd != 0)
+				close(fd);
 			g_shell.str = str;
 			if (str == NULL)
 			{
@@ -96,9 +104,10 @@ int	ft_here_doc_no_cmd(char *limiter, t_g *v, t_l *tmp)
 			}
 			free(str);
 		}
-		if (v->dup_type == 10)
-			v->dup_type = 0;
-		close(tmp->in);
+		if (c == 10)
+			c = 0;
+		if (fd != 0)
+			close(fd);
 		exit(0);
 	}
 	else
@@ -109,6 +118,7 @@ int	ft_here_doc_no_cmd(char *limiter, t_g *v, t_l *tmp)
 		{
 			if (tmp->name_in)
 			{
+				close(tmp->in);
 				unlink(tmp->name_in);
 			}
 			g_shell.retour = 130;
@@ -117,6 +127,8 @@ int	ft_here_doc_no_cmd(char *limiter, t_g *v, t_l *tmp)
 		else
 			g_shell.retour = i;
 	}
+	if (tmp->in != -1)
+		close(tmp->in);
 	return (1);
 }
 

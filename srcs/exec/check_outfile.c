@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/13 15:21:14 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/13 15:22:32 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/05/02 14:39:14 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,26 +63,27 @@ int	check_outfile(char *file, int type)
 	return (1);
 }
 
-int	check_dup_outfile(char *file, int type)
+int	check_dup_outfile(char *file, int type, t_l *tmp)
 {
-	int	fd;
-
 	if (!check_outfile(file, type))
 		return (0);
 	if (type == 1)
 	{
-		fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-		if (fd == -1)
+		tmp->out = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+		if (tmp->out == -1)
 			return (ft_custom_error("open error in check_outfile()\n", 0, NULL));
+		tmp->name_out = ft_strdup(file);
+		tmp->append = 0;
 	}
 	if (type == 0)
 	{
-		fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 0644);
-		if (fd == -1)
+		tmp->out = open(file, O_CREAT | O_WRONLY | O_APPEND, 0644);
+		if (tmp->out == -1)
 			return (ft_custom_error("open error in check_outfile()\n", 0, NULL));
+		tmp->name_out = ft_strdup(file);
+		tmp->append = 1;
 	}
-	if (dup2(fd, STDOUT_FILENO) == -1)
-		ft_custom_error("dup2 error in check_outfile()\n", 0, NULL);
-	close(fd);
+	printf("%d %s\n", tmp->append, tmp->name_out);
+	close(tmp->out);
 	return (1);
 }

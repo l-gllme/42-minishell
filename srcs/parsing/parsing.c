@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/30 17:39:42 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/02 15:34:16 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ int	parse_cmd(t_g *v)
 			arg = NULL;
 			in_tab = NULL;
 			out_tab = NULL;
+			v->l->name_in = NULL;
+			v->l->name_out = NULL;
 			if (!ft_add_spaces(v, '<', i) || !ft_add_spaces(v, '>', i))
 				return (ft_custom_error(NULL, 0, v));
 			v->cmd = ft_supersplit(v->tab[i], ' ');
@@ -141,6 +143,8 @@ void	init_struct(char **tab, t_g *v, char **env, t_list *list)
 {
 	v->l = malloc(sizeof(t_l));
 	v->l->next = NULL;
+	v->l->name_in = NULL;
+	v->l->name_out = NULL;
 	v->tab = tab;
 	v->list = list;
 	v->env = env;

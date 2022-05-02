@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 14:04:03 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/30 14:36:56 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/02 14:11:43 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_line
 	char	*name_in;
 	int		pipe;
 	char	*name_pipe;
+	int		append;
 	struct s_line	*next;
 }	t_l;
 

@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 17:54:29 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/04/28 18:31:14 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/05/02 15:42:59 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,10 @@ void	ft_super_lstdelone(t_l *lst, void (*del)(void *))
 		del(lst->exec);
 	if (lst->arg)
 		del(lst->arg);
+	if (lst->name_in != NULL)
+		free(lst->name_in);
+	if (lst->name_out != NULL)
+		free(lst->name_out);
 	free(lst);
 }
 
@@ -56,6 +60,8 @@ t_l	*ft_super_lstnew(char **out_tab, char **in_tab, char *arg, char *exec)
 	tmp->arg = arg;
 	tmp->exec = exec;
 	tmp->next = NULL;
+	tmp->name_in = NULL;
+	tmp->name_out = NULL;
 	return (tmp);
 }
 

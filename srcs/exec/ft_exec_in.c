@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:19:18 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/02 12:59:53 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/02 15:17:13 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ int	ft_exec_in_dup(t_g *v, char **tab, t_l *tmp, int choice)
 	int	fd;
 	int	i;
 
-		printf ("lol\n");
 	i = -1;
 	if (!tab)
 		return (0);
@@ -175,14 +174,19 @@ void	ft_exec_cmd_test(t_l *tmp, t_g *v)
 	if (frk == 0)
 	{
 		execve(try_access(tmp->exec, v), toto, v->env);
+		ft_lstclear(&v->list, &free);
+		ft_free(v);
+		free_char_tab(toto);
+		exit (0);
 	}
 	else
 		wait(NULL);
+	free_char_tab(toto);
 }
 
 int	ft_exec_in(t_g *v, t_l *tmp, int c)
 {
-	if (!tmp->exec)
+	if (tmp->exec == NULL)
 	{
 		ft_exec_in_no_cmd(tmp->in_tab, c, v, tmp);
 		if (g_shell.retour == 130)

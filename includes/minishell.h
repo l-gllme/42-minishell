@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/02 12:48:12 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/02 14:36:41 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	ft_exec_out_no_cmd(char **tab);
 
 /* check_outfile.c */
 int		check_outfile(char *file, int type);
-int		check_dup_outfile(char *file, int type);
+int		check_dup_outfile(char *file, int type, t_l *tmp);
 
 /* exec.c */
 void	ft_exec_one(t_g *v);
