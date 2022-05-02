@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/30 13:39:05 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/02 12:48:12 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,15 @@ char	*stock_arg(t_g *v, char *arg);
 /* ******************************* */
 
 int	ft_exec(t_g *v, t_l *l);
-int	ft_here_doc_no_cmd(char *limiter, t_g *v);
+int	ft_here_doc_no_cmd(char *limiter, t_g *v, t_l *tmp);
 void	handler(int signum);
+void    ft_exec_cmd_test(t_l *tmp, t_g *v);
+int	ft_exec_in_dup(t_g *v, char **tab, t_l *tmp, int choice);
+
 
 /* ft_exec_in.c */
 int	ft_exec_in(t_g *v, t_l *tmp, int c);
-int	ft_exec_in_no_cmd(char **tab, int choice, t_g *v);
+int	ft_exec_in_no_cmd(char **tab, int choice, t_g *v, t_l *tmp);
 int	check_valid_infile(char *file);
 
 /* ft_exec_out.c */
