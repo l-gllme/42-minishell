@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 15:22:38 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/02 13:02:13 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/02 14:03:16 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,10 +107,8 @@ int	ft_here_doc_no_cmd(char *limiter, t_g *v, t_l *tmp)
 		waitpid(frk, &value, 0);
 		if (WEXITSTATUS(value) == 2)
 		{
-			printf ("lol\n");
 			if (tmp->name_in)
 			{
-				printf ("salut\n");
 				unlink(tmp->name_in);
 			}
 			g_shell.retour = 130;
@@ -150,6 +148,7 @@ int	ft_exec(t_g *v, t_l *l)
 		tmp->out = -1;
 		tmp->name_in = NULL;
 		tmp->name_out = NULL;
+		v->dup_type = 0;
 		if (tmp->in_tab != NULL && g_shell.retour != 130)
 			ft_exec_in(v, tmp, 0);
 		tmp = tmp->next;
@@ -163,6 +162,11 @@ int	ft_exec(t_g *v, t_l *l)
 			ft_exec_out(v, tmp);
 		if (tmp->exec != NULL)
 			ft_exec_cmd_test(tmp, v);
+		if (tmp->name_in != NULL)
+		{
+			if (tmp->in_tab[ft_tablen(tmp->in_tab) - 2][1] != 0)
+				unlink(tmp->name_in);
+		}
 		tmp = tmp->next;
 	}
 	return (1);
