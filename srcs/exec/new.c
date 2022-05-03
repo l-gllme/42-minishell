@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 15:22:38 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/03 17:26:32 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/03 18:42:28 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,17 +160,13 @@ int	ft_exec_builtin(t_g *v, t_l *tmp)
 	return (1);
 }
 
-int	ft_exec_cmd_no_redirect(t_g *v, t_l *tmp, char *str)
+int	ft_exec_cmd_no_redirect(t_g *v, t_l *tmp, char *str, int pipe_fd[2], int fd_tmp)
 {
 	int	frk;
-	int	pipe_fd[2];
 	int	fd;
-	int	value;
 	char	**toto;
 	char	*srt;
 
-	value = 0;
-	pipe(pipe_fd);
 	frk = fork();
 	if (frk == 0)
 	{
@@ -188,11 +184,12 @@ int	ft_exec_cmd_no_redirect(t_g *v, t_l *tmp, char *str)
 			fd = open(tmp->name_in, 0, 0644);	
 			dup2(fd, STDIN_FILENO);
 			close(fd);
+			if (v->dup_type != 1)
+				close(fd_tmp);
 		}
 		else if (v->dup_type != 1)
 		{
-			dup2(pipe_fd[0], STDIN_FILENO);
-			close(pipe_fd[1]);
+			dup2(fd_tmp, STDIN_FILENO);
 		}
 		if (tmp->name_out)
 		{
@@ -202,8 +199,9 @@ int	ft_exec_cmd_no_redirect(t_g *v, t_l *tmp, char *str)
 				fd = open(tmp->name_out, O_WRONLY | O_TRUNC, 0644);	
 			dup2(fd, STDOUT_FILENO);
 			close(fd);
+			//close(pipe_fd[1]);
 		}
-		if (tmp->next)
+		else if (tmp->next)
 		{
 			dup2(pipe_fd[1], STDOUT_FILENO);
 			close(pipe_fd[0]);
@@ -217,17 +215,13 @@ int	ft_exec_cmd_no_redirect(t_g *v, t_l *tmp, char *str)
 			exit(0);
 		}
 		execve(str, toto, v->new_env);
+		exit(0);
 	}
-	else
-	{
-		close(pipe_fd[0]);
-		close(pipe_fd[1]);
-	//	waitpid(frk, &value, 0);
-	}
-	close(pipe_fd[0]);
+	if (v->dup_type != 1)
+		close(fd_tmp);
 	close(pipe_fd[1]);
 	free(v->wagon);
-	return (WEXITSTATUS(value));
+	return (1);
 }
 
 int	ft_exec_one_cmd(t_g *v, char *str)
@@ -258,7 +252,7 @@ int	ft_exec_one_cmd(t_g *v, char *str)
 	return (WEXITSTATUS(value));
 }
 
-int	ft_exec_cmd_lol(t_g *v, t_l *tmp, int choice)
+int	ft_exec_cmd_lol(t_g *v, t_l *tmp, int choice, int pipe_fd[2], int fd_tmp)
 {
 	char	*str;
 	int		value;
@@ -266,7 +260,7 @@ int	ft_exec_cmd_lol(t_g *v, t_l *tmp, int choice)
 	value = 0;
 	if (ft_is_builtin(tmp->exec, v, 0, tmp))
 	{
-		ft_exec_cmd_no_redirect(v, tmp, tmp->exec);
+		ft_exec_cmd_no_redirect(v, tmp, tmp->exec, pipe_fd, fd_tmp);
 		return (1);
 	}
 	else
@@ -286,12 +280,12 @@ int	ft_exec_cmd_lol(t_g *v, t_l *tmp, int choice)
 			ft_putstr_fd("minishell: ", 2);
 			ft_putstr_fd(tmp->exec, 2);
 			ft_custom_error(": command not found\n", 0, NULL);
-			return (value);
+			//return (value);
 		}
 		if (choice)
 			ft_exec_one_cmd(v, str);
 		else
-			ft_exec_cmd_no_redirect(v, tmp, str);
+			ft_exec_cmd_no_redirect(v, tmp, str, pipe_fd, fd_tmp);
 		free(str);
 	}
 	return (1);
@@ -300,6 +294,8 @@ int	ft_exec_cmd_lol(t_g *v, t_l *tmp, int choice)
 int	ft_exec(t_g *v, t_l *l)
 {
 	t_l	*tmp;
+	int	pipe_fd[2];
+	int	fd_tmp;
 
 	g_shell.retour = 0;
 	tmp = l;
@@ -327,10 +323,17 @@ int	ft_exec(t_g *v, t_l *l)
 		{
 			if (l->next == NULL && ft_is_builtin(l->exec, v, 0, tmp))
 				ft_exec_builtin(v, tmp);
-			else if (l->next == NULL)
-				ft_exec_cmd_lol(v, tmp, 1);
+			else if (v->nb_cmd == 1)
+				ft_exec_cmd_lol(v, tmp, 1, pipe_fd, 0);
 			else
-				ft_exec_cmd_lol(v, tmp, 0);
+			{
+
+				if (v->dup_type != 1)
+					fd_tmp = pipe_fd[0];
+				if (tmp->next != NULL)
+					pipe(pipe_fd);
+				ft_exec_cmd_lol(v, tmp, 0, pipe_fd, fd_tmp);
+			}
 		}
 		if (tmp->name_in != NULL)
 		{
