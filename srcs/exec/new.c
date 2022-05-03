@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 15:22:38 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/02 17:59:11 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/03 17:26:32 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,22 @@ int	create_tmp_file(t_l *tmp)
 {
 	int		dev;
 	char	random[11];
+	int		i;
 
+	i = 0;
 	dev = open("/dev/urandom", O_RDONLY);
 	if (dev == -1)
 		return (ft_custom_error("open error in create_tmp_file()\n", 0, NULL));
 	read(dev, random, 10);
 	close(dev);
 	random[10] = 0;
+	while (random[i])
+	{
+		if (random[i] == '/')
+			random[i] = 123;
+		i++;
+	}
+	close(dev);
 	tmp->name_in = ft_strjoin(".tmp_file", random);
 	if (!tmp->name_in)
 		return (ft_custom_error("strjoin error in create_tmp_file()\n",
@@ -132,26 +141,26 @@ int	ft_here_doc_no_cmd(char *limiter, t_g *v, t_l *tmp)
 	return (1);
 }
 
-static int	create_tmp_file_exec(t_g *v)
+int	ft_exec_builtin(t_g *v, t_l *tmp)
 {
-	int		dev;
-	char	random[11];
+	int	fd;
 
-	dev = open("/dev/urandom", O_RDONLY);
-	if (dev == -1)
-		return (ft_custom_error("open error in create_tmp_file()\n", 0, NULL));
-	read(dev, random, 10);
-	close(dev);
-	random[10] = 0;
-	v->urandom = ft_strjoin(".tmp_file", random);
-	if (!v->urandom)
-		return (ft_custom_error("strjoin error in create_tmp_file()\n",
-				0, NULL));
+	if (tmp->name_out)
+	{
+		if (tmp->append)
+			fd = open(tmp->name_out, O_WRONLY | O_APPEND, 0644);	
+		else
+			fd = open(tmp->name_out, O_WRONLY | O_TRUNC, 0644);	
+		dup2(fd, STDOUT_FILENO);
+		close(fd);
+	}
+	ft_is_builtin(tmp->exec, v, 1, tmp);
+	if (tmp->name_out)
+		dup2(STDIN_FILENO, STDOUT_FILENO);
 	return (1);
 }
 
-
-int	ft_exec_cmd_no_redirect(t_g *v, t_l *tmp)
+int	ft_exec_cmd_no_redirect(t_g *v, t_l *tmp, char *str)
 {
 	int	frk;
 	int	pipe_fd[2];
@@ -159,30 +168,20 @@ int	ft_exec_cmd_no_redirect(t_g *v, t_l *tmp)
 	int	value;
 	char	**toto;
 	char	*srt;
-	char	*str;
 
 	value = 0;
-	str = try_access(tmp->exec, v);
-	if (v->urandom != NULL)
-		v->wagon = ft_strdup(v->urandom);
-	if (tmp->next && !tmp->name_out)
-	{
-		create_tmp_file_exec(v);
-		v->fd_in = open(v->urandom, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		close(v->fd_in);
-	}
 	pipe(pipe_fd);
 	frk = fork();
 	if (frk == 0)
 	{
-		if (tmp->arg != NULL)
+		if (tmp->arg != NULL && !ft_is_builtin(tmp->exec, v, 0, tmp))
 		{
 			srt = ft_strjoin(tmp->exec, " ");
 			srt = ft_strjoin_gnl(srt, tmp->arg);
 			toto = ft_split(srt, ' ');
 			free(srt);
 		}
-		else
+		else if (!ft_is_builtin(tmp->exec, v, 0, tmp))
 			toto = ft_split(tmp->exec, ' ');
 		if (tmp->name_in)
 		{
@@ -190,14 +189,7 @@ int	ft_exec_cmd_no_redirect(t_g *v, t_l *tmp)
 			dup2(fd, STDIN_FILENO);
 			close(fd);
 		}
-		else if (v->wagon != NULL)
-		{
-			fd = open(v->wagon, 0, 0644);	
-			dup2(fd, STDIN_FILENO);
-			close(fd);
-			unlink(v->wagon);
-		}
-		else if (tmp->next)
+		else if (v->dup_type != 1)
 		{
 			dup2(pipe_fd[0], STDIN_FILENO);
 			close(pipe_fd[1]);
@@ -211,29 +203,97 @@ int	ft_exec_cmd_no_redirect(t_g *v, t_l *tmp)
 			dup2(fd, STDOUT_FILENO);
 			close(fd);
 		}
-		else if (tmp->next)
+		if (tmp->next)
 		{
-			v->fd_in = open(v->urandom, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-			dup2(v->fd_in, STDOUT_FILENO);
-			close(v->fd_in);
+			dup2(pipe_fd[1], STDOUT_FILENO);
+			close(pipe_fd[0]);
 		}
-		if (v->wagon)
-			unlink(v->wagon);
+		if (ft_is_builtin(tmp->exec, v, 1, tmp))
+		{
+			ft_lstclear(&v->list, &free);
+			ft_free(v);
+			close(pipe_fd[0]);
+			close(pipe_fd[1]);
+			exit(0);
+		}
 		execve(str, toto, v->new_env);
 	}
 	else
 	{
-		waitpid(frk, &value, 0);
+		close(pipe_fd[0]);
+		close(pipe_fd[1]);
+	//	waitpid(frk, &value, 0);
 	}
 	close(pipe_fd[0]);
 	close(pipe_fd[1]);
-	wait (NULL);
+	free(v->wagon);
 	return (WEXITSTATUS(value));
 }
 
-int	ft_exec_cmd_lol(t_g *v, t_l *tmp)
+int	ft_exec_one_cmd(t_g *v, char *str)
 {
-	ft_exec_cmd_no_redirect(v, tmp);
+	int		frk;
+	char	**toto;
+	char	*srt;
+	int		value;
+
+	value = 0;
+	if (v->l->arg != NULL)
+	{
+		srt = ft_strjoin(v->l->exec, " ");
+		srt = ft_strjoin_gnl(srt, v->l->arg);
+		toto = ft_split(srt, ' ');
+		free(srt);
+	}
+	else
+		toto = ft_split(v->l->exec, ' ');
+	frk = fork();
+	if (frk == 0)
+	{
+		execve(str, toto, v->new_env);
+	}
+	else
+		waitpid(frk, &value, 0);
+	free_char_tab(toto);
+	return (WEXITSTATUS(value));
+}
+
+int	ft_exec_cmd_lol(t_g *v, t_l *tmp, int choice)
+{
+	char	*str;
+	int		value;
+
+	value = 0;
+	if (ft_is_builtin(tmp->exec, v, 0, tmp))
+	{
+		ft_exec_cmd_no_redirect(v, tmp, tmp->exec);
+		return (1);
+	}
+	else
+	{
+		if (ft_recup_content("PATH", v) == NULL && access(tmp->exec, X_OK) != 0)
+		{
+			value = 127;
+			ft_putstr_fd("minishell: ", 2);
+			ft_putstr_fd(tmp->exec, 2);
+			ft_custom_error(": command not found\n", 0, NULL);
+			return (value);
+		}
+		str = try_access(tmp->exec, v);
+		if (str == NULL)
+		{
+			value = 127;
+			ft_putstr_fd("minishell: ", 2);
+			ft_putstr_fd(tmp->exec, 2);
+			ft_custom_error(": command not found\n", 0, NULL);
+			return (value);
+		}
+		if (choice)
+			ft_exec_one_cmd(v, str);
+		else
+			ft_exec_cmd_no_redirect(v, tmp, str);
+		free(str);
+	}
 	return (1);
 }
 
@@ -243,10 +303,9 @@ int	ft_exec(t_g *v, t_l *l)
 
 	g_shell.retour = 0;
 	tmp = l;
+	v->dup_type = 0;
 	while (tmp)
 	{
-		v->wagon = NULL;
-		v->urandom = NULL;
 		tmp->in = -1;
 		tmp->out = -1;
 		tmp->name_in = NULL;
@@ -259,18 +318,35 @@ int	ft_exec(t_g *v, t_l *l)
 	tmp = l;
 	while (tmp)
 	{
+		v->dup_type++;
 		if (tmp->in_tab != NULL)
 			ft_exec_in(v, tmp, 1);
 		if (tmp->out_tab != NULL)
 			ft_exec_out(v, tmp);
 		if (tmp->exec != NULL)
-			ft_exec_cmd_lol(v, tmp);
+		{
+			if (l->next == NULL && ft_is_builtin(l->exec, v, 0, tmp))
+				ft_exec_builtin(v, tmp);
+			else if (l->next == NULL)
+				ft_exec_cmd_lol(v, tmp, 1);
+			else
+				ft_exec_cmd_lol(v, tmp, 0);
+		}
 		if (tmp->name_in != NULL)
 		{
 			if (tmp->in_tab[ft_tablen(tmp->in_tab) - 2][1] != 0)
 				unlink(tmp->name_in);
 		}
 		tmp = tmp->next;
+	}
+	if (l->next == NULL)
+	{
+		return (1);
+	}
+	while (v->nb_cmd)
+	{
+		wait (NULL);
+		v->nb_cmd--;
 	}
 	return (1);
 }

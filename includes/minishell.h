@@ -110,7 +110,7 @@ int		exec_in(t_g *v, char **tab);
 int		ft_exec_cmd(t_g *v);
 
 /* ft_is_builtin.c */
-int		ft_is_builtin(char *str, t_g *v, int choice);
+int		ft_is_builtin(char *str, t_g *v, int choice, t_l *tmp);
 
 /* out_exec.c */
 int		redirect_out(t_g *v);

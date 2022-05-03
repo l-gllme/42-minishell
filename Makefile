@@ -6,7 +6,7 @@
 #    By: lguillau <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/14 14:27:36 by lguillau          #+#    #+#              #
-#    Updated: 2022/04/29 17:24:12 by lguillau         ###   ########.fr        #
+#    Updated: 2022/05/03 13:50:12 by jtaravel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ FILES	=	minishell.c \
 		exec/new.c \
 		exec/ft_exec_in.c \
 		exec/ft_exec_out.c \
+		exec/ft_is_builtin.c \
 		exec/check_outfile.c \
 		lst/ft_lst.c \
 		lst/ft_superlst.c \

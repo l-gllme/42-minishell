@@ -6,21 +6,21 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 15:39:37 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/28 12:43:08 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/03 14:09:33 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	ft_is_builtin(char *str, t_g *v, int choice)
+int	ft_is_builtin(char *str, t_g *v, int choice, t_l *tmp)
 {
 	if (ft_strcmp(str, "echo") == 0)
 	{
 		if (choice)
-			ft_echo(v->l->arg);
+			ft_echo(tmp->arg);
 		else
 			v->nb_built++;
-		g_retour = 0;
+		g_shell.retour = 0;
 		return (1);
 	}
 	if (ft_strcmp(str, "pwd") == 0)
@@ -35,8 +35,8 @@ int	ft_is_builtin(char *str, t_g *v, int choice)
 	{
 		if (choice)
 		{
-			if (!ft_cd(v->l->arg, v))
-				g_retour = 1;
+			if (!ft_cd(tmp->arg, v))
+				g_shell.retour = 1;
 		}
 		else
 			v->nb_built++;
@@ -53,7 +53,7 @@ int	ft_is_builtin(char *str, t_g *v, int choice)
 	if (ft_strcmp(str, "unset") == 0)
 	{
 		if (choice)
-			ft_unset(v->l->arg, v);
+			ft_unset(tmp->arg, v);
 		else
 			v->nb_built++;
 		return (1);
@@ -61,7 +61,7 @@ int	ft_is_builtin(char *str, t_g *v, int choice)
 	if (ft_strcmp(str, "export") == 0)
 	{
 		if (choice)
-			ft_export(v->l->arg, v);
+			ft_export(tmp->arg, v);
 		else
 			v->nb_built++;
 		return (1);
@@ -69,7 +69,7 @@ int	ft_is_builtin(char *str, t_g *v, int choice)
 	if (ft_strcmp(str, "exit") == 0)
 	{
 		if (choice)
-			ft_exit(v->l->arg);
+			ft_exit(tmp->arg);
 		else
 			v->nb_built++;
 		return (1);
