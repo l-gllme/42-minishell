@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:40:12 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/30 14:41:09 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/04 14:30:02 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,10 @@ t_shell	g_shell;
 
 void	handler(int signum)
 {
-	(void)signum;
-	if (signum == 3)
+	if (signum == 3 && g_shell.in_exec == 1)
 	{
 		g_shell.retour = 131;
-		printf("A faire...");
+		printf("Quit (core dumped)\n");
 	}
 	if (signum == 2)
 	{
@@ -29,6 +28,12 @@ void	handler(int signum)
 		printf("\n");
 		rl_replace_line("", 1);
 		rl_redisplay();
+	}
+	else if (signum == 3 && g_shell.in_exec == 0)
+	{
+		write (2, "lol\n", 4);
+		
+		g_shell.retour = 131;
 	}
 	else
 		return ;
@@ -39,6 +44,7 @@ int	main(int ac, char **av, char **env)
 	char	*str;
 	t_list	*list;
 
+	g_shell.in_exec = 0;
 	g_shell.retour = 0;
 	list = NULL;
 	list = init_lst(env, list);
@@ -47,8 +53,14 @@ int	main(int ac, char **av, char **env)
 		ft_error(2);
 	while (1)
 	{
+		if (g_shell.in_exec == 0)
+			signal(SIGQUIT, SIG_IGN);
+		if (g_shell.in_exec == 1)
+		{
+			printf ("lol\n");
+			signal(SIGQUIT, handler);
+		}
 		signal(SIGINT, handler);
-		//signal(SIGQUIT, handler);
 		str = readline("\033[34m➜\033[0m ");
 		if (str == NULL)
 		{
@@ -61,6 +73,7 @@ int	main(int ac, char **av, char **env)
 		if (str[0])
 			parsing(str, env, list);
 		free(str);
+		g_shell.in_exec = 0;
 	}
 	ft_lstclear(&list, &free);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 15:22:38 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/04 12:11:46 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/05/04 14:36:37 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	handler2(int signum)
 {
-	if (signum == 3)
+	if (signum == 3 && g_shell.in_exec == 1)
 	{
+		write (2, "lol\n", 4);
 		g_shell.retour = 131;
-		printf("A faire...");
 	}
 	if (signum == 2)
 	{
@@ -87,6 +87,7 @@ int	ft_here_doc_no_cmd(char *limiter, t_g *v, t_l *tmp)
 		while (1)
 		{
 			signal(SIGINT, handler2);
+			signal(SIGQUIT, handler2);
 			str = readline("> ");
 			if (c == 10 && str && str[0] != 0 && ft_strcmp(str, g_shell.test) != 0)
 			{
@@ -166,10 +167,14 @@ int	ft_exec_cmd_no_redirect(t_g *v, t_l *tmp, char *str, int pipe_fd[2], int fd_
 	int	fd;
 	char	**toto;
 	char	*srt;
+	int	value;
 
+	value = 0;
+	g_shell.in_exec = 1;
 	frk = fork();
 	if (frk == 0)
 	{
+		signal(SIGQUIT, handler);
 		if (tmp->arg != NULL && !ft_is_builtin(tmp->exec, v, 0, tmp))
 		{
 			srt = ft_strjoin(tmp->exec, " ");
@@ -214,13 +219,28 @@ int	ft_exec_cmd_no_redirect(t_g *v, t_l *tmp, char *str, int pipe_fd[2], int fd_
 			close(pipe_fd[1]);
 			exit(0);
 		}
-		execve(str, toto, v->new_env);
+		close(pipe_fd[1]);
+		if (str != NULL)
+			execve(str, toto, v->new_env);
+		close(pipe_fd[1]);
+		if (fd_tmp)
+			close(fd_tmp);
+		ft_lstclear(&v->list, &free);
+		ft_free(v);
+		free_char_tab(toto);
 		exit(0);
 	}
+	else
+		waitpid(0, &value, 0);
 	if (v->dup_type != 1)
 		close(fd_tmp);
 	close(pipe_fd[1]);
 	free(v->wagon);
+	if (WTERMSIG(value) == 3)
+	{
+		printf ("Quit (core dumped)\n");
+		g_shell.retour = 131;
+	}
 	return (1);
 }
 
@@ -233,6 +253,7 @@ int	ft_exec_one_cmd(t_g *v, char *str, t_l *tmp)
 	int	fd;
 
 	value = 0;
+	g_shell.in_exec = 1;
 	if (v->l->arg != NULL)
 	{
 		srt = ft_strjoin(v->l->exec, " ");
@@ -245,6 +266,7 @@ int	ft_exec_one_cmd(t_g *v, char *str, t_l *tmp)
 	frk = fork();
 	if (frk == 0)
 	{
+		signal(SIGQUIT, handler);
 		if (tmp->name_in)
 		{
 			fd = open(tmp->name_in, 0, 0644);	
@@ -260,10 +282,20 @@ int	ft_exec_one_cmd(t_g *v, char *str, t_l *tmp)
 			dup2(fd, STDOUT_FILENO);
 			close(fd);
 		}
-		execve(str, toto, v->new_env);
+		if (str != NULL)
+			execve(str, toto, v->new_env);
+		ft_lstclear(&v->list, &free);
+		ft_free(v);
+		free_char_tab(toto);
+		exit(0);
 	}
 	else
 		waitpid(frk, &value, 0);
+	if (WTERMSIG(value) == 3)
+	{
+		printf ("Quit (core dumped)\n");
+		g_shell.retour = 131;
+	}
 	free_char_tab(toto);
 	return (WEXITSTATUS(value));
 }
@@ -314,8 +346,10 @@ int	ft_exec(t_g *v, t_l *l)
 	int	fd_tmp;
 
 	g_shell.retour = 0;
+	g_shell.in_exec = 0;
 	tmp = l;
 	v->dup_type = 0;
+	fd_tmp = 0;
 	while (tmp)
 	{
 		tmp->in = -1;
@@ -367,5 +401,7 @@ int	ft_exec(t_g *v, t_l *l)
 		wait (NULL);
 		v->nb_cmd--;
 	}
+	if (fd_tmp)
+		close(fd_tmp);
 	return (1);
 }
