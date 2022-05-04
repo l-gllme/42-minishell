@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:23:26 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/02 14:36:12 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/04 17:01:34 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,20 @@ static int	cut_exec_out_dup(t_g *v, char **tab , int i)
 	int	type;
 	int	len;
 
+	(void)v;
 	type = 0;
 	len = ft_tablen(tab);
 	if (tab[i][0] == '>' && tab[i][1] == 0 && i != len - 2)
 	{
 		type = 1;
 		if (!check_outfile(tab[i + 1], 1))
-			return (ft_custom_error(NULL, -1, v));
+			return (ft_custom_error(NULL, -1, 0));
 	}
 	else if (tab[i][0] == '>' && tab[i][1] == '>' && i != len - 2)
 	{
 		type = 0;
 		if (!check_outfile(tab[i + 1], 0))
-			return (ft_custom_error(NULL, -1, v));
+			return (ft_custom_error(NULL, -1, 0));
 	}
 	return (type);
 }
@@ -48,14 +49,23 @@ int	ft_exec_out_dup(t_g *v, char **tab, t_l *tmp)
 	{
 		type = cut_exec_out_dup(v, tab, i);
 		if (type == -1)
+		{
+			free(tmp->exec);
+			tmp->exec = NULL;
 			return (0);
+		}
 		if (i == len - 1)
 		{
 			if (tab[i - 1][1] == 0)
 				type = 1;
 			else
 				type = 0;
-			check_dup_outfile(tab[i], type, tmp);
+			if (!check_dup_outfile(tab[i], type, tmp))
+			{
+				free(tmp->exec);
+				tmp->exec = NULL;
+				return (0);
+			}
 		}
 	}
 	return (1);
