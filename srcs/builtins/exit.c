@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 14:33:21 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/30 13:30:47 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/04 16:24:42 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ void	ft_exit(char *line)
 	i = 0;
 	if (!line)
 	{
-		ft_putstr_fd("Bye! 👋\n", 1);
+		//if (g_shell.retour != 89)
+		//	printf("Bye! 👋\n");
 		free(line);
 		exit (g_shell.retour);
 	}
@@ -60,7 +61,7 @@ void	ft_exit(char *line)
 			printf("Minishell: exit: %s: numeric argument required\n", split[0]);
 			valeur = 2;
 			free(line);
-			ft_putstr_fd("Bye! 👋\n", 1);
+			printf("Bye! 👋\n");
 			exit(valeur);
 		}
 		i++;
@@ -69,10 +70,11 @@ void	ft_exit(char *line)
 	tmp = ft_itoa(valeur);
 	if (ft_strcmp(line, tmp))
 	{
+		printf("Bye! 👋\n");
 		printf("Minishell: exit: %s: numeric argument required\n", split[0]);
 		g_shell.retour = 1;
-		free(line);
-		return ;
+		//free(line);
+		exit (0);
 	}
 	else if (split[1] != NULL)
 	{
@@ -82,8 +84,8 @@ void	ft_exit(char *line)
 		free (tmp);
 		return ;
 	}
-	ft_putstr_fd("Bye! 👋\n", 1);
-	free(line);
+	printf("Bye! 👋\n");
+	//free(line);
 	free (tmp);
 	free_char_tab(split);
 	exit(valeur);

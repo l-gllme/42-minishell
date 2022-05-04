@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:19:18 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/02 17:59:52 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/04 15:55:55 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,8 @@ static int	cut_exec_in_dup(char **tab, int i, t_l *tmp)
 			if (i == len - 1)
 			{
 				fd = open(tab[i], 0);
-				if (fd == -1)
-					return (0);
-				tmp->in = fd;
+				if (fd != -1)
+					tmp->in = fd;
 				tmp->name_in = ft_strdup(tab[i]);
 				close(fd);
 			}
@@ -82,8 +81,9 @@ int	check_valid_infile(char *file)
 	ft_suppr_dq_sq(file);
 	fd = open(file, O_RDONLY);
 	dd = open(file, O_DIRECTORY);
-	if (fd == -1 && dd == -1)
+	if (fd == -1 && dd == -1 && !access(file, X_OK))
 	{
+		g_shell.retour = 1;
 		ft_putstr_fd("minishell: ", 1);
 		ft_putstr_fd(file, 1);
 		ft_putstr_fd(": No such file or directory\n", 1);
@@ -156,35 +156,6 @@ char	*try_access(char *cmd, t_g *v)
 	return (NULL);
 }
 
-void	ft_exec_cmd_test(t_l *tmp, t_g *v)
-{
-	int	frk;
-	char	*srt;
-	char	**toto;
-
-	if (tmp->arg != NULL)
-	{
-		srt = ft_strjoin(tmp->exec, " ");
-		srt = ft_strjoin_gnl(srt, tmp->arg);
-		toto = ft_split(srt, ' ');
-		free(srt);
-	}
-	else
-		toto = ft_split(tmp->exec, ' ');
-	frk = fork();
-	if (frk == 0)
-	{
-		execve(try_access(tmp->exec, v), toto, v->env);
-		ft_lstclear(&v->list, &free);
-		ft_free(v);
-		free_char_tab(toto);
-		exit (0);
-	}
-	else
-		wait(NULL);
-	free_char_tab(toto);
-}
-
 int	ft_exec_in(t_g *v, t_l *tmp, int c)
 {
 	if (tmp->exec == NULL)
@@ -206,7 +177,6 @@ int	ft_exec_in(t_g *v, t_l *tmp, int c)
 			tmp->exec = NULL;
 			return (0);
 		}
-		//ft_exec_cmd_test(tmp, v);
 		return (0);
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 15:22:38 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/04 15:06:52 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/04 16:33:42 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,7 @@ int	ft_exec_cmd_no_redirect(t_g *v, t_l *tmp, char *str, int pipe_fd[2], int fd_
 	int	value;
 
 	value = 0;
+	g_shell.retour = 89;
 	g_shell.in_exec = 1;
 	frk = fork();
 	if (frk == 0)
@@ -187,6 +188,13 @@ int	ft_exec_cmd_no_redirect(t_g *v, t_l *tmp, char *str, int pipe_fd[2], int fd_
 		if (tmp->name_in)
 		{
 			fd = open(tmp->name_in, 0, 0644);	
+			if (fd == -1 && access(tmp->name_in, X_OK))
+			{
+				ft_putstr_fd("minishell: ", 2);
+				ft_putstr_fd(tmp->name_in, 2);
+				ft_putstr_fd(" :Permission denied\n", 2);
+				exit(1);
+			}
 			dup2(fd, STDIN_FILENO);
 			close(fd);
 			if (v->dup_type != 1)
@@ -217,7 +225,7 @@ int	ft_exec_cmd_no_redirect(t_g *v, t_l *tmp, char *str, int pipe_fd[2], int fd_
 			ft_free(v);
 			close(pipe_fd[0]);
 			close(pipe_fd[1]);
-			exit(0);
+			exit(g_shell.retour);
 		}
 		close(pipe_fd[1]);
 		if (str != NULL)
@@ -228,7 +236,7 @@ int	ft_exec_cmd_no_redirect(t_g *v, t_l *tmp, char *str, int pipe_fd[2], int fd_
 		ft_lstclear(&v->list, &free);
 		ft_free(v);
 		free_char_tab(toto);
-		exit(0);
+		exit(127);
 	}
 	else
 		waitpid(0, &value, 0);
@@ -241,6 +249,7 @@ int	ft_exec_cmd_no_redirect(t_g *v, t_l *tmp, char *str, int pipe_fd[2], int fd_
 		printf ("Quit (core dumped)\n");
 		g_shell.retour = 131;
 	}
+	g_shell.retour = WEXITSTATUS(value);
 	return (1);
 }
 
@@ -270,6 +279,13 @@ int	ft_exec_one_cmd(t_g *v, char *str, t_l *tmp)
 		if (tmp->name_in)
 		{
 			fd = open(tmp->name_in, 0, 0644);	
+			if (fd == -1 && access(tmp->name_in, X_OK))
+			{
+				ft_putstr_fd("minishell: ", 2);
+				ft_putstr_fd(tmp->name_in, 2);
+				ft_putstr_fd(" :Permission denied\n", 2);
+				exit(1);
+			}
 			dup2(fd, STDIN_FILENO);
 			close(fd);
 		}
@@ -287,7 +303,7 @@ int	ft_exec_one_cmd(t_g *v, char *str, t_l *tmp)
 		ft_lstclear(&v->list, &free);
 		ft_free(v);
 		free_char_tab(toto);
-		exit(0);
+		exit(127);
 	}
 	else
 		waitpid(frk, &value, 0);
@@ -297,6 +313,7 @@ int	ft_exec_one_cmd(t_g *v, char *str, t_l *tmp)
 		g_shell.retour = 131;
 	}
 	free_char_tab(toto);
+	g_shell.retour = WEXITSTATUS(value);
 	return (WEXITSTATUS(value));
 }
 
@@ -313,6 +330,13 @@ int	ft_exec_cmd_lol(t_g *v, t_l *tmp, int choice, int pipe_fd[2], int fd_tmp)
 	}
 	else
 	{
+		if (open(tmp->exec, O_DIRECTORY) != -1)
+		{
+			g_shell.retour = 126;
+			ft_putstr_fd("minishell: ", 2);
+			ft_putstr_fd(tmp->exec, 2);
+			ft_custom_error(": Is a directory\n", 0, NULL);
+		}
 		if (ft_recup_content("PATH", v) == NULL && access(tmp->exec, X_OK) != 0)
 		{
 			g_shell.retour = 127;

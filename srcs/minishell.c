@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:40:12 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/04 14:30:02 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/04 16:16:57 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ int	main(int ac, char **av, char **env)
 		{
 			rl_clear_history();
 			ft_lstclear(&list, &free);
+			printf("Bye! 👋\n");
 			ft_exit(str);
 		}
 		if (str[0])

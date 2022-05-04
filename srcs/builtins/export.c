@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 19:35:14 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/04/28 11:25:57 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/04 16:37:23 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -387,8 +387,11 @@ void	ft_normal_export(t_g *v, char **split, char **recup, int i)
 	{
 		tmp = ft_memcpy(recup[i], ft_strlen(recup[i]) - 1);
 		if (!ft_check_name(tmp))
+		{
 			printf("Minishell: export: '%s': not a valid identifier\n",
 				recup[i]);
+			g_shell.retour = 1;
+		}
 		else
 			ft_lstadd_back(&v->list, ft_lstnew(ft_strdup(split[0]), NULL, ft_strdup(recup[i])));
 		free(tmp);
@@ -402,8 +405,11 @@ void	ft_normal_export(t_g *v, char **split, char **recup, int i)
 		split[1] = ft_strjoin("=", tmp);
 		free(tmp);
 		if (!ft_check_name(split[0]))
+		{
 			printf("Minishell: export: '%s': not a valid identifier\n",
 				recup[i]);
+			g_shell.retour = 1;
+		}
 		else
 			ft_lstadd_back(&v->list, ft_lstnew(ft_strdup(split[0]), ft_strdup(split[1]), ft_strdup(recup[i])));
 		free_char_tab(split);
@@ -413,8 +419,11 @@ void	ft_normal_export(t_g *v, char **split, char **recup, int i)
 void	ft_export_3(char **recup, int i, t_g *v)
 {
 	if (!ft_check_name(recup[i]))
+	{
 		printf("Minishell: export: '%s': not a valid identifier\n",
 			recup[i]);
+		g_shell.retour = 1;
+	}
 	else
 		ft_put_in_export(recup[i], v);
 }
@@ -437,8 +446,11 @@ void	ft_export(char *arg, t_g *v)
 		split = ft_split_by_string(recup[i], "+=");
 		if (!ft_check_name(split[0]) || (recup[i][0] == '+'
 			&& recup[i][1] == '=') || recup[i][0] == '=')
+		{
 			printf("Minishell: export: '%s': not a valid identifier\n",
 				recup[i]);
+			g_shell.retour = 1;
+		}
 		else if (!ft_check_equal(recup[i]))
 			ft_export_3(recup, i, v);
 		else if (!ft_export_plus_equal(recup[i], v))
