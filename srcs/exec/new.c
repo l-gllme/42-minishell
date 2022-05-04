@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 15:22:38 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/03 18:42:28 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/04 12:11:46 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,12 +224,13 @@ int	ft_exec_cmd_no_redirect(t_g *v, t_l *tmp, char *str, int pipe_fd[2], int fd_
 	return (1);
 }
 
-int	ft_exec_one_cmd(t_g *v, char *str)
+int	ft_exec_one_cmd(t_g *v, char *str, t_l *tmp)
 {
 	int		frk;
 	char	**toto;
 	char	*srt;
 	int		value;
+	int	fd;
 
 	value = 0;
 	if (v->l->arg != NULL)
@@ -244,6 +245,21 @@ int	ft_exec_one_cmd(t_g *v, char *str)
 	frk = fork();
 	if (frk == 0)
 	{
+		if (tmp->name_in)
+		{
+			fd = open(tmp->name_in, 0, 0644);	
+			dup2(fd, STDIN_FILENO);
+			close(fd);
+		}
+		if (tmp->name_out)
+		{
+			if (tmp->append)
+				fd = open(tmp->name_out, O_WRONLY | O_APPEND, 0644);	
+			else
+				fd = open(tmp->name_out, O_WRONLY | O_TRUNC, 0644);	
+			dup2(fd, STDOUT_FILENO);
+			close(fd);
+		}
 		execve(str, toto, v->new_env);
 	}
 	else
@@ -283,7 +299,7 @@ int	ft_exec_cmd_lol(t_g *v, t_l *tmp, int choice, int pipe_fd[2], int fd_tmp)
 			//return (value);
 		}
 		if (choice)
-			ft_exec_one_cmd(v, str);
+			ft_exec_one_cmd(v, str, tmp);
 		else
 			ft_exec_cmd_no_redirect(v, tmp, str, pipe_fd, fd_tmp);
 		free(str);
