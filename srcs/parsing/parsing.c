@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/04 14:45:59 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/04 15:03:15 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,28 +201,33 @@ int	in_env(char *str, t_g *v)
 char	*ft_recup_retour(char *str)
 {
 	int		i;
+	int		j;
 	char	*tmp;
 	char	*recup;
 
 	tmp = ft_itoa(g_shell.retour);
 	recup = malloc(sizeof(char) * (ft_strlen(str) + ft_strlen(tmp)));
 	i = 0;
+	j = 0;
 	if (str[i] == ' ')
 		i++;
 	while (str[i]) 
 	{
 		if (str[i] == '$' && str[i + 1] == '?')
 		{
-			recup = ft_strjoin(recup, tmp);
+			recup = NULL;
+			recup = ft_strjoin_gnl(recup, tmp);
 			i+=2;
+			j+= ft_strlen(tmp);
 		}
 		else
 		{
-			recup[i] = str[i];
+			recup[j] = str[i];
 			i++;
+			j++;
 		}
 	}
-	recup[i] = 0;
+	recup[j] = 0;
 	free(tmp);
 	free(str);
 	return (recup);
@@ -495,7 +500,7 @@ char	*ft_check_special(char *str, t_g *v)
 	res = malloc(sizeof(char) * (ft_strlen(str) + 1));
 	while (str[i])
 	{
-		if ((!ft_isdigit(str[i]) && !ft_isalpha(str[i])) && str[i] != '$' && str[i] != '_')
+		if ((!ft_isdigit(str[i]) && !ft_isalpha(str[i])) && str[i] != '$' && str[i + 1] != '?' && str[i] != '_')
 			break;
 		res[i] = str[i];
 		i++;

@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 15:22:38 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/04 14:36:37 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/04 15:06:52 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -315,20 +315,18 @@ int	ft_exec_cmd_lol(t_g *v, t_l *tmp, int choice, int pipe_fd[2], int fd_tmp)
 	{
 		if (ft_recup_content("PATH", v) == NULL && access(tmp->exec, X_OK) != 0)
 		{
-			value = 127;
+			g_shell.retour = 127;
 			ft_putstr_fd("minishell: ", 2);
 			ft_putstr_fd(tmp->exec, 2);
 			ft_custom_error(": command not found\n", 0, NULL);
-			return (value);
 		}
 		str = try_access(tmp->exec, v);
 		if (str == NULL)
 		{
-			value = 127;
+			g_shell.retour = 127;
 			ft_putstr_fd("minishell: ", 2);
 			ft_putstr_fd(tmp->exec, 2);
 			ft_custom_error(": command not found\n", 0, NULL);
-			//return (value);
 		}
 		if (choice)
 			ft_exec_one_cmd(v, str, tmp);
@@ -337,6 +335,30 @@ int	ft_exec_cmd_lol(t_g *v, t_l *tmp, int choice, int pipe_fd[2], int fd_tmp)
 		free(str);
 	}
 	return (1);
+}
+
+char	**ft_regroup_env(t_g *v)
+{
+	t_list	*tmp;
+	char	**recup;
+	int		len;
+	int		i;
+
+	tmp = v->list;
+	if (v->env[0])
+		tmp = tmp->next;
+	len = ft_lstsize(tmp);
+	recup = malloc(sizeof(char *) * (len + 1));
+	i = 0;
+	while (tmp->next)
+	{
+		recup[i] = ft_strdup(tmp->line);
+		i++;
+		tmp = tmp->next;
+	}
+	recup[i] = ft_strdup(tmp->line);
+	recup[i + 1] = 0;
+	return (recup);
 }
 
 int	ft_exec(t_g *v, t_l *l)
@@ -350,6 +372,7 @@ int	ft_exec(t_g *v, t_l *l)
 	tmp = l;
 	v->dup_type = 0;
 	fd_tmp = 0;
+	v->new_env = ft_regroup_env(v);
 	while (tmp)
 	{
 		tmp->in = -1;
