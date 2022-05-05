@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:23:26 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/05 15:00:43 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/05/05 17:10:01 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,12 +97,13 @@ int	ft_exec_out(t_g *v, t_l *tmp)
 	(void)v;
 	if (!tmp->exec)
 	{
-		ft_exec_out_no_cmd(tmp->out_tab);
+		if (!ft_exec_out_no_cmd(tmp->out_tab))
+			return (0);
 	}
 	else
 	{
-		ft_exec_out_dup(v, tmp->out_tab, tmp);
-		return (0);
+		if (!ft_exec_out_dup(v, tmp->out_tab, tmp))
+			return (0);
 	}
-	return (0);
+	return (1);
 }
