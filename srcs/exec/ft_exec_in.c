@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:19:18 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/04 15:55:55 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/05 13:24:56 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	ft_exec_in_dup(t_g *v, char **tab, t_l *tmp, int choice)
 			{
 				if (len - 2 == i)
 					v->dup_type = 10;
-				ft_here_doc_no_cmd(tab[++i], v, tmp);
+				ft_here_doc_no_cmd(tab[++i], v, tmp, 0);
 			}
 		}
 	}
@@ -113,7 +113,7 @@ int	ft_exec_in_no_cmd(char **tab, int choice, t_g *v, t_l *tmp)
 		if (tab[i][0] == '<' && tab[i][1] == 0)
 			i++;
 		else if (tab[i][0] == '<' && tab[i][1] == '<')
-			ft_here_doc_no_cmd(tab[++i], v, tmp);
+			ft_here_doc_no_cmd(tab[++i], v, tmp, 0);
 	}
 	i = -1;
 	while (tab[++i] && choice == 1)

@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 14:33:21 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/05 12:39:51 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/05 13:05:25 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	ft_mega_atoi(char *str)
 {
-	int	i;
+	int			i;
 	long long	res;
-	int	sign;
+	int			sign;
 
 	i = 0;
 	res = 0;
@@ -37,59 +37,62 @@ int	ft_mega_atoi(char *str)
 	return (res * sign);
 }
 
-void	ft_exit_error_1(char *split, char *line)
+void	ft_exit_error_1(char *split, char *line, int choice, char *tmp)
 {
-	int valeur;
+	if (choice == 0)
+	{
+		printf("Minishell: exit: %s: numeric argument required\n", split);
+		free(line);
+		printf("Bye! 👋\n");
+		exit(2);
+	}
+	else if (choice == 1)
+	{
+		printf("exit\nMinishell: exit: too many arguments\n");
+		g_shell.retour = 127;
+		free (tmp);
+	}
+}
 
-	printf("Minishell: exit: %s: numeric argument required\n", split);
-	valeur = 2;
-	free(line);
+void	ft_error_exit_2(char *split)
+{
 	printf("Bye! 👋\n");
+	printf("Minishell: exit: %s: numeric argument required\n", split);
+	g_shell.retour = 1;
+	exit (2);
+}
+
+void	ft_exit_2(char **split, int valeur, char *tmp)
+{
+	printf("Bye! 👋\n");
+	free(tmp);
+	free_char_tab(split);
 	exit(valeur);
 }
 
 void	ft_exit(char *line)
 {
 	long long	valeur;
-	char	*tmp;
-	char	**split;
-	int	i;
+	char		*tmp;
+	char		**split;
+	int			i;
 
-	i = 0;
 	if (!line)
 	{
 		free(line);
 		exit(g_shell.retour);
 	}
 	split = ft_split(line, ' ');
-	line[ft_strlen(line) - 1] = 0;
-	while (split[0][i])
-	{
+	i = -1;
+	while (split[0][++i])
 		if (ft_isalpha(split[0][i]))
-		{
-			ft_exit_error_1(split[0], line);
-		}
-		i++;
-	}		
+			ft_exit_error_1(split[0], line, 0, NULL);
 	valeur = ft_mega_atoi(line);
 	tmp = ft_itoa(valeur);
-	if (ft_strcmp(line, tmp))
-	{
-		printf("Bye! 👋\n");
-		printf("Minishell: exit: %s: numeric argument required\n", split[0]);
-		g_shell.retour = 1;
-		exit (0);
-	}
-	else if (split[1] != NULL)
-	{
-		printf("exit\nMinishell: exit: too many arguments\n");
-		g_shell.retour = 2;
-		free(line);
-		free (tmp);
-		return ;
-	}
-	printf("Bye! 👋\n");
-	free (tmp);
-	free_char_tab(split);
-	exit(valeur);
+	if (split[1] != NULL)
+		ft_exit_error_1(line, tmp, 1, tmp);
+	else if (ft_strcmp(line, tmp))
+		ft_error_exit_2(split[0]);
+	else
+		ft_exit_2(split, valeur, tmp);
 }
