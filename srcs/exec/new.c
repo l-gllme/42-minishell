@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 15:22:38 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/05 15:57:07 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/05 16:44:28 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,7 @@ int	ft_exec_cmd_no_redirect(t_g *v, t_l *tmp, char *str, int pipe_fd[2])
 				close(v->fd_tmp);
 		}
 		else if (v->dup_type != 1)
-		{
 			dup2(v->fd_tmp, STDIN_FILENO);
-		}
 		if (tmp->out_tab)
 		{
 			if (!ft_exec_out(v, tmp))
@@ -110,7 +108,13 @@ int	ft_exec_cmd_no_redirect(t_g *v, t_l *tmp, char *str, int pipe_fd[2])
 			close(pipe_fd[1]);
 			exit(g_shell.retour);
 		}
-		close(pipe_fd[1]);
+		if (pipe_fd[1] != 0)
+			close(pipe_fd[1]);
+		else
+		{
+			fd = open("/dev/null", O_RDONLY);
+			dup2(fd, 0);
+		}
 		if (str != NULL)
 			execve(str, toto, v->new_env);
 		close(pipe_fd[1]);
@@ -124,7 +128,8 @@ int	ft_exec_cmd_no_redirect(t_g *v, t_l *tmp, char *str, int pipe_fd[2])
 	}
 	if (v->dup_type != 1)
 		close(v->fd_tmp);
-	close(pipe_fd[1]);
+	if (pipe_fd[1] != 0)
+		close(pipe_fd[1]);
 	free(v->wagon);
 	if (WTERMSIG(value) == 3)
 	{
@@ -314,13 +319,15 @@ void	ft_exec_2(t_g *v, t_l *tmp, t_l *l)
 	v->fd_tmp = 0;
 	while (tmp)
 	{
-		v->dup_type++;
-		if (tmp->in_tab != NULL && tmp->exec == NULL)
+		if (tmp->in_tab != NULL)
 			ft_exec_in(v, tmp, 1);
 		if (tmp->out_tab != NULL && tmp->exec == NULL)
 			ft_exec_out(v, tmp);
 		if (tmp->exec != NULL)
+		{
+			v->dup_type++;
 			ft_exec_3(l, tmp, pipe_fd, v);
+		}
 		if (tmp->name_in != NULL)
 		{
 			if (tmp->in_tab[ft_tablen(tmp->in_tab) - 2][1] != 0)

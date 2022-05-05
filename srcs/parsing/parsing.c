@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/05 15:47:33 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/05 16:08:30 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -284,245 +284,6 @@ int	ft_check_doll(char *str)
 	return (0);
 }
 
-char	*ft_check_in_env(t_g *v, char *arg)
-{
-	char	*recup;
-	int		i;
-	char	*name;
-	t_list	*tmp;
-
-	i = 0;
-	g_shell.d = 0;
-	g_shell.c = 0;
-	g_shell.j = 0;
-	int	l = 0;
-	recup = NULL;
-	if (arg)
-	{
-		g_shell.test = ft_strdup(arg);
-		free(arg);
-		arg = ft_add_space_dol(g_shell.test);
-		free(g_shell.test);
-		l = 1;
-		g_shell.split = ft_supersplit(arg, ' ');
-		free(arg);
-
-	}
-	else
-		return (NULL);	
-	while (g_shell.split[i] && l == 1)// && split[i][0] == '$')
-	{
-		if (!ft_check_doll(g_shell.split[i]))
-			g_shell.j = 1;
-		else
-			g_shell.j = 0;
-		g_shell.c = 1;
-		if (g_shell.j == 0)
-		{
-			g_shell.split[i] = ft_check_special(g_shell.split[i], v);
-			g_shell.split[i] = ft_recup_retour(g_shell.split[i]);
-		}
-		ft_suppr_dq_sq(g_shell.split[i]);
-		if (g_shell.split[i][0] == '$' && g_shell.split[i][1] == '$' && g_shell.split[i][2] == 0)
-			g_shell.j = 1;
-		if (g_shell.split[i][0] == '$' && g_shell.split[i][1] == 0)
-			g_shell.j = 1;
-		while (g_shell.split[i][ft_strlen(g_shell.split[i]) - 1] == '$' && ft_strlen(g_shell.split[i]) != 1 && g_shell.j != 1)
-		{
-			g_shell.split[i][ft_strlen(g_shell.split[i]) -1] = '\0';
-			g_shell.d++;
-		}
-		tmp = v->list;
-		tmp = tmp->next;
-		while (tmp && g_shell.split[i][0] == '$' && g_shell.j != 1)
-		{
-			name = ft_strjoin("$", tmp->name);
-			g_shell.test = ft_strdup(g_shell.split[i]);
-			if (!ft_strncmp(g_shell.split[i], name, ft_strlen(g_shell.split[i])) && in_env(g_shell.split[i], v))
-			{
-				if (tmp->content)
-				{
-					free(g_shell.split[i]);
-					g_shell.split[i] = ft_strdup(tmp->content + 1);
-				}
-				else
-				{
-					free(g_shell.split[i]);
-					g_shell.split[i] = ft_strdup("");
-				}
-				free(name);
-				free(g_shell.test);
-				break;
-			}
-			else if (!in_env(g_shell.test, v))
-			{
-				free(g_shell.split[i]);
-				g_shell.split[i] = ft_strdup("");
-			}
-			tmp = tmp->next;
-			free(name);
-			free(g_shell.test);
-		}
-		i++;
-	}
-	i = 0;
-	while (g_shell.split[i])
-	{
-		recup = ft_strjoin_gnl(recup, g_shell.split[i]); 
-		if (g_shell.d)
-		{
-			recup = ft_strjoin_gnl(recup, "$");
-			g_shell.d--;
-		}
-		if (g_shell.split[i + 1] && g_shell.retour != 7)
-			recup = ft_strjoin_gnl(recup, " "); 
-		i++;
-	}
-	if (ft_strlen(recup) > 0 && recup[ft_strlen(recup) - 1] == ' ')
-		recup[ft_strlen(recup) - 1] = 0;
-	free_char_tab(g_shell.split);
-	return (recup);
-}
-
-t_i	*ft_init_env_struct(t_i *env)
-{
-	env->j = 0;
-	env->l = 0;
-	env->d = 0;
-	env->c = 0;
-	return (env);
-}
-
-char	*ft_recup_new(t_i *env, char *recup)
-{
-	int	i;
-
-	i = 0;
-	while (env->split[i])
-	{
-		recup = ft_strjoin_gnl(recup, env->split[i]); 
-		if (env->d)
-		{
-			recup = ft_strjoin_gnl(recup, "$");
-			env->d--;
-		}
-		if (env->split[i + 1] && g_shell.retour != 7)
-			recup = ft_strjoin_gnl(recup, " "); 
-		i++;
-	}
-	if (ft_strlen(recup) > 0 && recup[ft_strlen(recup) - 1] == ' ')
-		recup[ft_strlen(recup) - 1] = 0;
-	free_char_tab(env->split);
-	return (recup);
-}
-
-void	ft_no_in_env(t_i *env, t_list *tmp, char *test, int i)
-{
-	if (tmp->content)
-	{
-		free(env->split[i]);
-		env->split[i] = ft_strdup(tmp->content + 1);
-	}
-	else
-	{
-		free(env->split[i]);
-		env->split[i] = ft_strdup("");
-	}
-	free(env->name);
-	free(test);
-}
-
-int	ft_check_for_env(t_i *env, t_list *tmp, int i, t_g *v) 
-{
-	char	*test;
-
-	env->name = ft_strjoin("$", tmp->name);
-	test = ft_strdup(env->split[i]);
-	if (!ft_strncmp(env->split[i], env->name, ft_strlen(env->split[i])) && in_env(env->split[i], v))
-	{
-		ft_no_in_env(env, tmp, test, i);
-		return (2);
-	}
-	else if (!in_env(test, v))
-	{
-		free(env->split[i]);
-		env->split[i] = ft_strdup("");
-	}
-	free(env->name);
-	free(test);
-	return (1);
-}
-
-int	ft_check_just_doll(t_i *env, int i)
-{
-	if (env->split[i][0] == '$' && env->split[i][1] == '$' && env->split[i][2] == 0)
-		return (0);
-	if (env->split[i][0] == '$' && env->split[i][1] == 0)
-		return (0);
-	while (env->split[i][ft_strlen(env->split[i]) - 1] == '$' && ft_strlen(env->split[i]) != 1)
-	{
-		env->split[i][ft_strlen(env->split[i]) -1] = '\0';
-		env->d++;
-	}
-	return (1);
-}
-
-int	ft_env_while(t_i *env, int i, t_g *v, t_list *tmp)
-{
-	env->c = 1;
-	env->split[i] = ft_check_special(env->split[i], v);
-	env->split[i] = ft_recup_retour(env->split[i]);
-	ft_suppr_dq_sq(env->split[i]);
-	if (!ft_check_just_doll(env, i))
-		return (0);
-	tmp = v->list;
-	tmp = tmp->next;
-	while (tmp && env->split[i][0] == '$')
-	{
-		if (ft_check_for_env(env, tmp, i, v) == 2)
-			return (0);
-		tmp = tmp->next;
-	}
-	return (1);
-}
-
-char	*ft_check_in_env_2(t_g *v, char *exec, int i)
-{
-	char	*recup;
-	char	*test;
-	t_i	env;
-	t_list	*tmp;
-
-	tmp = NULL;
-	ft_init_env_struct(&env);
-	recup = NULL;
-	if (exec)
-	{
-		test = ft_strdup(exec);
-		free(exec);
-		exec = ft_add_space_dol(test);
-		free(test);
-		env.l = 1;
-		env.split = ft_supersplit(exec, ' ');
-		free(exec);
-
-	}
-	else
-		return (NULL);
-	if (!ft_check_doll(env.split[i]))
-		env.l = 0;
-	while (env.split[i] && env.l == 1)
-	{
-		if (!ft_env_while(&env, i, v, tmp))
-			break;
-		i++;
-	}
-	recup = ft_recup_new(&env, recup);
-	return (recup);
-}
-
-
-
 char	*ft_check_special(char *str, t_g *v)
 {
 	int	i;
@@ -661,7 +422,7 @@ int	parsing(char *str, char **env, t_list *list)
 	if (v->nb_cmd == 1)
 	{
 		if (v->l->arg)
-			v->l->arg = ft_check_in_env(v, v->l->arg);
+			v->l->arg = ft_check_in_env(v, v->l->arg, 0);
 		if (v->l->exec)
 			v->l->exec = ft_check_in_env_2(v, v->l->exec, 0);
 		ft_exec(v, v->l);
@@ -672,7 +433,7 @@ int	parsing(char *str, char **env, t_list *list)
 		while (tmp)
 		{
 			if (tmp->arg)
-				tmp->arg = ft_check_in_env(v, tmp->arg);
+				tmp->arg = ft_check_in_env(v, tmp->arg, 0);
 			if (tmp->exec)
 				tmp->exec = ft_check_in_env_2(v, tmp->exec, 0);
 			tmp = tmp->next;

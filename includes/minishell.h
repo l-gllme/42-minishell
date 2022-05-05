@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/05 13:42:19 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/05 16:09:43 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,16 @@
 int		parsing(char *line, char **env, t_list *list);
 int		ft_check_outpout(char **cmd);
 void	init_struct(char **tab, t_g *v, char **env, t_list *list);
+t_i	*ft_init_env_struct(t_i *env);
+char	*ft_check_in_env(t_g *v, char *exec, int i);
+char	*ft_check_in_env_2(t_g *v, char *exec, int i);
+char	*ft_check_special(char *str, t_g *v);
+char	*ft_recup_retour(char *str);
+char	*ft_add_space_dol(char *str);
+int	in_env(char *str, t_g *v);
+int	ft_check_doll(char *str);
+
+
 
 /* get_cmd */
 int		get_cmd(char *str, char **tab);
