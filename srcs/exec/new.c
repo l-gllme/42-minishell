@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 15:22:38 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/05 14:17:48 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/05 15:18:01 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,10 @@ int	ft_exec_cmd_no_redirect(t_g *v, t_l *tmp, char *str, int pipe_fd[2])
 				ft_putstr_fd("minishell: ", 2);
 				ft_putstr_fd(tmp->name_in, 2);
 				ft_putstr_fd(" :Permission denied\n", 2);
+				ft_lstclear(&v->list, &free);
+				free_char_tab(toto);
+				free(str);
+				ft_free(v);
 				exit(1);
 			}
 			dup2(fd, STDIN_FILENO);
@@ -73,14 +77,25 @@ int	ft_exec_cmd_no_redirect(t_g *v, t_l *tmp, char *str, int pipe_fd[2])
 		{
 			dup2(v->fd_tmp, STDIN_FILENO);
 		}
-		if (tmp->name_out)
+		if (tmp->out_tab)
 		{
-			if (tmp->append)
-				fd = open(tmp->name_out, O_WRONLY | O_APPEND, 0644);	
-			else
-				fd = open(tmp->name_out, O_WRONLY | O_TRUNC, 0644);	
-			dup2(fd, STDOUT_FILENO);
-			close(fd);
+			if (!ft_exec_out(v, tmp))
+			{
+				ft_lstclear(&v->list, &free);
+				free_char_tab(toto);
+				free(str);
+				ft_free(v);
+				exit(1);
+			} 
+			if (tmp->name_out)
+			{
+				if (tmp->append)
+					fd = open(tmp->name_out, O_WRONLY | O_APPEND, 0644);	
+				else
+					fd = open(tmp->name_out, O_WRONLY | O_TRUNC, 0644);	
+				dup2(fd, STDOUT_FILENO);
+				close(fd);
+			}
 		}
 		else if (tmp->next)
 		{
@@ -150,19 +165,34 @@ int	ft_exec_one_cmd(t_g *v, char *str, t_l *tmp)
 				ft_putstr_fd("minishell: ", 2);
 				ft_putstr_fd(tmp->name_in, 2);
 				ft_putstr_fd(" :Permission denied\n", 2);
+				ft_lstclear(&v->list, &free);
+				free_char_tab(toto);
+				free(str);
+				ft_free(v);
 				exit(1);
 			}
 			dup2(fd, STDIN_FILENO);
 			close(fd);
 		}
-		if (tmp->name_out)
+		if (tmp->out_tab)
 		{
-			if (tmp->append)
-				fd = open(tmp->name_out, O_WRONLY | O_APPEND, 0644);	
-			else
-				fd = open(tmp->name_out, O_WRONLY | O_TRUNC, 0644);	
-			dup2(fd, STDOUT_FILENO);
-			close(fd);
+			if (!ft_exec_out(v, tmp))
+			{
+				ft_lstclear(&v->list, &free);
+				free_char_tab(toto);
+				free(str);
+				ft_free(v);
+				exit(1);
+			} 
+			if (tmp->name_out)
+			{
+				if (tmp->append)
+					fd = open(tmp->name_out, O_WRONLY | O_APPEND, 0644);	
+				else
+					fd = open(tmp->name_out, O_WRONLY | O_TRUNC, 0644);	
+				dup2(fd, STDOUT_FILENO);
+				close(fd);
+			}
 		}
 		if (str != NULL)
 			execve(str, toto, v->new_env);
@@ -287,7 +317,7 @@ void	ft_exec_2(t_g *v, t_l *tmp, t_l *l)
 		v->dup_type++;
 		if (tmp->in_tab != NULL)
 			ft_exec_in(v, tmp, 1);
-		if (tmp->out_tab != NULL)
+		if (tmp->out_tab != NULL && tmp->exec == NULL)
 			ft_exec_out(v, tmp);
 		if (tmp->exec != NULL)
 			ft_exec_3(l, tmp, pipe_fd, v);
