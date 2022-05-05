@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:19:18 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/05 15:51:02 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/05 18:15:17 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,19 @@ int	check_valid_infile(char *file)
 	ft_suppr_dq_sq(file);
 	fd = open(file, O_RDONLY);
 	dd = open(file, O_DIRECTORY);
-	if (fd == -1 && dd == -1 && !access(file, X_OK))
+	if (access(file, F_OK))
 	{
 		g_shell.retour = 1;
 		ft_putstr_fd("minishell: ", 1);
 		ft_putstr_fd(file, 1);
 		ft_putstr_fd(": No such file or directory\n", 1);
+		return (0);
+	}
+	else if (fd == -1 && dd == -1 && access(file, X_OK))
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(file, 2);
+		ft_putstr_fd(" :Permission denied\n", 2);
 		return (0);
 	}
 	else
@@ -95,20 +102,6 @@ int	check_valid_infile(char *file)
 			close(fd);
 		if (dd != -1)
 			close(dd);
-		/*if (fd == -1 && access(file, X_OK))
-		{
-			ft_putstr_fd("minishell: ", 2);
-			ft_putstr_fd(file, 2);
-			ft_putstr_fd(" :Permission denied\n", 2);
-			return (0);
-		}
-		if (dd == -1 && access(file, X_OK))
-		{
-			ft_putstr_fd("minishell: ", 2);
-			ft_putstr_fd(file, 2);
-			ft_putstr_fd(" :Permission denied\n", 2);
-			return (0);
-		}*/
 	}
 	return (1);
 }
