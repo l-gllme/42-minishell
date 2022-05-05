@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/05 15:22:57 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/05 15:47:33 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -432,13 +432,68 @@ void	ft_no_in_env(t_i *env, t_list *tmp, char *test, int i)
 	free(test);
 }
 
+int	ft_check_for_env(t_i *env, t_list *tmp, int i, t_g *v) 
+{
+	char	*test;
+
+	env->name = ft_strjoin("$", tmp->name);
+	test = ft_strdup(env->split[i]);
+	if (!ft_strncmp(env->split[i], env->name, ft_strlen(env->split[i])) && in_env(env->split[i], v))
+	{
+		ft_no_in_env(env, tmp, test, i);
+		return (2);
+	}
+	else if (!in_env(test, v))
+	{
+		free(env->split[i]);
+		env->split[i] = ft_strdup("");
+	}
+	free(env->name);
+	free(test);
+	return (1);
+}
+
+int	ft_check_just_doll(t_i *env, int i)
+{
+	if (env->split[i][0] == '$' && env->split[i][1] == '$' && env->split[i][2] == 0)
+		return (0);
+	if (env->split[i][0] == '$' && env->split[i][1] == 0)
+		return (0);
+	while (env->split[i][ft_strlen(env->split[i]) - 1] == '$' && ft_strlen(env->split[i]) != 1)
+	{
+		env->split[i][ft_strlen(env->split[i]) -1] = '\0';
+		env->d++;
+	}
+	return (1);
+}
+
+int	ft_env_while(t_i *env, int i, t_g *v, t_list *tmp)
+{
+	env->c = 1;
+	env->split[i] = ft_check_special(env->split[i], v);
+	env->split[i] = ft_recup_retour(env->split[i]);
+	ft_suppr_dq_sq(env->split[i]);
+	if (!ft_check_just_doll(env, i))
+		return (0);
+	tmp = v->list;
+	tmp = tmp->next;
+	while (tmp && env->split[i][0] == '$')
+	{
+		if (ft_check_for_env(env, tmp, i, v) == 2)
+			return (0);
+		tmp = tmp->next;
+	}
+	return (1);
+}
+
 char	*ft_check_in_env_2(t_g *v, char *exec, int i)
 {
 	char	*recup;
-	t_list	*tmp;
 	char	*test;
 	t_i	env;
+	t_list	*tmp;
 
+	tmp = NULL;
 	ft_init_env_struct(&env);
 	recup = NULL;
 	if (exec)
@@ -458,39 +513,8 @@ char	*ft_check_in_env_2(t_g *v, char *exec, int i)
 		env.l = 0;
 	while (env.split[i] && env.l == 1)
 	{
-		env.c = 1;
-		env.split[i] = ft_check_special(env.split[i], v);
-		env.split[i] = ft_recup_retour(env.split[i]);
-		ft_suppr_dq_sq(env.split[i]);
-		if (env.split[i][0] == '$' && env.split[i][1] == '$' && env.split[i][2] == 0)
+		if (!ft_env_while(&env, i, v, tmp))
 			break;
-		if (env.split[i][0] == '$' && env.split[i][1] == 0)
-			break;
-		while (env.split[i][ft_strlen(env.split[i]) - 1] == '$' && ft_strlen(env.split[i]) != 1)
-		{
-			env.split[i][ft_strlen(env.split[i]) -1] = '\0';
-			env.d++;
-		}
-		tmp = v->list;
-		tmp = tmp->next;
-		while (tmp && env.split[i][0] == '$')
-		{
-			env.name = ft_strjoin("$", tmp->name);
-			test = ft_strdup(env.split[i]);
-			if (!ft_strncmp(env.split[i], env.name, ft_strlen(env.split[i])) && in_env(env.split[i], v))
-			{
-				ft_no_in_env(&env, tmp, test, i);
-				break;
-			}
-			else if (!in_env(test, v))
-			{
-				free(env.split[i]);
-				env.split[i] = ft_strdup("");
-			}
-			tmp = tmp->next;
-			free(env.name);
-			free(test);
-		}
 		i++;
 	}
 	recup = ft_recup_new(&env, recup);

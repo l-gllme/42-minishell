@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 15:22:38 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/05 15:18:01 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/05/05 15:57:07 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -315,7 +315,7 @@ void	ft_exec_2(t_g *v, t_l *tmp, t_l *l)
 	while (tmp)
 	{
 		v->dup_type++;
-		if (tmp->in_tab != NULL)
+		if (tmp->in_tab != NULL && tmp->exec == NULL)
 			ft_exec_in(v, tmp, 1);
 		if (tmp->out_tab != NULL && tmp->exec == NULL)
 			ft_exec_out(v, tmp);
