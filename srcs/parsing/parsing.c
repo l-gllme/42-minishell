@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/05 16:08:30 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/05 19:23:08 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -399,6 +399,7 @@ int	parsing(char *str, char **env, t_list *list)
 	int	c;
 	t_l	*tmp;
 
+	tmp = NULL;
 	if (!ft_check_invalid_signs(str, '<') || !ft_check_invalid_signs(str, '>'))
 		return (0);
 	v = malloc(sizeof(t_g));
@@ -424,7 +425,7 @@ int	parsing(char *str, char **env, t_list *list)
 		if (v->l->arg)
 			v->l->arg = ft_check_in_env(v, v->l->arg, 0);
 		if (v->l->exec)
-			v->l->exec = ft_check_in_env_2(v, v->l->exec, 0);
+			v->l->exec = ft_check_in_env_2(v, v->l->exec, 0, v->l->arg);
 		ft_exec(v, v->l);
 	}
 	if (v->nb_cmd != 1)
@@ -435,7 +436,7 @@ int	parsing(char *str, char **env, t_list *list)
 			if (tmp->arg)
 				tmp->arg = ft_check_in_env(v, tmp->arg, 0);
 			if (tmp->exec)
-				tmp->exec = ft_check_in_env_2(v, tmp->exec, 0);
+				tmp->exec = ft_check_in_env_2(v, tmp->exec, 0, tmp->arg);
 			tmp = tmp->next;
 		}
 		ft_exec(v, v->l);

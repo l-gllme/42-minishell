@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 16:01:59 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/05/05 16:12:42 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/05 19:23:40 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,20 +121,24 @@ void	ft_recup_for_check_in_env(char *exec, t_i *env)
 {
 	char	*test;
 
+	if (!ft_check_doll(exec))
+		env->l = 0;
+	else
+		env->l = 1;
 	test = ft_strdup(exec);
 	free(exec);
 	exec = ft_add_space_dol(test);
 	free(test);
-	env->l = 1;
 	env->split = ft_supersplit(exec, ' ');
 	free(exec);
 }
 
-char	*ft_check_in_env_2(t_g *v, char *exec, int i)
+char	*ft_check_in_env_2(t_g *v, char *exec, int i, char *arg)
 {
 	char	*recup;
 	t_i		env;
 	t_list	*tmp;
+	char	*test;
 
 	tmp = NULL;
 	ft_init_env_struct(&env);
@@ -143,8 +147,6 @@ char	*ft_check_in_env_2(t_g *v, char *exec, int i)
 		ft_recup_for_check_in_env(exec, &env);
 	else
 		return (NULL);
-	if (!ft_check_doll(env.split[i]))
-		env.l = 0;
 	while (env.split[i] && env.l == 1)
 	{
 		if (!ft_env_while(&env, i, v, tmp))
@@ -152,5 +154,24 @@ char	*ft_check_in_env_2(t_g *v, char *exec, int i)
 		i++;
 	}
 	recup = ft_recup_new(&env, recup);
+	env.split = ft_supersplit(recup, ' ');
+	free(recup);
+	recup = ft_strdup(env.split[0]);
+	if (!arg)
+	{
+		i = 1;
+		while (env.split[i])
+		{
+			arg = ft_strjoin_gnl(arg, env.split[i]);
+			test = ft_strdup(arg);
+			free(arg);
+			arg = ft_strjoin(" ", test);
+			free(test);
+			i++;
+		}
+		v->l->arg = ft_strdup(arg);
+		free(arg);
+		free_char_tab(env.split);
+	}
 	return (recup);
 }

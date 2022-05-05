@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 15:22:38 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/05 17:08:32 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/05/05 19:16:49 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int	ft_exec_cmd_no_redirect(t_g *v, t_l *tmp, char *str, int pipe_fd[2])
 			exit(g_shell.retour);
 		}
 		if (pipe_fd[1] != 0)
-			close(pipe_fd[1]);
+		close(pipe_fd[1]);
 		else
 		{
 			fd = open("/dev/null", O_RDONLY);

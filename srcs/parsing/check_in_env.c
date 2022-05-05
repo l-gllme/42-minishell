@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 16:01:59 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/05/05 16:12:13 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/05 19:22:34 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static	char	*ft_recup_new(t_i *env, char *recup)
 			recup = ft_strjoin_gnl(recup, "$");
 			env->d--;
 		}
-		if (env->split[i + 1] && g_shell.retour != 7)
+		if (env->split[i + 1])
 			recup = ft_strjoin_gnl(recup, " ");
 		i++;
 	}
@@ -61,7 +61,7 @@ static	int	ft_check_for_env(t_i *env, t_list *tmp, int i, t_g *v)
 		&& in_env(env->split[i], v))
 	{
 		ft_no_in_env(env, tmp, test, i);
-		return (2);
+		return (0);
 	}
 	else if (!in_env(test, v))
 	{
@@ -101,7 +101,7 @@ static	int	ft_env_while(t_i *env, int i, t_g *v, t_list *tmp)
 	tmp = tmp->next;
 	while (tmp && env->split[i][0] == '$')
 	{
-		if (ft_check_for_env(env, tmp, i, v) == 2)
+		if (!ft_check_for_env(env, tmp, i, v))
 			return (0);
 		tmp = tmp->next;
 	}
@@ -112,11 +112,14 @@ static	void	ft_recup_for_check_in_env(char *arg, t_i *env)
 {
 	char	*test;
 
+	if (!ft_check_doll(arg))
+		env->l = 0;
+	else
+		env->l = 1;
 	test = ft_strdup(arg);
 	free(arg);
 	arg = ft_add_space_dol(test);
 	free(test);
-	env->l = 1;
 	env->split = ft_supersplit(arg, ' ');
 	free(arg);
 }
@@ -134,13 +137,12 @@ char	*ft_check_in_env(t_g *v, char *arg, int i)
 		ft_recup_for_check_in_env(arg, &env);
 	else
 		return (NULL);
-	if (!ft_check_doll(env.split[i]))
-		env.l = 0;
 	while (env.split[i] && env.l == 1)
 	{
 		if (!ft_env_while(&env, i, v, tmp))
-			break ;
-		i++;
+			i++;
+		else
+			i++;
 	}
 	recup = ft_recup_new(&env, recup);
 	return (recup);

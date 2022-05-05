@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 12:16:42 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/30 13:33:54 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/05 18:25:02 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int	check_not_closed_pipes(char **tab)
 		res = cut_cncp(tab, 0, 0, i);
 		if (res == 0 || res == -1)
 		{
+			g_shell.retour = 2;
 			ft_putstr_fd("Invalid syntax\n", 2);
 			return (0);
 		}
@@ -90,7 +91,10 @@ int	ft_check_invalid_signs(char *str, char c)
 			{
 				count++;
 				if (count == 3)
+				{
+					g_shell.retour = 2;
 					return (ft_custom_error("Invalid syntax near << or >>\n", 0, NULL));
+				}
 				if (str[i + 1] != 0)
 					i++;
 			}
