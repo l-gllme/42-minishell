@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 14:33:21 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/04 16:24:42 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/05 12:39:51 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,17 @@ int	ft_mega_atoi(char *str)
 	return (res * sign);
 }
 
+void	ft_exit_error_1(char *split, char *line)
+{
+	int valeur;
+
+	printf("Minishell: exit: %s: numeric argument required\n", split);
+	valeur = 2;
+	free(line);
+	printf("Bye! 👋\n");
+	exit(valeur);
+}
+
 void	ft_exit(char *line)
 {
 	long long	valeur;
@@ -47,10 +58,8 @@ void	ft_exit(char *line)
 	i = 0;
 	if (!line)
 	{
-		//if (g_shell.retour != 89)
-		//	printf("Bye! 👋\n");
 		free(line);
-		exit (g_shell.retour);
+		exit(g_shell.retour);
 	}
 	split = ft_split(line, ' ');
 	line[ft_strlen(line) - 1] = 0;
@@ -58,11 +67,7 @@ void	ft_exit(char *line)
 	{
 		if (ft_isalpha(split[0][i]))
 		{
-			printf("Minishell: exit: %s: numeric argument required\n", split[0]);
-			valeur = 2;
-			free(line);
-			printf("Bye! 👋\n");
-			exit(valeur);
+			ft_exit_error_1(split[0], line);
 		}
 		i++;
 	}		
@@ -73,7 +78,6 @@ void	ft_exit(char *line)
 		printf("Bye! 👋\n");
 		printf("Minishell: exit: %s: numeric argument required\n", split[0]);
 		g_shell.retour = 1;
-		//free(line);
 		exit (0);
 	}
 	else if (split[1] != NULL)
@@ -85,7 +89,6 @@ void	ft_exit(char *line)
 		return ;
 	}
 	printf("Bye! 👋\n");
-	//free(line);
 	free (tmp);
 	free_char_tab(split);
 	exit(valeur);

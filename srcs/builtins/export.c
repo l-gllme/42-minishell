@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 19:35:14 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/05/04 16:37:23 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/05 12:37:07 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,6 +265,31 @@ char	*ft_recup_correct_export(char *str)
 	return (recup);
 }
 
+void	ft_export_plus_equal_3(t_g *v, char *recup, char *arg, char *test)
+{
+	char	*tmp;
+	char	*line;
+
+	line = NULL;
+	recup = ft_strdup(test);
+	line = ft_strjoin_gnl(line, ft_recup_content(recup, v));
+	free(recup);
+	recup = ft_strdup(test);
+	tmp = ft_strdup(arg + ft_strlen(recup) + 2);
+	line = ft_strjoin_gnl(line, tmp);
+	free(tmp);
+	tmp = ft_strdup(line);
+	free(line);
+	line = ft_strjoin(recup, tmp);
+	free(tmp);
+	free(recup);
+	recup = ft_strdup(test);
+	ft_already_in_env(recup, v);
+	ft_lstadd_back(&v->list, ft_lstnew(ft_strdup(recup),
+			ft_strdup(line + ft_strlen(recup)), ft_strdup(line)));
+	free(recup);
+}
+
 void	ft_export_plus_equal_2(t_g *v, char *recup, char *arg)
 {
 	char	*test;
@@ -283,25 +308,7 @@ void	ft_export_plus_equal_2(t_g *v, char *recup, char *arg)
 				ft_strdup(arg + ft_strlen(recup) + 1), ft_strdup(line)));
 	}
 	else
-	{
-		recup = ft_strdup(test);
-		line = ft_strjoin_gnl(line, ft_recup_content(recup, v));
-		free(recup);
-		recup = ft_strdup(test);
-		tmp = ft_strdup(arg + ft_strlen(recup) + 2);
-		line = ft_strjoin_gnl(line, tmp);
-		free(tmp);
-		tmp = ft_strdup(line);
-		free(line);
-		line = ft_strjoin(recup, tmp);
-		free(tmp);
-		free(recup);
-		recup = ft_strdup(test);
-		ft_already_in_env(recup, v);
-		ft_lstadd_back(&v->list, ft_lstnew(ft_strdup(recup),
-				ft_strdup(line + ft_strlen(recup)), ft_strdup(line)));
-		free(recup);
-	}
+		ft_export_plus_equal_3(v, recup, arg, test);
 	free(line);
 	free(test);
 }
@@ -321,16 +328,14 @@ void	ft_export_plus_equal_no_content(char *recup, t_g *v, char *line)
 			ft_strdup(line + ft_strlen(recup)), ft_strdup(line)));
 }
 
-int	ft_export_plus_equal(char *arg, t_g *v)
+int	ft_export_plus_equal(char *arg, t_g *v, int i)
 {
-	int		i;
 	char	*line;
 	char	*recup;
 
-	i = 0;
 	line = NULL;
 	recup = ft_recup_correct_export(arg);
-	while (arg[i])
+	while (arg[++i])
 	{
 		if (arg[i] == '+' && arg[i + 1] == '=' && arg[i - 1] != '+')
 		{
@@ -347,7 +352,6 @@ int	ft_export_plus_equal(char *arg, t_g *v)
 				free(recup);
 			return (1);
 		}
-		i++;
 	}
 	free(recup);
 	return (0);
@@ -378,6 +382,28 @@ void	*ft_memcpy(const void *src, size_t n)
 	return (dest);
 }
 
+void	ft_normal_export_2(t_g *v, char **split, char **recup, int i)
+{
+	char	*tmp;
+
+	ft_suppr_dq_sq(recup[i]);
+	split = ft_split(recup[i], '=');
+	tmp = ft_strdup(split[1]);
+	free(split[1]);
+	split[1] = ft_strjoin("=", tmp);
+	free(tmp);
+	if (!ft_check_name(split[0]))
+	{
+		printf("Minishell: export: '%s': not a valid identifier\n",
+			recup[i]);
+		g_shell.retour = 1;
+	}
+	else
+		ft_lstadd_back(&v->list, ft_lstnew(ft_strdup(split[0]),
+				ft_strdup(split[1]), ft_strdup(recup[i])));
+	free_char_tab(split);
+}
+
 void	ft_normal_export(t_g *v, char **split, char **recup, int i)
 {
 	char	*tmp;
@@ -393,27 +419,12 @@ void	ft_normal_export(t_g *v, char **split, char **recup, int i)
 			g_shell.retour = 1;
 		}
 		else
-			ft_lstadd_back(&v->list, ft_lstnew(ft_strdup(split[0]), NULL, ft_strdup(recup[i])));
+			ft_lstadd_back(&v->list, ft_lstnew(ft_strdup(split[0]),
+					NULL, ft_strdup(recup[i])));
 		free(tmp);
 	}
 	else
-	{
-		ft_suppr_dq_sq(recup[i]);
-		split = ft_split(recup[i], '=');
-		tmp = ft_strdup(split[1]);
-		free(split[1]);
-		split[1] = ft_strjoin("=", tmp);
-		free(tmp);
-		if (!ft_check_name(split[0]))
-		{
-			printf("Minishell: export: '%s': not a valid identifier\n",
-				recup[i]);
-			g_shell.retour = 1;
-		}
-		else
-			ft_lstadd_back(&v->list, ft_lstnew(ft_strdup(split[0]), ft_strdup(split[1]), ft_strdup(recup[i])));
-		free_char_tab(split);
-	}
+		ft_normal_export_2(v, split, recup, i);
 }
 
 void	ft_export_3(char **recup, int i, t_g *v)
@@ -428,34 +439,38 @@ void	ft_export_3(char **recup, int i, t_g *v)
 		ft_put_in_export(recup[i], v);
 }
 
+void	ft_export_2(t_g *v, char **recup, int i, char **split)
+{
+	if (!ft_check_name(split[0]) || (recup[i][0] == '+'
+		&& recup[i][1] == '=') || recup[i][0] == '=')
+	{
+		printf("Minishell: export: '%s': not a valid identifier\n",
+			recup[i]);
+		g_shell.retour = 1;
+	}
+	else if (!ft_check_equal(recup[i]))
+		ft_export_3(recup, i, v);
+	else if (!ft_export_plus_equal(recup[i], v, -1))
+		ft_normal_export(v, split, recup, i);
+}
+
 void	ft_export(char *arg, t_g *v)
 {
 	char	**recup;
 	char	**split;
 	int		i;
 
-	i = 0;
+	i = -1;
 	if (!arg)
 	{
 		ft_export_no_arg(v);
 		return ;
 	}
 	recup = ft_supersplit(arg, ' ');
-	while (recup[i])
+	while (recup[++i] && arg)
 	{
 		split = ft_split_by_string(recup[i], "+=");
-		if (!ft_check_name(split[0]) || (recup[i][0] == '+'
-			&& recup[i][1] == '=') || recup[i][0] == '=')
-		{
-			printf("Minishell: export: '%s': not a valid identifier\n",
-				recup[i]);
-			g_shell.retour = 1;
-		}
-		else if (!ft_check_equal(recup[i]))
-			ft_export_3(recup, i, v);
-		else if (!ft_export_plus_equal(recup[i], v))
-			ft_normal_export(v, split, recup, i);
-		i++;
+		ft_export_2(v, recup, i, split);
 		free_char_tab(split);
 	}
 	free_char_tab(recup);

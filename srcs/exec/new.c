@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 15:22:38 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/04 16:33:42 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/05 11:57:41 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,7 @@ int	ft_exec_cmd_no_redirect(t_g *v, t_l *tmp, char *str, int pipe_fd[2], int fd_
 	int	value;
 
 	value = 0;
-	g_shell.retour = 89;
+	//g_shell.retour = 89;
 	g_shell.in_exec = 1;
 	frk = fork();
 	if (frk == 0)
@@ -236,10 +236,9 @@ int	ft_exec_cmd_no_redirect(t_g *v, t_l *tmp, char *str, int pipe_fd[2], int fd_
 		ft_lstclear(&v->list, &free);
 		ft_free(v);
 		free_char_tab(toto);
-		exit(127);
+		g_shell.retour = 127;
+		exit(value);
 	}
-	else
-		waitpid(0, &value, 0);
 	if (v->dup_type != 1)
 		close(fd_tmp);
 	close(pipe_fd[1]);
@@ -249,7 +248,7 @@ int	ft_exec_cmd_no_redirect(t_g *v, t_l *tmp, char *str, int pipe_fd[2], int fd_
 		printf ("Quit (core dumped)\n");
 		g_shell.retour = 131;
 	}
-	g_shell.retour = WEXITSTATUS(value);
+	//g_shell.retour = WEXITSTATUS(value);
 	return (1);
 }
 
@@ -322,6 +321,7 @@ int	ft_exec_cmd_lol(t_g *v, t_l *tmp, int choice, int pipe_fd[2], int fd_tmp)
 	char	*str;
 	int		value;
 
+	str = NULL;
 	value = 0;
 	if (ft_is_builtin(tmp->exec, v, 0, tmp))
 	{
@@ -344,8 +344,9 @@ int	ft_exec_cmd_lol(t_g *v, t_l *tmp, int choice, int pipe_fd[2], int fd_tmp)
 			ft_putstr_fd(tmp->exec, 2);
 			ft_custom_error(": command not found\n", 0, NULL);
 		}
-		str = try_access(tmp->exec, v);
-		if (str == NULL)
+		else
+			str = try_access(tmp->exec, v);
+		if (str == NULL && g_shell.retour != 127)
 		{
 			g_shell.retour = 127;
 			ft_putstr_fd("minishell: ", 2);
