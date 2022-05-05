@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:19:18 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/05 13:24:56 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/05 15:39:35 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,20 @@ int	check_valid_infile(char *file)
 			close(fd);
 		if (dd != -1)
 			close(dd);
+		if (fd == -1 && access(file, X_OK))
+		{
+			ft_putstr_fd("minishell: ", 2);
+			ft_putstr_fd(file, 2);
+			ft_putstr_fd(" :Permission denied\n", 2);
+			return (0);
+		}
+		if (dd == -1 && access(file, X_OK))
+		{
+			ft_putstr_fd("minishell: ", 2);
+			ft_putstr_fd(file, 2);
+			ft_putstr_fd(" :Permission denied\n", 2);
+			return (0);
+		}
 	}
 	return (1);
 }
