@@ -6,7 +6,7 @@
 #    By: lguillau <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/14 14:27:36 by lguillau          #+#    #+#              #
-#    Updated: 2022/05/05 13:42:40 by jtaravel         ###   ########.fr        #
+#    Updated: 2022/05/05 13:50:46 by jtaravel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ FILES	=	minishell.c \
 		tools/errors.c \
 		tools/ft_strcpy.c \
 		builtins/cd.c \
+		builtins/cd_2.c \
 		builtins/export.c \
 		builtins/pwd.c \
 		builtins/exit.c \

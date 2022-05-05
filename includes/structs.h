@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 14:04:03 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/04 13:31:28 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/05 14:04:44 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct s_global
 	int		nb_cmd;
 	int		access;
 	int		tmp_file;
+	int		fd_tmp;
 	t_list	*list;
 	t_list	*exprt;
 	t_l	*l;

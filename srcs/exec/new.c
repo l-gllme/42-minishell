@@ -6,12 +6,11 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 15:22:38 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/05 13:23:45 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/05 14:17:48 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
 
 int	ft_exec_builtin(t_g *v, t_l *tmp)
 {
@@ -32,7 +31,7 @@ int	ft_exec_builtin(t_g *v, t_l *tmp)
 	return (1);
 }
 
-int	ft_exec_cmd_no_redirect(t_g *v, t_l *tmp, char *str, int pipe_fd[2], int fd_tmp)
+int	ft_exec_cmd_no_redirect(t_g *v, t_l *tmp, char *str, int pipe_fd[2])
 {
 	int	frk;
 	int	fd;
@@ -41,7 +40,6 @@ int	ft_exec_cmd_no_redirect(t_g *v, t_l *tmp, char *str, int pipe_fd[2], int fd_
 	int	value;
 
 	value = 0;
-	//g_shell.retour = 89;
 	g_shell.in_exec = 1;
 	frk = fork();
 	if (frk == 0)
@@ -69,11 +67,11 @@ int	ft_exec_cmd_no_redirect(t_g *v, t_l *tmp, char *str, int pipe_fd[2], int fd_
 			dup2(fd, STDIN_FILENO);
 			close(fd);
 			if (v->dup_type != 1)
-				close(fd_tmp);
+				close(v->fd_tmp);
 		}
 		else if (v->dup_type != 1)
 		{
-			dup2(fd_tmp, STDIN_FILENO);
+			dup2(v->fd_tmp, STDIN_FILENO);
 		}
 		if (tmp->name_out)
 		{
@@ -83,7 +81,6 @@ int	ft_exec_cmd_no_redirect(t_g *v, t_l *tmp, char *str, int pipe_fd[2], int fd_
 				fd = open(tmp->name_out, O_WRONLY | O_TRUNC, 0644);	
 			dup2(fd, STDOUT_FILENO);
 			close(fd);
-			//close(pipe_fd[1]);
 		}
 		else if (tmp->next)
 		{
@@ -102,8 +99,8 @@ int	ft_exec_cmd_no_redirect(t_g *v, t_l *tmp, char *str, int pipe_fd[2], int fd_
 		if (str != NULL)
 			execve(str, toto, v->new_env);
 		close(pipe_fd[1]);
-		if (fd_tmp)
-			close(fd_tmp);
+		if (v->fd_tmp)
+			close(v->fd_tmp);
 		ft_lstclear(&v->list, &free);
 		ft_free(v);
 		free_char_tab(toto);
@@ -111,7 +108,7 @@ int	ft_exec_cmd_no_redirect(t_g *v, t_l *tmp, char *str, int pipe_fd[2], int fd_
 		exit(value);
 	}
 	if (v->dup_type != 1)
-		close(fd_tmp);
+		close(v->fd_tmp);
 	close(pipe_fd[1]);
 	free(v->wagon);
 	if (WTERMSIG(value) == 3)
@@ -119,7 +116,6 @@ int	ft_exec_cmd_no_redirect(t_g *v, t_l *tmp, char *str, int pipe_fd[2], int fd_
 		printf ("Quit (core dumped)\n");
 		g_shell.retour = 131;
 	}
-	//g_shell.retour = WEXITSTATUS(value);
 	return (1);
 }
 
@@ -187,49 +183,56 @@ int	ft_exec_one_cmd(t_g *v, char *str, t_l *tmp)
 	return (WEXITSTATUS(value));
 }
 
-int	ft_exec_cmd_lol(t_g *v, t_l *tmp, int choice, int pipe_fd[2], int fd_tmp)
+void	ft_error_exec(t_l *tmp, int choice)
+{
+	if (choice == 1)
+	{
+		g_shell.retour = 127;
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(tmp->exec, 2);
+		ft_custom_error(": command not found\n", 0, NULL);
+	}
+	else if (choice == 0)
+	{
+		g_shell.retour = 126;
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(tmp->exec, 2);
+		ft_custom_error(": Is a directory\n", 0, NULL);
+	}
+}
+
+void	ft_exec_cmd_lol_2(t_l *tmp, t_g *v, int choice, int pipe_fd[2])
 {
 	char	*str;
-	int		value;
 
 	str = NULL;
+	if (open(tmp->exec, O_DIRECTORY) != -1)
+		ft_error_exec(tmp, 0);
+	if (ft_recup_content("PATH", v) == NULL && access(tmp->exec, X_OK) != 0)
+		ft_error_exec(tmp, 1);
+	else
+		str = try_access(tmp->exec, v);
+	if (str == NULL && g_shell.retour != 127)
+		ft_error_exec(tmp, 1);
+	if (choice)
+		ft_exec_one_cmd(v, str, tmp);
+	else
+		ft_exec_cmd_no_redirect(v, tmp, str, pipe_fd);
+	free(str);
+}
+
+int	ft_exec_cmd_lol(t_g *v, t_l *tmp, int choice, int pipe_fd[2])
+{
+	int		value;
+
 	value = 0;
 	if (ft_is_builtin(tmp->exec, v, 0, tmp))
 	{
-		ft_exec_cmd_no_redirect(v, tmp, tmp->exec, pipe_fd, fd_tmp);
+		ft_exec_cmd_no_redirect(v, tmp, tmp->exec, pipe_fd);
 		return (1);
 	}
 	else
-	{
-		if (open(tmp->exec, O_DIRECTORY) != -1)
-		{
-			g_shell.retour = 126;
-			ft_putstr_fd("minishell: ", 2);
-			ft_putstr_fd(tmp->exec, 2);
-			ft_custom_error(": Is a directory\n", 0, NULL);
-		}
-		if (ft_recup_content("PATH", v) == NULL && access(tmp->exec, X_OK) != 0)
-		{
-			g_shell.retour = 127;
-			ft_putstr_fd("minishell: ", 2);
-			ft_putstr_fd(tmp->exec, 2);
-			ft_custom_error(": command not found\n", 0, NULL);
-		}
-		else
-			str = try_access(tmp->exec, v);
-		if (str == NULL && g_shell.retour != 127)
-		{
-			g_shell.retour = 127;
-			ft_putstr_fd("minishell: ", 2);
-			ft_putstr_fd(tmp->exec, 2);
-			ft_custom_error(": command not found\n", 0, NULL);
-		}
-		if (choice)
-			ft_exec_one_cmd(v, str, tmp);
-		else
-			ft_exec_cmd_no_redirect(v, tmp, str, pipe_fd, fd_tmp);
-		free(str);
-	}
+		ft_exec_cmd_lol_2(tmp, v, choice, pipe_fd);
 	return (1);
 }
 
@@ -257,17 +260,56 @@ char	**ft_regroup_env(t_g *v)
 	return (recup);
 }
 
+void	ft_exec_3(t_l *l, t_l *tmp, int pipe_fd[2], t_g *v)
+{
+	if (l->next == NULL && ft_is_builtin(l->exec, v, 0, tmp))
+		ft_exec_builtin(v, tmp);
+	else if (v->nb_cmd == 1)
+		ft_exec_cmd_lol(v, tmp, 1, pipe_fd);
+	else
+	{
+		if (v->dup_type != 1)
+			v->fd_tmp = pipe_fd[0];
+		if (tmp->next != NULL)
+			pipe(pipe_fd);
+		ft_exec_cmd_lol(v, tmp, 0, pipe_fd);
+	}
+}
+
+void	ft_exec_2(t_g *v, t_l *tmp, t_l *l)
+{
+	int	pipe_fd[2];
+
+	tmp = l;
+	v->fd_tmp = 0;
+	while (tmp)
+	{
+		v->dup_type++;
+		if (tmp->in_tab != NULL)
+			ft_exec_in(v, tmp, 1);
+		if (tmp->out_tab != NULL)
+			ft_exec_out(v, tmp);
+		if (tmp->exec != NULL)
+			ft_exec_3(l, tmp, pipe_fd, v);
+		if (tmp->name_in != NULL)
+		{
+			if (tmp->in_tab[ft_tablen(tmp->in_tab) - 2][1] != 0)
+				unlink(tmp->name_in);
+		}
+		tmp = tmp->next;
+	}
+	if (v->fd_tmp)
+		close(v->fd_tmp);
+}
+
 int	ft_exec(t_g *v, t_l *l)
 {
 	t_l	*tmp;
-	int	pipe_fd[2];
-	int	fd_tmp;
 
 	g_shell.retour = 0;
 	g_shell.in_exec = 0;
 	tmp = l;
 	v->dup_type = 0;
-	fd_tmp = 0;
 	v->new_env = ft_regroup_env(v);
 	while (tmp)
 	{
@@ -280,47 +322,11 @@ int	ft_exec(t_g *v, t_l *l)
 			ft_exec_in(v, tmp, 0);
 		tmp = tmp->next;
 	}
-	tmp = l;
-	while (tmp)
-	{
-		v->dup_type++;
-		if (tmp->in_tab != NULL)
-			ft_exec_in(v, tmp, 1);
-		if (tmp->out_tab != NULL)
-			ft_exec_out(v, tmp);
-		if (tmp->exec != NULL)
-		{
-			if (l->next == NULL && ft_is_builtin(l->exec, v, 0, tmp))
-				ft_exec_builtin(v, tmp);
-			else if (v->nb_cmd == 1)
-				ft_exec_cmd_lol(v, tmp, 1, pipe_fd, 0);
-			else
-			{
-
-				if (v->dup_type != 1)
-					fd_tmp = pipe_fd[0];
-				if (tmp->next != NULL)
-					pipe(pipe_fd);
-				ft_exec_cmd_lol(v, tmp, 0, pipe_fd, fd_tmp);
-			}
-		}
-		if (tmp->name_in != NULL)
-		{
-			if (tmp->in_tab[ft_tablen(tmp->in_tab) - 2][1] != 0)
-				unlink(tmp->name_in);
-		}
-		tmp = tmp->next;
-	}
-	if (l->next == NULL)
-	{
-		return (1);
-	}
-	while (v->nb_cmd)
+	ft_exec_2(v, tmp, l);
+	while (v->nb_cmd && l->next != NULL)
 	{
 		wait (NULL);
 		v->nb_cmd--;
 	}
-	if (fd_tmp)
-		close(fd_tmp);
 	return (1);
 }
