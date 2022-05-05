@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/04 15:03:15 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/05 15:22:57 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -384,23 +384,62 @@ char	*ft_check_in_env(t_g *v, char *arg)
 	return (recup);
 }
 
+t_i	*ft_init_env_struct(t_i *env)
+{
+	env->j = 0;
+	env->l = 0;
+	env->d = 0;
+	env->c = 0;
+	return (env);
+}
 
+char	*ft_recup_new(t_i *env, char *recup)
+{
+	int	i;
 
-char	*ft_check_in_env_2(t_g *v, char *exec)
+	i = 0;
+	while (env->split[i])
+	{
+		recup = ft_strjoin_gnl(recup, env->split[i]); 
+		if (env->d)
+		{
+			recup = ft_strjoin_gnl(recup, "$");
+			env->d--;
+		}
+		if (env->split[i + 1] && g_shell.retour != 7)
+			recup = ft_strjoin_gnl(recup, " "); 
+		i++;
+	}
+	if (ft_strlen(recup) > 0 && recup[ft_strlen(recup) - 1] == ' ')
+		recup[ft_strlen(recup) - 1] = 0;
+	free_char_tab(env->split);
+	return (recup);
+}
+
+void	ft_no_in_env(t_i *env, t_list *tmp, char *test, int i)
+{
+	if (tmp->content)
+	{
+		free(env->split[i]);
+		env->split[i] = ft_strdup(tmp->content + 1);
+	}
+	else
+	{
+		free(env->split[i]);
+		env->split[i] = ft_strdup("");
+	}
+	free(env->name);
+	free(test);
+}
+
+char	*ft_check_in_env_2(t_g *v, char *exec, int i)
 {
 	char	*recup;
-	char	**split;
-	int		i;
-	int		d;
-	int		c;
-	char	*name;
 	t_list	*tmp;
 	char	*test;
+	t_i	env;
 
-	int	l = 0;
-	i = 0;
-	d = 0;
-	c = 0;
+	ft_init_env_struct(&env);
 	recup = NULL;
 	if (exec)
 	{
@@ -408,79 +447,53 @@ char	*ft_check_in_env_2(t_g *v, char *exec)
 		free(exec);
 		exec = ft_add_space_dol(test);
 		free(test);
-		l = 1;
-		split = ft_supersplit(exec, ' ');
+		env.l = 1;
+		env.split = ft_supersplit(exec, ' ');
 		free(exec);
 
 	}
 	else
 		return (NULL);
-	if (!ft_check_doll(split[i]))
-		l = 0;
-	while (split[i] && l == 1)
+	if (!ft_check_doll(env.split[i]))
+		env.l = 0;
+	while (env.split[i] && env.l == 1)
 	{
-		c = 1;
-		split[i] = ft_check_special(split[i], v);
-		split[i] = ft_recup_retour(split[i]);
-		ft_suppr_dq_sq(split[i]);
-		if (split[i][0] == '$' && split[i][1] == '$' && split[i][2] == 0)
+		env.c = 1;
+		env.split[i] = ft_check_special(env.split[i], v);
+		env.split[i] = ft_recup_retour(env.split[i]);
+		ft_suppr_dq_sq(env.split[i]);
+		if (env.split[i][0] == '$' && env.split[i][1] == '$' && env.split[i][2] == 0)
 			break;
-		if (split[i][0] == '$' && split[i][1] == 0)
+		if (env.split[i][0] == '$' && env.split[i][1] == 0)
 			break;
-		while (split[i][ft_strlen(split[i]) - 1] == '$' && ft_strlen(split[i]) != 1)
+		while (env.split[i][ft_strlen(env.split[i]) - 1] == '$' && ft_strlen(env.split[i]) != 1)
 		{
-			split[i][ft_strlen(split[i]) -1] = '\0';
-			d++;
+			env.split[i][ft_strlen(env.split[i]) -1] = '\0';
+			env.d++;
 		}
 		tmp = v->list;
 		tmp = tmp->next;
-		while (tmp && split[i][0] == '$')
+		while (tmp && env.split[i][0] == '$')
 		{
-			name = ft_strjoin("$", tmp->name);
-			test = ft_strdup(split[i]);
-			if (!ft_strncmp(split[i], name, ft_strlen(split[i])) && in_env(split[i], v))
+			env.name = ft_strjoin("$", tmp->name);
+			test = ft_strdup(env.split[i]);
+			if (!ft_strncmp(env.split[i], env.name, ft_strlen(env.split[i])) && in_env(env.split[i], v))
 			{
-				if (tmp->content)
-				{
-					free(split[i]);
-					split[i] = ft_strdup(tmp->content + 1);
-				}
-				else
-				{
-					free(split[i]);
-					split[i] = ft_strdup("");
-				}
-				free(name);
-				free(test);
+				ft_no_in_env(&env, tmp, test, i);
 				break;
 			}
 			else if (!in_env(test, v))
 			{
-				free(split[i]);
-				split[i] = ft_strdup("");
+				free(env.split[i]);
+				env.split[i] = ft_strdup("");
 			}
 			tmp = tmp->next;
-			free(name);
+			free(env.name);
 			free(test);
 		}
 		i++;
 	}
-	i = 0;
-	while (split[i])
-	{
-		recup = ft_strjoin_gnl(recup, split[i]); 
-		if (d)
-		{
-			recup = ft_strjoin_gnl(recup, "$");
-			d--;
-		}
-		if (split[i + 1] && g_shell.retour != 7)
-			recup = ft_strjoin_gnl(recup, " "); 
-		i++;
-	}
-	if (ft_strlen(recup) > 0 && recup[ft_strlen(recup) - 1] == ' ')
-		recup[ft_strlen(recup) - 1] = 0;
-	free_char_tab(split);
+	recup = ft_recup_new(&env, recup);
 	return (recup);
 }
 
@@ -626,7 +639,7 @@ int	parsing(char *str, char **env, t_list *list)
 		if (v->l->arg)
 			v->l->arg = ft_check_in_env(v, v->l->arg);
 		if (v->l->exec)
-			v->l->exec = ft_check_in_env_2(v, v->l->exec);
+			v->l->exec = ft_check_in_env_2(v, v->l->exec, 0);
 		ft_exec(v, v->l);
 	}
 	if (v->nb_cmd != 1)
@@ -637,7 +650,7 @@ int	parsing(char *str, char **env, t_list *list)
 			if (tmp->arg)
 				tmp->arg = ft_check_in_env(v, tmp->arg);
 			if (tmp->exec)
-				tmp->exec = ft_check_in_env_2(v, tmp->exec);
+				tmp->exec = ft_check_in_env_2(v, tmp->exec, 0);
 			tmp = tmp->next;
 		}
 		ft_exec(v, v->l);

@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 14:04:03 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/05 14:04:44 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/05 15:22:48 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,16 @@ typedef struct s_get_cmd
 	int		k;
 	int		l;
 }	t_c;
+
+typedef struct s_in_env
+{
+	int	j;
+	int	c;
+	int	d;
+	int	l;
+	char	*name;
+	char	**split;
+}	t_i;
 
 typedef struct g_minishell
 {
