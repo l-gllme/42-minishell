@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 14:05:42 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/22 13:15:27 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/05/05 13:48:01 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@
 /* *** Echo *** */
 void	ft_echo(char *str);
 /* *** cd *** */
+int	perm_cd(char *arg);
+int	error_cd(char *arg);
+int	cut_cd_no_arg_or_multiple(char *arg, t_g *v, int choice);
+int	cut_cd_just_tild(char *arg, char *str, int *i);
 int		ft_cd(char *arg, t_g *v);
 /* *** pwd *** */
 void	ft_pwd(void);
