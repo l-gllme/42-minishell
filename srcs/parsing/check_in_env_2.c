@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 16:01:59 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/05/05 19:23:40 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/05 19:25:59 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,11 +154,11 @@ char	*ft_check_in_env_2(t_g *v, char *exec, int i, char *arg)
 		i++;
 	}
 	recup = ft_recup_new(&env, recup);
-	env.split = ft_supersplit(recup, ' ');
-	free(recup);
-	recup = ft_strdup(env.split[0]);
 	if (!arg)
 	{
+		env.split = ft_supersplit(recup, ' ');
+		free(recup);
+		recup = ft_strdup(env.split[0]);
 		i = 1;
 		while (env.split[i])
 		{
