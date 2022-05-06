@@ -6,7 +6,7 @@
 #    By: lguillau <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/14 14:27:36 by lguillau          #+#    #+#              #
-#    Updated: 2022/05/05 16:06:24 by jtaravel         ###   ########.fr        #
+#    Updated: 2022/05/06 13:29:16 by lguillau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,10 @@ FILES	=	minishell.c \
 		builtins/cd.c \
 		builtins/cd_2.c \
 		builtins/export.c \
+		builtins/export_1.c \
+		builtins/export_2.c \
+		builtins/export_3.c \
+		builtins/export_4.c \
 		builtins/pwd.c \
 		builtins/exit.c \
 		builtins/env.c \
