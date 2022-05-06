@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 11:19:08 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/28 17:32:31 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/05/06 17:11:21 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ static int	count_len(t_g *v, char c, int k, int len)
 	int	i;
 	t_s	s;
 
-	i = 0;
+	i = -1;
 	init_syntax_struct(&s);
-	while (v->tab[k][i])
+	while (v->tab[k][++i])
 	{
 		check_sq_dq(&s, v->tab[k][i]);
 		if (s.sq_opened == 0 && s.dq_opened == 0 && i != 0 && v->tab[k][i] == c)
@@ -27,52 +27,66 @@ static int	count_len(t_g *v, char c, int k, int len)
 			if (v->tab[k][i - 1] != ' ' || v->tab[k][i - 1] != c)
 				len++;
 		}
-		if (s.sq_opened == 0 && s.dq_opened == 0 && v->tab[k][i] == c && v->tab[k][i + 1] == c)
+		if (s.sq_opened == 0 && s.dq_opened == 0 && v->tab[k][i] == c
+			&& v->tab[k][i + 1] == c)
 		{
 			i++;
 			len++;
 		}
-		if (s.sq_opened == 0 && s.dq_opened == 0 && v->tab[k][i] == c && c && v->tab[k][i + 1] != c)
+		if (s.sq_opened == 0 && s.dq_opened == 0 && v->tab[k][i] == c
+			&& c && v->tab[k][i + 1] != c)
 			len++;
-		i++;
 	}
 	len += ft_strlen(v->tab[k]);
 	return (len);
 }
 
+static void	cc_add_space(t_g *v, t_norme *nrm, t_s s)
+{
+	init_syntax_struct(&s);
+	check_sq_dq(&s, v->tab[nrm->k][nrm->i]);
+	if (s.sq_opened == 0 && s.dq_opened == 0 && nrm->i != 0
+		&& v->tab[nrm->k][nrm->i] == nrm->c)
+	{
+		if (v->tab[nrm->k][nrm->i - 1] != ' '
+			|| v->tab[nrm->k][nrm->i - 1] != nrm->c)
+			v->wagon[nrm->j++] = ' ';
+	}
+	v->wagon[nrm->j] = v->tab[nrm->k][nrm->i];
+	if (s.sq_opened == 0 && s.dq_opened == 0 && v->tab[nrm->k][nrm->i] == nrm->c
+		&& v->tab[nrm->k][nrm->i + 1] == nrm->c)
+	{
+		v->wagon[nrm->j] = nrm->c;
+		nrm->j++;
+		nrm->i++;
+		v->wagon[nrm->j] = ' ';
+	}
+	if (s.sq_opened == 0 && s.dq_opened == 0 && v->tab[nrm->k][nrm->i] == nrm->c
+		&& v->tab[nrm->k][nrm->i + 1] != nrm->c)
+	{
+		v->wagon[nrm->j] = nrm->c;
+		nrm->j++;
+		v->wagon[nrm->j] = ' ';
+	}
+}
+
 static int	cut_add_space(t_g *v, char c, int k, int j)
 {
-	int	i;
-	t_s	s;
+	t_norme	nrm;
+	t_s		s;
 
-	i = 0;
+	nrm.i = 0;
+	nrm.c = c;
+	nrm.k = k;
+	nrm.j = j;
 	init_syntax_struct(&s);
-	while (v->tab[k][i])
+	while (v->tab[nrm.k][nrm.i])
 	{
-		check_sq_dq(&s, v->tab[k][i]);
-		if (s.sq_opened == 0 && s.dq_opened == 0 && i != 0 && v->tab[k][i] == c)
-		{
-			if (v->tab[k][i - 1] != ' ' || v->tab[k][i - 1] != c)
-				v->wagon[j++] = ' ';
-		}
-		v->wagon[j] = v->tab[k][i];
-		if (s.sq_opened == 0 && s.dq_opened == 0 && v->tab[k][i] == c && v->tab[k][i + 1] == c)
-		{
-			v->wagon[j] = c;
-			j++;
-			i++;
-			v->wagon[j] = ' ';
-		}
-		if (s.sq_opened == 0 && s.dq_opened == 0 && v->tab[k][i] == c && v->tab[k][i + 1] != c)
-		{
-			v->wagon[j] = c;
-			j++;
-			v->wagon[j] = ' ';
-		}
-		j++;
-		i++;
+		cc_add_space(v, &nrm, s);
+		nrm.j++;
+		nrm.i++;
 	}
-	v->wagon[j] = 0;
+	v->wagon[nrm.j] = 0;
 	return (1);
 }
 
