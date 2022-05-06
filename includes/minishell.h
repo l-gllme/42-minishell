@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/05 17:45:31 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/06 13:48:05 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,6 +203,7 @@ void	ft_super_lstadd_back(t_l **alst, t_l *new);
 t_l	*ft_super_lstlast(t_l *lst);
 int	ft_super_lstsize(t_l *lst);
 
+t_list  *ft_change_shlvl(t_list *list, char **env);
 
 /* ******************************* */
 /*                                 */

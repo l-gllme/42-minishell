@@ -6,7 +6,7 @@
 #    By: lguillau <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/14 14:27:36 by lguillau          #+#    #+#              #
-#    Updated: 2022/05/06 13:32:59 by lguillau         ###   ########.fr        #
+#    Updated: 2022/05/06 13:47:39 by lguillau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,6 +54,7 @@ FILES	=	minishell.c \
 		gnl/get_next_line.c \
 		gnl/get_next_line_utils.c \
 		env/env_lst.c \
+		env/env_lst_2.c \
 
 S_PATH	=	srcs/
 O_PATH	=	objs/
