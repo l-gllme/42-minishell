@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:40:12 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/06 16:05:47 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/05/06 18:21:26 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,35 @@ void	handler(int signum)
 		return ;
 }
 
+void	ft_minishell(char *str, t_list *list, char **env)
+{
+	if (g_shell.in_exec == 0)
+		signal(SIGQUIT, SIG_IGN);
+	if (g_shell.in_exec == 1)
+		signal(SIGQUIT, handler);
+	signal(SIGINT, handler);
+	str = readline("\033[34m➜\033[0m ");
+	if (str == NULL)
+	{
+		rl_clear_history();
+		ft_lstclear(&list, &free);
+		printf("Bye! 👋\n");
+		ft_exit(str);
+	}
+	if (str[0])
+		add_history(str);
+	if (str[0])
+		parsing(str, env, list);
+	free(str);
+	g_shell.in_exec = 0;
+}
+
 int	main(int ac, char **av, char **env)
 {
 	char	*str;
 	t_list	*list;
 
+	str = NULL;
 	g_shell.in_exec = 0;
 	g_shell.retour = 0;
 	list = NULL;
@@ -50,27 +74,7 @@ int	main(int ac, char **av, char **env)
 	if (ac != 1)
 		ft_error(2);
 	while (1)
-	{
-		if (g_shell.in_exec == 0)
-			signal(SIGQUIT, SIG_IGN);
-		if (g_shell.in_exec == 1)
-			signal(SIGQUIT, handler);
-		signal(SIGINT, handler);
-		str = readline("\033[34m➜\033[0m ");
-		if (str == NULL)
-		{
-			rl_clear_history();
-			ft_lstclear(&list, &free);
-			printf("Bye! 👋\n");
-			ft_exit(str);
-		}
-		if (str[0])
-			add_history(str);
-		if (str[0])
-			parsing(str, env, list);
-		free(str);
-		g_shell.in_exec = 0;
-	}
+		ft_minishell(str, list, env);
 	ft_lstclear(&list, &free);
 	return (0);
 }

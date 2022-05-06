@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 17:00:21 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/06 16:18:07 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/05/06 18:16:28 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,10 @@ int	count_signs(char **tab, char c)
 		}
 	}
 	return (count);
+}
+
+void	ft_error_in_get_cmd(char **tab)
+{
+	tab[0] = 0;
+	ft_putstr_fd("invalid syntax\n", 2);
 }

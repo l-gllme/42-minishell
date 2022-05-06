@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 14:04:03 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/06 17:06:09 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/05/06 18:12:05 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,12 @@
 
 typedef struct s_norme_add_appce
 {
-	char			c;
-	int			k;
-	int			i;
-	int			len;
-	int			j;
+	char	c;
+	int		k;
+	int		i;
+	int		len;
+	int		j;
 }	t_norme;
-
 
 typedef struct s_in_fork
 {
@@ -29,7 +28,7 @@ typedef struct s_in_fork
 	char	**toto;
 	char	*srt;
 	char	*str;
-	int	value;
+	int		value;
 }	t_f;
 
 typedef struct s_list

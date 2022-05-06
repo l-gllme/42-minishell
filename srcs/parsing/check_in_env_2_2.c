@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 14:10:47 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/05/06 14:21:18 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/06 18:45:13 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	ft_env_while_2(t_i *env, int i, t_g *v, t_list *tmp)
 {
 	env->c = 1;
-	env->split[i] = ft_check_special(env->split[i], v);
+	env->split[i] = ft_check_special(env->split[i], v, 0);
 	env->split[i] = ft_recup_retour(env->split[i]);
 	ft_suppr_dq_sq(env->split[i]);
 	if (!ft_check_just_doll(env, i))

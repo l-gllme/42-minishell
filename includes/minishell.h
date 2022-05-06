@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/06 17:23:17 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/05/06 18:43:55 by jtaravel         ###   ########.fr       */
 /*   Updated: 2022/05/06 15:44:26 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -43,7 +43,7 @@ void	init_struct(char **tab, t_g *v, char **env, t_list *list);
 t_i		*ft_init_env_struct(t_i *env);
 char	*ft_check_in_env(t_g *v, char *exec, int i);
 char	*ft_check_in_env_2(t_g *v, char *exec, int i, char *str);
-char	*ft_check_special(char *str, t_g *v);
+char	*ft_check_special(char *str, t_g *v, int i);
 char	*ft_recup_retour(char *str);
 char	*ft_add_space_dol(char *str);
 int		in_env(char *str, t_g *v);
@@ -105,8 +105,6 @@ int		ft_exec_in_no_cmd(char **tab, int choice, t_g *v, t_l *tmp);
 int		check_valid_infile(char *file);
 int		check_valid_infile(char *file);
 
-
-
 /* ft_exec_out.c */
 int		ft_exec_out(t_g *v, t_l *tmp);
 int		ft_exec_out_no_cmd(char **tab);
@@ -122,9 +120,20 @@ void	ft_fork_error(t_l *tmp, t_g *v, char **toto, char *stri);
 void	ft_fork_str_null(int pipe_fd[2], t_g *v, char **toto, t_f *fork);
 void	ft_out_tab_fork(t_f *in_fork, t_g *v, t_l *tmp);
 void	ft_recup_arg_fork(t_f *in_fork, t_l *tmp);
-int	ft_exec_cmd_no_redirect(t_g *v, t_l *tmp, char *str, int pipe_fd[2]);
-int     ft_exec_one_cmd(t_g *v, char *str, t_l *tmp);
-
+int		ft_exec_cmd_no_redirect(t_g *v, t_l *tmp, char *str, int pipe_fd[2]);
+int		ft_exec_one_cmd(t_g *v, char *str, t_l *tmp);
+void	ft_recup_arg_one(t_f *in_fork, t_l *tmp);
+void	ft_one_error(t_l *tmp, t_g *v, t_f *in_fork);
+void	ft_one_str_null(t_g *v, t_f *in_fork);
+void	ft_out_tab_one(t_f *in_fork, t_g *v, t_l *tmp);
+char	**ft_regroup_env(t_g *v);
+void	ft_exec_3(t_l *l, t_l *tmp, int pipe_fd[2], t_g *v);
+void	ft_exec_2(t_g *v, t_l *tmp, t_l *l);
+int		ft_exec(t_g *v, t_l *l);
+int		ft_exec_cmd_lol(t_g *v, t_l *tmp, int choice, int pipe_fd[2]);
+void	ft_exec_cmd_lol_2(t_l *tmp, t_g *v, int choice, int pipe_fd[2]);
+void	ft_error_exec(t_l *tmp, int choice);
+int		ft_exec_builtin(t_g *v, t_l *tmp);
 
 /* ft_is_builtin.c */
 int		ft_is_builtin(char *str, t_g *v, int choice, t_l *tmp);
@@ -163,6 +172,7 @@ char	**ft_tabdup(char **tab);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 int		ft_tablen(char **tab);
 char	*ft_strfind(char *big, char *little, size_t len);
+void	ft_error_in_get_cmd(char **tab);
 
 /* split.c */
 char	**ft_split(char const *s, char c);
