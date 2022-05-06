@@ -6,7 +6,7 @@
 #    By: lguillau <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/14 14:27:36 by lguillau          #+#    #+#              #
-#    Updated: 2022/05/06 13:29:16 by lguillau         ###   ########.fr        #
+#    Updated: 2022/05/06 13:32:59 by lguillau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,6 +49,7 @@ FILES	=	minishell.c \
 		exec/ft_here_doc_2.c \
 		lst/ft_lst.c \
 		lst/ft_superlst.c \
+		lst/ft_superlst_2.c \
 		lst/ft_lst_2.c \
 		gnl/get_next_line.c \
 		gnl/get_next_line_utils.c \
