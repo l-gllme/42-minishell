@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 15:22:38 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/06 12:11:23 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/06 12:49:12 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ int	ft_exec_cmd_no_redirect(t_g *v, t_l *tmp, char *str, int pipe_fd[2])
 	char	*srt;
 	int	value;
 
+	if (tmp->name_in)
+		fd = open(tmp->name_in, 0, 0644);	
 	value = 0;
 	g_shell.in_exec = 1;
 	frk = fork();
@@ -56,7 +58,6 @@ int	ft_exec_cmd_no_redirect(t_g *v, t_l *tmp, char *str, int pipe_fd[2])
 			toto = ft_split(tmp->exec, ' ');
 		if (tmp->name_in)
 		{
-			fd = open(tmp->name_in, 0, 0644);	
 			if (fd == -1 && access(tmp->name_in, X_OK))
 			{
 				ft_putstr_fd("minishell: ", 2);
@@ -252,13 +253,9 @@ void	ft_exec_cmd_lol_2(t_l *tmp, t_g *v, int choice, int pipe_fd[2])
 	if (str == NULL && g_shell.retour != 127)
 		ft_error_exec(tmp, 1);
 	if (choice)
-	{
 		ft_exec_one_cmd(v, str, tmp);
-	}
 	else
-	{
 		ft_exec_cmd_no_redirect(v, tmp, str, pipe_fd);
-	}
 	free(str);
 }
 
@@ -273,9 +270,7 @@ int	ft_exec_cmd_lol(t_g *v, t_l *tmp, int choice, int pipe_fd[2])
 		return (1);
 	}
 	else
-	{
 		ft_exec_cmd_lol_2(tmp, v, choice, pipe_fd);
-	}
 	return (1);
 }
 

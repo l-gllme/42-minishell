@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 16:01:59 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/05/06 10:39:44 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/06 12:55:02 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,9 +113,7 @@ static	void	ft_recup_for_check_in_env(char *arg, t_i *env)
 	char	*test;
 
 	if (!ft_check_doll(arg))
-	{
 		env->l = 0;
-	}
 	else
 	{
 		env->l = 1;
