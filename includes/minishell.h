@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/06 13:48:05 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/05/06 13:54:25 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,14 @@
 int		parsing(char *line, char **env, t_list *list);
 int		ft_check_outpout(char **cmd);
 void	init_struct(char **tab, t_g *v, char **env, t_list *list);
-t_i	*ft_init_env_struct(t_i *env);
+t_i		*ft_init_env_struct(t_i *env);
 char	*ft_check_in_env(t_g *v, char *exec, int i);
 char	*ft_check_in_env_2(t_g *v, char *exec, int i, char *str);
 char	*ft_check_special(char *str, t_g *v);
 char	*ft_recup_retour(char *str);
 char	*ft_add_space_dol(char *str);
-int	in_env(char *str, t_g *v);
-int	ft_check_doll(char *str);
-
-
+int		in_env(char *str, t_g *v);
+int		ft_check_doll(char *str);
 
 /* get_cmd */
 int		get_cmd(char *str, char **tab);
@@ -78,59 +76,36 @@ char	*stock_arg(t_g *v, char *arg);
 /*                                 */
 /* ******************************* */
 
-int	ft_exec(t_g *v, t_l *l);
-int	ft_here_doc_no_cmd(char *limiter, t_g *v, t_l *tmp, int value);
+int		ft_exec(t_g *v, t_l *l);
+int		ft_here_doc_no_cmd(char *limiter, t_g *v, t_l *tmp, int value);
 void	handler(int signum);
-void    ft_exec_cmd_test(t_l *tmp, t_g *v);
-int	ft_exec_in_dup(t_g *v, char **tab, t_l *tmp, int choice);
-int	create_tmp_file(t_l *tmp);
+void	ft_exec_cmd_test(t_l *tmp, t_g *v);
+int		ft_exec_in_dup(t_g *v, char **tab, t_l *tmp, int choice);
+int		create_tmp_file(t_l *tmp);
 void	handler2(int signum);
 void	ft_value_is_2(t_l *tmp);
 void	ft_error_limiter(char *str);
 void	ft_error_str_null(void);
 
-
 /* ft_exec_in.c */
-int	ft_exec_in(t_g *v, t_l *tmp, int c);
-int	ft_exec_in_no_cmd(char **tab, int choice, t_g *v, t_l *tmp);
-int	check_valid_infile(char *file);
+int		ft_exec_in(t_g *v, t_l *tmp, int c);
+int		ft_exec_in_no_cmd(char **tab, int choice, t_g *v, t_l *tmp);
+int		check_valid_infile(char *file);
 
 /* ft_exec_out.c */
-int	ft_exec_out(t_g *v, t_l *tmp);
-int	ft_exec_out_no_cmd(char **tab);
+int		ft_exec_out(t_g *v, t_l *tmp);
+int		ft_exec_out_no_cmd(char **tab);
 
 /* check_outfile.c */
 int		check_outfile(char *file, int type);
 int		check_dup_outfile(char *file, int type, t_l *tmp);
 
 /* exec.c */
-void	ft_exec_one(t_g *v);
-int	ft_exec_pipes(t_g *v);
-int	cut_exec_one_fork(t_g *v);
-int	reauckaitte_lygue(t_g *v, char *str);
 char	*try_access(char *cmd, t_g *v);
-int     exec_in_dup(t_g *v, char **tab, int i);
-int     exec_out_dup(t_g *v, char **tab);
-int     in_env_sans_dollard(char *str, t_g *v);
-
-
-/* ft_here_doc */
-int		ft_here_doc(char *limiter, t_g *v);
-
-/* in_exec.c */
-int		redirect_in(t_g *v);
-int		exec_in(t_g *v, char **tab);
-
-/* cmd_exec.c */
-int		ft_exec_cmd(t_g *v);
+int		in_env_sans_dollard(char *str, t_g *v);
 
 /* ft_is_builtin.c */
 int		ft_is_builtin(char *str, t_g *v, int choice, t_l *tmp);
-
-/* out_exec.c */
-int		redirect_out(t_g *v);
-int		exec_out(t_g *v, char **tab);
-
 
 /* ******************************* */
 /*                                 */
@@ -198,12 +173,12 @@ int		ft_lstsize(t_list *lst);
 /* super_lst.c */
 void	ft_super_lstclear(t_l	**lst, void (*del)(void *));
 void	ft_super_lstdelone(t_l	*lst, void (*del)(void *));
-t_l	*ft_super_lstnew(char **out_tab, char **in_tab, char *arg, char *exec);
+t_l		*ft_super_lstnew(char **out_tab, char **in_tab, char *arg, char *exec);
 void	ft_super_lstadd_back(t_l **alst, t_l *new);
-t_l	*ft_super_lstlast(t_l *lst);
-int	ft_super_lstsize(t_l *lst);
+t_l		*ft_super_lstlast(t_l *lst);
+int		ft_super_lstsize(t_l *lst);
 
-t_list  *ft_change_shlvl(t_list *list, char **env);
+t_list	*ft_change_shlvl(t_list *list, char **env);
 
 /* ******************************* */
 /*                                 */

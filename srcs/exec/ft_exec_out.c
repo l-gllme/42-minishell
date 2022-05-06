@@ -6,13 +6,13 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:23:26 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/05 17:10:01 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/05/06 14:03:03 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	cut_exec_out_dup(t_g *v, char **tab , int i)
+static int	cut_exec_out_dup(t_g *v, char **tab, int i)
 {
 	int	type;
 	int	len;
