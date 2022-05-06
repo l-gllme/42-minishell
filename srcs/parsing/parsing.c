@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/06 14:50:22 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/05/06 17:23:55 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,7 +254,7 @@ int	parsing(char *str, char **env, t_list *list)
 	t_l	*tmp;
 
 	tmp = NULL;
-	if (!ft_check_invalid_signs(str, '<') || !ft_check_invalid_signs(str, '>'))
+	if (!ft_check_invalid_signs(str, '<', -1, 0) || !ft_check_invalid_signs(str, '>', -1, 0))
 		return (0);
 	v = malloc(sizeof(t_g));
 	if (!v)

@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 12:16:42 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/05 18:25:02 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/06 17:40:24 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,15 +73,11 @@ static int	cut_cp(char str, t_s *s)
 	return (0);
 }
 
-int	ft_check_invalid_signs(char *str, char c)
+int	ft_check_invalid_signs(char *str, char c, int i, int count)
 {
-	int	i;
-	int	count;
 	t_s	s;
 
-	i = -1;
 	init_syntax_struct(&s);
-	count = 0;
 	while (str[++i])
 	{
 		check_sq_dq(&s, str[i]);
@@ -93,7 +89,8 @@ int	ft_check_invalid_signs(char *str, char c)
 				if (count == 3)
 				{
 					g_shell.retour = 2;
-					return (ft_custom_error("Invalid syntax near << or >>\n", 0, NULL));
+					return (ft_custom_error("Invalid syntax near << or >>\n",
+							0, NULL));
 				}
 				if (str[i + 1] != 0)
 					i++;
