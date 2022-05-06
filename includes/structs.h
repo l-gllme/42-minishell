@@ -6,12 +6,22 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 14:04:03 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/06 15:17:38 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/06 17:06:09 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
 # define STRUCTS_H
+
+typedef struct s_norme_add_appce
+{
+	char			c;
+	int			k;
+	int			i;
+	int			len;
+	int			j;
+}	t_norme;
+
 
 typedef struct s_in_fork
 {
