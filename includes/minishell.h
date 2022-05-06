@@ -6,7 +6,8 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/06 15:49:51 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/06 15:58:08 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/06 15:44:26 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +48,16 @@ char	*ft_recup_retour(char *str);
 char	*ft_add_space_dol(char *str);
 int		in_env(char *str, t_g *v);
 int		ft_check_doll(char *str);
-int	ft_env_while_2(t_i *env, int i, t_g *v, t_list *tmp);
-int	ft_env_while(t_i *env, int i, t_g *v, t_list *tmp);
+int		ft_env_while_2(t_i *env, int i, t_g *v, t_list *tmp);
+int		ft_env_while(t_i *env, int i, t_g *v, t_list *tmp);
 void	ft_recup_for_check_in_env_2(char *exec, t_i *env);
 void	ft_recup_for_check_in_env(char *arg, t_i *env);
 void	ft_recup_new_arg_2(t_i *env, char *recup, t_g *v, char *arg);
-int	ft_check_for_env(t_i *env, t_list *tmp, int i, t_g *v);
-int	ft_check_just_doll(t_i *env, int i);
+int		ft_check_for_env(t_i *env, t_list *tmp, int i, t_g *v);
+int		ft_check_just_doll(t_i *env, int i);
+int		check_not_followed_sign(t_g *v);
 
+int		parse_cmd(t_g *v);
 
 /* get_cmd */
 int		get_cmd(char *str, char **tab);
