@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/06 14:32:46 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/06 15:49:51 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,13 @@ int		check_dup_outfile(char *file, int type, t_l *tmp);
 /* exec.c */
 char	*try_access(char *cmd, t_g *v);
 int		in_env_sans_dollard(char *str, t_g *v);
+void	ft_fork_error(t_l *tmp, t_g *v, char **toto, char *stri);
+void	ft_fork_str_null(int pipe_fd[2], t_g *v, char **toto, t_f *fork);
+void	ft_out_tab_fork(t_f *in_fork, t_g *v, t_l *tmp);
+void	ft_recup_arg_fork(t_f *in_fork, t_l *tmp);
+int	ft_exec_cmd_no_redirect(t_g *v, t_l *tmp, char *str, int pipe_fd[2]);
+int     ft_exec_one_cmd(t_g *v, char *str, t_l *tmp);
+
 
 /* ft_is_builtin.c */
 int		ft_is_builtin(char *str, t_g *v, int choice, t_l *tmp);

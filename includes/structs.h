@@ -6,12 +6,21 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 14:04:03 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/06 14:02:18 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/05/06 15:17:38 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTS_H
 # define STRUCTS_H
+
+typedef struct s_in_fork
+{
+	int		fd;
+	char	**toto;
+	char	*srt;
+	char	*str;
+	int	value;
+}	t_f;
 
 typedef struct s_list
 {

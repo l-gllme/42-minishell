@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 15:22:38 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/06 12:49:12 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/06 15:49:23 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ int	ft_exec_builtin(t_g *v, t_l *tmp)
 	if (tmp->name_out)
 	{
 		if (tmp->append)
-			fd = open(tmp->name_out, O_WRONLY | O_APPEND, 0644);	
+			fd = open(tmp->name_out, O_WRONLY | O_APPEND, 0644);
 		else
-			fd = open(tmp->name_out, O_WRONLY | O_TRUNC, 0644);	
+			fd = open(tmp->name_out, O_WRONLY | O_TRUNC, 0644);
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
 	}
@@ -29,196 +29,6 @@ int	ft_exec_builtin(t_g *v, t_l *tmp)
 	if (tmp->name_out)
 		dup2(STDIN_FILENO, STDOUT_FILENO);
 	return (1);
-}
-
-int	ft_exec_cmd_no_redirect(t_g *v, t_l *tmp, char *str, int pipe_fd[2])
-{
-	int	frk;
-	int	fd;
-	char	**toto;
-	char	*srt;
-	int	value;
-
-	if (tmp->name_in)
-		fd = open(tmp->name_in, 0, 0644);	
-	value = 0;
-	g_shell.in_exec = 1;
-	frk = fork();
-	if (frk == 0)
-	{
-		signal(SIGQUIT, handler);
-		if (tmp->arg != NULL && !ft_is_builtin(tmp->exec, v, 0, tmp))
-		{
-			srt = ft_strjoin(tmp->exec, " ");
-			srt = ft_strjoin_gnl(srt, tmp->arg);
-			toto = ft_split(srt, ' ');
-			free(srt);
-		}
-		else if (!ft_is_builtin(tmp->exec, v, 0, tmp))
-			toto = ft_split(tmp->exec, ' ');
-		if (tmp->name_in)
-		{
-			if (fd == -1 && access(tmp->name_in, X_OK))
-			{
-				ft_putstr_fd("minishell: ", 2);
-				ft_putstr_fd(tmp->name_in, 2);
-				ft_putstr_fd(" :Permission denied\n", 2);
-				ft_lstclear(&v->list, &free);
-				free_char_tab(toto);
-				free(str);
-				ft_free(v);
-				exit(1);
-			}
-			dup2(fd, STDIN_FILENO);
-			close(fd);
-			if (v->dup_type != 1)
-				close(v->fd_tmp);
-		}
-		else if (v->dup_type != 1)
-			dup2(v->fd_tmp, STDIN_FILENO);
-		if (tmp->out_tab)
-		{
-			if (!ft_exec_out(v, tmp))
-			{
-				ft_lstclear(&v->list, &free);
-				free_char_tab(toto);
-				free(str);
-				ft_free(v);
-				exit(1);
-			} 
-			if (tmp->name_out)
-			{
-				if (tmp->append)
-					fd = open(tmp->name_out, O_WRONLY | O_APPEND, 0644);	
-				else
-					fd = open(tmp->name_out, O_WRONLY | O_TRUNC, 0644);	
-				dup2(fd, STDOUT_FILENO);
-				close(fd);
-			}
-		}
-		else if (tmp->next)
-		{
-			dup2(pipe_fd[1], STDOUT_FILENO);
-			close(pipe_fd[0]);
-		}
-		if (ft_is_builtin(tmp->exec, v, 1, tmp))
-		{
-			ft_lstclear(&v->list, &free);
-			ft_free(v);
-			close(pipe_fd[0]);
-			close(pipe_fd[1]);
-			exit(g_shell.retour);
-		}
-		if (pipe_fd[1] != 0)
-		close(pipe_fd[1]);
-		else
-		{
-			fd = open("/dev/null", O_RDONLY);
-			dup2(fd, 0);
-		}
-		if (str != NULL)
-		{
-			execve(str, toto, v->new_env);
-		}
-		close(pipe_fd[1]);
-		if (v->fd_tmp)
-			close(v->fd_tmp);
-		ft_lstclear(&v->list, &free);
-		ft_free(v);
-		free_char_tab(toto);
-		g_shell.retour = 127;
-		exit(value);
-	}
-	if (v->dup_type != 1)
-		close(v->fd_tmp);
-	if (pipe_fd[1] != 0)
-		close(pipe_fd[1]);
-	free(v->wagon);
-	if (WTERMSIG(value) == 3)
-	{
-		printf ("Quit (core dumped)\n");
-		g_shell.retour = 131;
-	}
-	return (1);
-}
-
-int	ft_exec_one_cmd(t_g *v, char *str, t_l *tmp)
-{
-	int		frk;
-	char	**toto;
-	char	*srt;
-	int		value;
-	int	fd;
-
-	value = 0;
-	g_shell.in_exec = 1;
-	if (v->l->arg != NULL)
-	{
-		srt = ft_strjoin(v->l->exec, " ");
-		srt = ft_strjoin_gnl(srt, v->l->arg);
-		toto = ft_split(srt, ' ');
-		free(srt);
-	}
-	else
-		toto = ft_split(v->l->exec, ' ');
-	frk = fork();
-	if (frk == 0)
-	{
-		signal(SIGQUIT, handler);
-		if (tmp->name_in)
-		{
-			fd = open(tmp->name_in, 0, 0644);	
-			if (fd == -1 && access(tmp->name_in, X_OK))
-			{
-				ft_putstr_fd("minishell: ", 2);
-				ft_putstr_fd(tmp->name_in, 2);
-				ft_putstr_fd(" :Permission denied\n", 2);
-				ft_lstclear(&v->list, &free);
-				free_char_tab(toto);
-				free(str);
-				ft_free(v);
-				exit(1);
-			}
-			dup2(fd, STDIN_FILENO);
-			close(fd);
-		}
-		if (tmp->out_tab)
-		{
-			if (!ft_exec_out(v, tmp))
-			{
-				ft_lstclear(&v->list, &free);
-				free_char_tab(toto);
-				free(str);
-				ft_free(v);
-				exit(1);
-			} 
-			if (tmp->name_out)
-			{
-				if (tmp->append)
-					fd = open(tmp->name_out, O_WRONLY | O_APPEND, 0644);	
-				else
-					fd = open(tmp->name_out, O_WRONLY | O_TRUNC, 0644);	
-				dup2(fd, STDOUT_FILENO);
-				close(fd);
-			}
-		}
-		if (str != NULL)
-			execve(str, toto, v->new_env);
-		ft_lstclear(&v->list, &free);
-		ft_free(v);
-		free_char_tab(toto);
-		exit(127);
-	}
-	else
-		waitpid(frk, &value, 0);
-	if (WTERMSIG(value) == 3)
-	{
-		printf ("Quit (core dumped)\n");
-		g_shell.retour = 131;
-	}
-	free_char_tab(toto);
-	g_shell.retour = WEXITSTATUS(value);
-	return (WEXITSTATUS(value));
 }
 
 void	ft_error_exec(t_l *tmp, int choice)
