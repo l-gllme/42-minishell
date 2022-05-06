@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:23:26 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/06 14:03:03 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/05/06 14:41:20 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,20 @@ static int	cut_exec_out_dup(t_g *v, char **tab, int i)
 	return (type);
 }
 
+int	ft_exec_out_dup_2(char **tab, int type, t_l *tmp, int i)
+{
+	if (tab[i - 1][1] == 0)
+		type = 1;
+	else
+		type = 0;
+	if (!check_dup_outfile(tab[i], type, tmp))
+	{
+		g_shell.retour = 1;
+		return (0);
+	}
+	return (1);
+}
+
 int	ft_exec_out_dup(t_g *v, char **tab, t_l *tmp)
 {
 	int	i;
@@ -55,15 +69,8 @@ int	ft_exec_out_dup(t_g *v, char **tab, t_l *tmp)
 		}
 		if (i == len - 1)
 		{
-			if (tab[i - 1][1] == 0)
-				type = 1;
-			else
-				type = 0;
-			if (!check_dup_outfile(tab[i], type, tmp))
-			{
-				g_shell.retour = 1;
+			if (!ft_exec_out_dup_2(tab, type, tmp, i))
 				return (0);
-			}
 		}
 	}
 	return (1);

@@ -6,7 +6,7 @@
 #    By: lguillau <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/14 14:27:36 by lguillau          #+#    #+#              #
-#    Updated: 2022/05/06 13:47:39 by lguillau         ###   ########.fr        #
+#    Updated: 2022/05/06 14:40:12 by jtaravel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ FILES	=	minishell.c \
 		tools/str_tools.c \
 		tools/ft_itoa.c \
 		tools/str_tools_2.c \
+		tools/str_tools_3.c \
 		tools/errors.c \
 		tools/ft_strcpy.c \
 		builtins/cd.c \
@@ -40,8 +41,11 @@ FILES	=	minishell.c \
 		parsing/get_cmd.c \
 		parsing/check_in_env.c \
 		parsing/check_in_env_2.c \
+		parsing/check_in_env_1.c \
+		parsing/check_in_env_2_2.c \
 		exec/new.c \
 		exec/ft_exec_in.c \
+		exec/ft_exec_in_2.c \
 		exec/ft_exec_out.c \
 		exec/ft_is_builtin.c \
 		exec/check_outfile.c \

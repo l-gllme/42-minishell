@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/06 13:54:25 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/05/06 14:32:46 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,14 @@ char	*ft_recup_retour(char *str);
 char	*ft_add_space_dol(char *str);
 int		in_env(char *str, t_g *v);
 int		ft_check_doll(char *str);
+int	ft_env_while_2(t_i *env, int i, t_g *v, t_list *tmp);
+int	ft_env_while(t_i *env, int i, t_g *v, t_list *tmp);
+void	ft_recup_for_check_in_env_2(char *exec, t_i *env);
+void	ft_recup_for_check_in_env(char *arg, t_i *env);
+void	ft_recup_new_arg_2(t_i *env, char *recup, t_g *v, char *arg);
+int	ft_check_for_env(t_i *env, t_list *tmp, int i, t_g *v);
+int	ft_check_just_doll(t_i *env, int i);
+
 
 /* get_cmd */
 int		get_cmd(char *str, char **tab);
@@ -91,6 +99,9 @@ void	ft_error_str_null(void);
 int		ft_exec_in(t_g *v, t_l *tmp, int c);
 int		ft_exec_in_no_cmd(char **tab, int choice, t_g *v, t_l *tmp);
 int		check_valid_infile(char *file);
+int		check_valid_infile(char *file);
+
+
 
 /* ft_exec_out.c */
 int		ft_exec_out(t_g *v, t_l *tmp);

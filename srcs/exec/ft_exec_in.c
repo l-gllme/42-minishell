@@ -6,13 +6,13 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:19:18 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/06 12:13:16 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/06 14:35:11 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	cut_exec_in_dup(char **tab, int i, t_l *tmp)
+int	cut_exec_in_dup(char **tab, int i, t_l *tmp)
 {
 	int	len;
 	int	fd;
@@ -39,97 +39,44 @@ static int	cut_exec_in_dup(char **tab, int i, t_l *tmp)
 	return (1);
 }
 
+void	ft_exec_in_dup_2(t_g *v, char **tab, t_l *tmp, int i)
+{
+	int	len;
+
+	len = ft_tablen(tab);
+	if (tab[i][0] == '<' && tab[i][1] == 0)
+		return ;
+	else if (tab[i][0] == '<' && tab[i][1] == '<')
+	{
+		if (len - 2 == i)
+			v->dup_type = 10;
+		ft_here_doc_no_cmd(tab[++i], v, tmp, 0);
+	}
+}
+
 int	ft_exec_in_dup(t_g *v, char **tab, t_l *tmp, int choice)
 {
 	int	len;
 	int	fd;
 	int	i;
 
-	i = -1;
+	i = 0;
 	if (!tab)
 		return (0);
 	len = ft_tablen(tab);
 	fd = 0;
 	if (choice == 0)
 	{
-		while (tab[++i])
+		while (tab[i])
 		{
-			if (tab[i][0] == '<' && tab[i][1] == 0)
-				i++;
-			else if (tab[i][0] == '<' && tab[i][1] == '<')
-			{
-				if (len - 2 == i)
-					v->dup_type = 10;
-				ft_here_doc_no_cmd(tab[++i], v, tmp, 0);
-			}
+			ft_exec_in_dup_2(v, tab, tmp, i);
+			i++;
 		}
 	}
 	if (choice == 1)
 	{
 		if (!cut_exec_in_dup(tab, -1, tmp))
 			return (0);
-	}
-	return (1);
-}
-
-
-int	check_valid_infile(char *file)
-{
-	int	dd;
-	int	fd;
-
-	ft_suppr_dq_sq(file);
-	fd = open(file, O_RDONLY);
-	dd = open(file, O_DIRECTORY);
-	if (access(file, F_OK))
-	{
-		g_shell.retour = 1;
-		ft_putstr_fd("minishell: ", 1);
-		ft_putstr_fd(file, 1);
-		ft_putstr_fd(": No such file or directory\n", 1);
-		return (0);
-	}
-	else if (fd == -1 && dd == -1 && access(file, X_OK))
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(file, 2);
-		ft_putstr_fd(" :Permission denied\n", 2);
-		return (0);
-	}
-	else
-	{
-		if (fd != -1)
-			close(fd);
-		if (dd != -1)
-			close(dd);
-	}
-	return (1);
-}
-
-int	ft_exec_in_no_cmd(char **tab, int choice, t_g *v, t_l *tmp)
-{
-	int	i;
-	int	c;
-
-	i = -1;
-	c = 0;
-	if (!tab)
-		return (0);
-	while (tab[++i] && choice == 0)
-	{
-		if (tab[i][0] == '<' && tab[i][1] == 0)
-			i++;
-		else if (tab[i][0] == '<' && tab[i][1] == '<')
-			ft_here_doc_no_cmd(tab[++i], v, tmp, 0);
-	}
-	i = -1;
-	while (tab[++i] && choice == 1)
-	{
-		if (tab[i][0] == '<' && tab[i][1] == '<')
-			i++;
-		else if (tab[i][0] == '<')
-			if (!check_valid_infile(tab[++i]))
-				return (ft_custom_error(NULL, 0, NULL));
 	}
 	return (1);
 }

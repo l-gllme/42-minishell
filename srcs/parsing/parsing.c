@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/06 11:36:21 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/06 14:06:24 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -255,7 +255,7 @@ char	*ft_add_space_dol(char *str)
 	c = 0;
 	while (str[i])
 	{
-		if (str[i] == '$' && str[0] != '$')
+		if (str[i] == '$')// && str[0] != '$')
 		{
 			g_shell.retour = 7;
 			res[c] = ' ';

@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 13:11:58 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/05/06 12:15:10 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/06 14:26:17 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,7 @@ int	ft_here_doc_no_cmd(char *limiter, t_g *v, t_l *tmp, int value)
 	frk = fork();
 	c = v->dup_type;
 	if (frk == 0)
-	{
 		ft_here_doc_no_cmd_2(limiter, v, fd, c);
-	}
 	else
 		ft_here_doc_else_fork(frk, value, tmp, i);
 	if (tmp->in != -1)
