@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 16:01:59 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/05/05 19:25:59 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/06 10:14:00 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,15 +159,20 @@ char	*ft_check_in_env_2(t_g *v, char *exec, int i, char *arg)
 		env.split = ft_supersplit(recup, ' ');
 		free(recup);
 		recup = ft_strdup(env.split[0]);
-		i = 1;
+		i = 0;
 		while (env.split[i])
 		{
-			arg = ft_strjoin_gnl(arg, env.split[i]);
-			test = ft_strdup(arg);
-			free(arg);
-			arg = ft_strjoin(" ", test);
-			free(test);
-			i++;
+			if (i == 0)
+				i++;
+			else
+			{
+				arg = ft_strjoin_gnl(arg, env.split[i]);
+				test = ft_strdup(arg);
+				free(arg);
+				arg = ft_strjoin(" ", test);
+				free(test);
+				i++;
+			}
 		}
 		v->l->arg = ft_strdup(arg);
 		free(arg);

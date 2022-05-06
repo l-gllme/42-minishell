@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 16:01:59 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/05/05 19:28:55 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/06 10:39:44 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,15 +113,19 @@ static	void	ft_recup_for_check_in_env(char *arg, t_i *env)
 	char	*test;
 
 	if (!ft_check_doll(arg))
+	{
 		env->l = 0;
+	}
 	else
+	{
 		env->l = 1;
-	test = ft_strdup(arg);
-	free(arg);
-	arg = ft_add_space_dol(test);
-	free(test);
-	env->split = ft_supersplit(arg, ' ');
-	free(arg);
+		test = ft_strdup(arg);
+		free(arg);
+		arg = ft_add_space_dol(test);
+		free(test);
+		env->split = ft_supersplit(arg, ' ');
+		free(arg);
+	}
 }
 
 char	*ft_check_in_env(t_g *v, char *arg, int i)
@@ -131,12 +135,14 @@ char	*ft_check_in_env(t_g *v, char *arg, int i)
 	t_list	*tmp;
 
 	tmp = NULL;
-	ft_init_env_struct(&env);
 	recup = NULL;
+	ft_init_env_struct(&env);
 	if (arg)
 		ft_recup_for_check_in_env(arg, &env);
 	else
 		return (NULL);
+	if (env.l == 1)
+	{
 	while (env.split[i] && env.l == 1)
 	{
 		if (!ft_env_while(&env, i, v, tmp))
@@ -144,6 +150,13 @@ char	*ft_check_in_env(t_g *v, char *arg, int i)
 		else
 			i++;
 	}
-	recup = ft_recup_new(&env, recup);
-	return (recup);
+	}
+	if (env.l == 1)
+	{
+		recup = ft_recup_new(&env, recup);
+		return (recup);
+	}
+	else
+		return (arg);
+
 }

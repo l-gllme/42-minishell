@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/05 19:23:08 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/06 11:36:21 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,8 @@ int	parse_cmd(t_g *v)
 				return (0);
 			if (i == 0)
 			{
-				v->l->arg = ft_strdup(arg);
+				if (arg)
+					v->l->arg = ft_strdup(arg);
 				v->l->exec = ft_strdup(exec);
 				v->l->in_tab = ft_tabdup(in_tab);
 				v->l->out_tab = ft_tabdup(out_tab);
@@ -407,7 +408,10 @@ int	parsing(char *str, char **env, t_list *list)
 		return (ft_custom_error("Malloc error in parsing()\n", 0, v));
 	c = count_pipes(str);
 	if (c == 0)
+	{
+		free(v);
 		return (0);
+	}
 	tab = malloc(sizeof(char *) * count_pipes(str));
 	if (!tab)
 		return (ft_custom_error("Malloc error in parsing()\n", 0, v));
@@ -418,7 +422,7 @@ int	parsing(char *str, char **env, t_list *list)
 		return (ft_custom_error(NULL, 0, v));
 	if (!parse_cmd(v))
 		return (0);
-	if (c - 2>= v->nb_cmd)
+	if (c - 2 >= v->nb_cmd)
 		return (ft_custom_error("invalid syntax!\n", 0, v));
 	if (v->nb_cmd == 1)
 	{
