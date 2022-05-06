@@ -6,39 +6,16 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/31 14:55:37 by lguillau          #+#    #+#             */
-/*   Updated: 2022/04/30 13:33:38 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/06 16:18:35 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	count_signs(char **tab, char c)
+char	**stock_in(t_g *v, char **in_tab, int i, int j)
 {
-	int	i;
 	int	count;
 
-	i = -1;
-	count = 0;
-	while (tab[++i])
-	{
-		if (tab[i][0] == c)
-		{
-			count++;
-			if (tab[i + 1])
-				i++;
-		}
-	}
-	return (count);
-}
-
-char	**stock_in(t_g *v, char **in_tab)
-{
-	int	i;
-	int	j;
-	int	count;
-
-	i = -1;
-	j = 0;
 	count = count_signs(v->cmd, '<');
 	if (count == 0)
 		return (in_tab);
@@ -64,14 +41,10 @@ char	**stock_in(t_g *v, char **in_tab)
 	return (in_tab);
 }
 
-char	**stock_out(t_g *v, char **out_tab)
+char	**stock_out(t_g *v, char **out_tab, int i, int j)
 {
-	int	i;
-	int	j;
 	int	count;
 
-	i = -1;
-	j = 0;
 	count = count_signs(v->cmd, '>');
 	if (count == 0)
 		return (out_tab);
@@ -126,6 +99,23 @@ char	*stock_exec(t_g *v, char *exec)
 	return (exec);
 }
 
+static char	*cut_stock_arg(t_g *v, char *arg, int i)
+{
+	arg = ft_strjoin_gnl(arg, v->cmd[i]);
+	if (!arg)
+	{
+		g_shell.retour = -999;
+		return (ft_char_error("malloc error in stock_arg()\n", 0, v));
+	}
+		arg = ft_strjoin_gnl(arg, " ");
+	if (!arg)
+	{
+		g_shell.retour = -999;
+		return (ft_char_error("malloc error in stock_arg()\n", 0, v));
+	}
+	return (arg);
+}
+
 char	*stock_arg(t_g *v, char *arg)
 {
 	int	i;
@@ -139,18 +129,9 @@ char	*stock_arg(t_g *v, char *arg)
 		{
 			if (j == 1)
 			{
-				arg = ft_strjoin_gnl(arg, v->cmd[i]);
+				arg = cut_stock_arg(v, arg, i);
 				if (!arg)
-				{
-					g_shell.retour = -999;
-					return (ft_char_error("malloc error in stock_arg()\n", 0, v));
-				}
-				arg = ft_strjoin_gnl(arg, " ");
-				if (!arg)
-				{
-					g_shell.retour = -999;
-					return (ft_char_error("malloc error in stock_arg()\n", 0, v));
-				}
+					return (0);
 			}
 			j = 1;
 		}

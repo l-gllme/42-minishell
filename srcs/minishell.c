@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:40:12 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/04 16:16:57 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/06 16:05:47 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ void	handler(int signum)
 	}
 	else if (signum == 3 && g_shell.in_exec == 0)
 	{
-		write (2, "lol\n", 4);
-		
 		g_shell.retour = 131;
 	}
 	else
@@ -56,10 +54,7 @@ int	main(int ac, char **av, char **env)
 		if (g_shell.in_exec == 0)
 			signal(SIGQUIT, SIG_IGN);
 		if (g_shell.in_exec == 1)
-		{
-			printf ("lol\n");
 			signal(SIGQUIT, handler);
-		}
 		signal(SIGINT, handler);
 		str = readline("\033[34m➜\033[0m ");
 		if (str == NULL)

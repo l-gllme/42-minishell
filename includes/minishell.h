@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/06 15:58:08 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/06 16:18:49 by lguillau         ###   ########.fr       */
 /*   Updated: 2022/05/06 15:44:26 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -74,10 +74,11 @@ int		ft_check_invalid_signs(char *str, char c);
 void	init_syntax_struct(t_s *s);
 void	check_sq_dq(t_s *s_s, char c);
 char	*ft_suppr_dq_sq(char *str);
+int		count_signs(char **tab, char c);
 
 /* stock_line */
-char	**stock_in(t_g *v, char **in_tab);
-char	**stock_out(t_g *v, char **out_tab);
+char	**stock_in(t_g *v, char **in_tab, int i, int j);
+char	**stock_out(t_g *v, char **out_tab, int i, int j);
 char	*stock_exec(t_g *v, char *exec);
 char	*stock_arg(t_g *v, char *arg);
 

@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 14:46:08 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/05/06 15:22:48 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/06 16:22:29 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	ft_exec_cmd_no_redirect(t_g *v, t_l *tmp, char *str, int pipe_fd[2])
 		ft_check_all_fork(tmp, v, &in_fork, pipe_fd);
 		if (str != NULL)
 			execve(in_fork.str, in_fork.toto, v->new_env);
-		ft_fork_str_null(pipe_fd, v, in_fork.toto);
+		ft_fork_str_null(pipe_fd, v, in_fork.toto, &in_fork);
 	}
 	ft_else_fork(v, &in_fork, pipe_fd);
 	return (1);

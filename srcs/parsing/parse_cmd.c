@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 14:48:42 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/06 15:50:47 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/05/06 16:09:42 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ static int	c_p_parse_cmd(t_g *v, t_l *n)
 	n->arg = NULL;
 	v->l->name_in = NULL;
 	v->l->name_out = NULL;
-	n->in_tab = stock_in(v, n->in_tab);
+	n->in_tab = stock_in(v, n->in_tab, -1, 0);
 	if (g_shell.retour == -999)
 		return (ft_custom_error("malloc error in stock_in()\n", 0, v));
-	n->out_tab = stock_out(v, n->out_tab);
+	n->out_tab = stock_out(v, n->out_tab, -1, 0);
 	if (g_shell.retour == -999)
 		return (ft_custom_error("malloc error in stock_in()\n", 0, v));
 	n->exec = stock_exec(v, n->exec);
@@ -95,10 +95,10 @@ static int	cut_parse_cmd(t_g *v)
 	v->cmd = ft_supersplit(v->tab[0], ' ');
 	if (!v->cmd)
 		return (ft_custom_error("error in ft_supersplit()\n", 0, v));
-	v->l->in_tab = stock_in(v, v->l->in_tab);
+	v->l->in_tab = stock_in(v, v->l->in_tab, -1, 0);
 	if (g_shell.retour == -999)
 		return (ft_custom_error("malloc error in stock_in()\n", 0, v));
-	v->l->out_tab = stock_out(v, v->l->out_tab);
+	v->l->out_tab = stock_out(v, v->l->out_tab, -1, 0);
 	if (g_shell.retour == -999)
 		return (ft_custom_error("malloc error in stock_out()\n", 0, v));
 	if (!check_not_followed_sign(v))

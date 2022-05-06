@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 17:00:21 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/06 14:39:52 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/06 16:18:07 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,23 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 		i++;
 	}
 	return (NULL);
+}
+
+int	count_signs(char **tab, char c)
+{
+	int	i;
+	int	count;
+
+	i = -1;
+	count = 0;
+	while (tab[++i])
+	{
+		if (tab[i][0] == c)
+		{
+			count++;
+			if (tab[i + 1])
+				i++;
+		}
+	}
+	return (count);
 }
