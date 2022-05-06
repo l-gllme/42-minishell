@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/06 14:06:24 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/06 14:50:22 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,97 +44,6 @@ int	check_not_followed_sign(t_g *v)
 			}
 			else if (v->l->out_tab[i][0] == '>' && v->l->out_tab[i + 1][0] == '>')
 					return (ft_custom_error("minishell: syntax error near unexpected token `> or >>'\n", 0, v));
-		}
-	}
-	return (1);
-}
-
-int	parse_cmd(t_g *v)
-{
-	int	i;
-
-	i = -1;
-	while (v->tab[++i])
-		;
-	if (i == 1)
-	{
-		if (!ft_add_spaces(v, '<', 0) || !ft_add_spaces(v, '>', 0))
-			return (ft_custom_error(NULL, 0, v));
-		v->nb_cmd = 1;
-		v->cmd = ft_supersplit(v->tab[0], ' ');
-		if (!v->cmd)
-			return (ft_custom_error("error in ft_supersplit()\n", 0, v));
-		v->l->in_tab = stock_in(v, v->l->in_tab);
-		if (g_shell.retour == -999)
-			return (ft_custom_error("malloc error in stock_in()\n", 0, v));
-		v->l->out_tab = stock_out(v, v->l->out_tab);
-		if (g_shell.retour == -999)
-			return (ft_custom_error("malloc error in stock_out()\n", 0, v));
-		if (!check_not_followed_sign(v))
-			return (ft_custom_error(NULL, 0, NULL));
-		v->l->exec = stock_exec(v, v->l->exec);
-		if (g_shell.retour == -999)
-			return (ft_custom_error("error in stock_exec()\n", 0, v));
-		v->l->arg = stock_arg(v, v->l->arg); 
-		if (g_shell.retour == -999)
-			return (0);
-	}
-	else if (i > 1)
-	{
-		char **in_tab;
-		char **out_tab;
-		char *exec;
-		char *arg;
-		v->nb_cmd = i;
-		i = -1;
-		//v->l = ft_super_lstnew(NULL, NULL, NULL, NULL);
-		while (v->tab[++i])
-		{
-			exec = NULL;
-			arg = NULL;
-			in_tab = NULL;
-			out_tab = NULL;
-			v->l->name_in = NULL;
-			v->l->name_out = NULL;
-			if (!ft_add_spaces(v, '<', i) || !ft_add_spaces(v, '>', i))
-				return (ft_custom_error(NULL, 0, v));
-			v->cmd = ft_supersplit(v->tab[i], ' ');
-			if (!v->cmd)
-				return (ft_custom_error("error in ft_supersplit()\n", 0, v));
-			in_tab = stock_in(v, in_tab);
-			if (g_shell.retour == -999)
-				return (ft_custom_error("malloc error in stock_in()\n", 0, v));
-			out_tab = stock_out(v, out_tab);
-			if (g_shell.retour == -999)
-				return (ft_custom_error("malloc error in stock_in()\n", 0, v));
-			if (!check_not_followed_sign(v))
-				return (ft_custom_error(NULL, 0, NULL));
-			exec = stock_exec(v, exec);
-			if (g_shell.retour == -999)
-				return (ft_custom_error("error in stock_exec()\n", 0, v));
-			arg = stock_arg(v, arg);
-			if (g_shell.retour == -999)
-				return (0);
-			if (i == 0)
-			{
-				if (arg)
-					v->l->arg = ft_strdup(arg);
-				v->l->exec = ft_strdup(exec);
-				v->l->in_tab = ft_tabdup(in_tab);
-				v->l->out_tab = ft_tabdup(out_tab);
-				v->l->next = NULL;
-			}
-			else	
-			{
-				ft_super_lstadd_back(&v->l, ft_super_lstnew(ft_tabdup(out_tab),
-						ft_tabdup(in_tab), ft_strdup(arg), ft_strdup(exec)));
-			}
-			free(arg);
-			free(exec);
-			free_char_tab(in_tab);
-			free_char_tab(out_tab);
-			free_char_tab(v->cmd);
-			v->cmd = NULL;
 		}
 	}
 	return (1);
@@ -337,62 +246,6 @@ char	*ft_check_special(char *str, t_g *v)
 	return (res);
 }
 
-void	ft_display(t_g *v)
-{
-	int	i = -1;
-	if (v->nb_cmd == 1)
-	{
-		printf("\n=== << & < tab ===\n\n");
-		if (v->l->in_tab)
-		{
-			while (v->l->in_tab[++i])
-				printf("-%s-\n", v->l->in_tab[i]);
-		}
-		i = -1;
-		printf("\n=== >> & > tab ===\n\n");
-		if (v->l->out_tab)
-		{
-			while (v->l->out_tab[++i])
-				printf("-%s-\n", v->l->out_tab[i]);
-		}
-		printf("\n=== exec ===\n\n");
-		if (v->l->exec)
-			printf("-%s-\n", v->l->exec);
-		printf("\n=== arg ===\n\n");
-		if (v->l->arg)
-			printf("-%s-\n", v->l->arg);
-
-	}
-	else
-	{
-		t_l  *tmp;
-		tmp = v->l;
-		while (tmp)
-		{
-			printf("\n=== << & < tab ===\n\n");
-			if (tmp->in_tab)
-			{
-				while (tmp->in_tab[++i])
-					printf("-%s-\n", tmp->in_tab[i]);
-			}
-			i = -1;
-			printf("\n=== >> & > tab ===\n\n");
-			if (tmp->out_tab)
-			{
-				while (tmp->out_tab[++i])
-					printf("-%s-\n", tmp->out_tab[i]);
-			}
-			printf("\n=== exec ===\n\n");
-			if (tmp->exec)
-				printf("-%s-\n", tmp->exec);
-			printf("\n=== arg ===\n\n");
-			if (tmp->arg)
-				printf("-%s-\n", tmp->arg);
-			tmp = tmp->next;
-		}
-	}
-}
-
 int	parsing(char *str, char **env, t_list *list)
 {
 	char	**tab;
@@ -445,7 +298,6 @@ int	parsing(char *str, char **env, t_list *list)
 		}
 		ft_exec(v, v->l);
 	}
-	//ft_display(v);
 	ft_free(v);
 	return (1);
 }

@@ -6,7 +6,7 @@
 #    By: lguillau <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/14 14:27:36 by lguillau          #+#    #+#              #
-#    Updated: 2022/05/06 14:40:12 by jtaravel         ###   ########.fr        #
+#    Updated: 2022/05/06 15:20:09 by lguillau         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ FILES	=	minishell.c \
 		parsing/check_syntax.c \
 		parsing/parsing_tools.c \
 		parsing/get_cmd.c \
+		parsing/parse_cmd.c \
 		parsing/check_in_env.c \
 		parsing/check_in_env_2.c \
 		parsing/check_in_env_1.c \
