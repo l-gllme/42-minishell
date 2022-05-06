@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 16:01:59 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/05/06 14:23:10 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/06 17:18:35 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ char	*ft_check_in_env(t_g *v, char *arg, int i)
 		while (env.split[i] && env.l == 1)
 		{
 			if (!ft_env_while(&env, i, v, tmp))
+				env.l = 1;
 			i++;
 		}
 	}

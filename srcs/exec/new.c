@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 15:22:38 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/06 15:49:23 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/06 16:42:22 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	ft_exec_cmd_lol_2(t_l *tmp, t_g *v, int choice, int pipe_fd[2])
 		ft_error_exec(tmp, 1);
 	else
 		str = try_access(tmp->exec, v);
-	if (str == NULL && g_shell.retour != 127)
+	if (str == NULL)// && g_shell.retour != 127)
 		ft_error_exec(tmp, 1);
 	if (choice)
 		ft_exec_one_cmd(v, str, tmp);

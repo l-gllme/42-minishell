@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 15:39:34 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/05/06 15:55:43 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/06 16:53:40 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,9 @@ void	ft_after_fork_one(t_f *in_fork)
 		printf ("Quit (core dumped)\n");
 		g_shell.retour = 131;
 	}
+	else
+		g_shell.retour = WEXITSTATUS(in_fork->value);
 	free_char_tab(in_fork->toto);
-	g_shell.retour = WEXITSTATUS(in_fork->value);
 }
 
 void	ft_fork_one(t_l *tmp, t_f *in_fork, t_g *v)
@@ -107,6 +108,7 @@ int	ft_exec_one_cmd(t_g *v, char *str, t_l *tmp)
 		ft_fork_one(tmp, &in_fork, v);
 		if (str != NULL)
 			execve(str, in_fork.toto, v->new_env);
+		ft_one_str_null(v, &in_fork);
 	}
 	else
 		waitpid(frk, &in_fork.value, 0);

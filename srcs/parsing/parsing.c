@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/06 14:50:22 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/05/06 17:24:08 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,8 @@ char	*ft_recup_retour(char *str)
 	{
 		if (str[i] == '$' && str[i + 1] == '?')
 		{
-			recup = NULL;
+			if (j == 0)
+				recup = NULL;
 			recup = ft_strjoin_gnl(recup, tmp);
 			i+=2;
 			j+= ft_strlen(tmp);
@@ -166,7 +167,6 @@ char	*ft_add_space_dol(char *str)
 	{
 		if (str[i] == '$')// && str[0] != '$')
 		{
-			g_shell.retour = 7;
 			res[c] = ' ';
 			c++;
 		}
