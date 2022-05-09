@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 14:12:56 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/05/06 18:44:25 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/09 15:58:07 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,27 @@ int	ft_check_just_doll(t_i *env, int i)
 	return (1);
 }
 
+static void	ft_start_while_2(t_i *env, int i)
+{
+	char	*temp;
+
+	env->c = 1;
+	ft_suppr_dq_sq(env->split[i]);
+	if (env->split[i][0] == ' ')
+	{
+		temp = ft_strdup(env->split[i] + 1);
+		free(env->split[i]);
+		env->split[i] = temp;
+	}
+}
+
 int	ft_env_while(t_i *env, int i, t_g *v, t_list *tmp)
 {
-	env->c = 1;
+	printf ("split1 = %s\n", env->split[i]);
+	ft_start_while_2(env, i);
 	env->split[i] = ft_check_special(env->split[i], v, 0);
+	printf ("split2 = %s\n", env->split[i]);
 	env->split[i] = ft_recup_retour(env->split[i]);
-	ft_suppr_dq_sq(env->split[i]);
 	if (!ft_check_just_doll(env, i))
 		return (0);
 	tmp = v->list;

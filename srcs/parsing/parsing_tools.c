@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 12:31:15 by lguillau          #+#    #+#             */
-/*   Updated: 2022/03/31 15:14:06 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/05/09 15:40:58 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ char	*ft_suppr_dq_sq(char *str)
 			str = cut_sds(str, s, i, 1);
 			i--;
 		}
-		if (str[i] == '"' && s->sq_opened == 0)
+		else if (str[i] == '"' && s->sq_opened == 0)
 		{
 			str = cut_sds(str, s, i, 2);
 			i--;

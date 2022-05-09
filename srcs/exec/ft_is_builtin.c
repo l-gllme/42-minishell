@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/12 15:39:37 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/05 13:48:41 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/09 15:31:22 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ int	ft_is_builtin(char *str, t_g *v, int choice, t_l *tmp)
 {
 	int	value;
 
+	if (choice == 1)
+		ft_suppr_dq_sq(tmp->arg);
 	if (ft_strcmp(str, "echo") == 0)
 	{
 		if (choice)

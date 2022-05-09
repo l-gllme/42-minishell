@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 18:04:05 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/05/09 14:15:43 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/05/09 15:53:47 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,10 @@ void	ft_one_error(t_l *tmp, t_g *v, t_f *in_fork)
 	exit(1);
 }
 
-void	ft_one_str_null(t_g *v, t_f *in_fork)
+void	ft_one_str_null(t_g *v, t_f *in_fork, char *str)
 {
 	ft_lstclear(&v->list, &free);
+	free(str);
 	ft_free(v);
 	free_char_tab(in_fork->toto);
 	exit(127);

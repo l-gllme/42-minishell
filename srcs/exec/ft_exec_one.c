@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 15:39:34 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/05/06 18:06:05 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/09 15:53:35 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	ft_exec_one_cmd(t_g *v, char *str, t_l *tmp)
 		ft_fork_one(tmp, &in_fork, v);
 		if (str != NULL)
 			execve(str, in_fork.toto, v->new_env);
-		ft_one_str_null(v, &in_fork);
+		ft_one_str_null(v, &in_fork, str);
 	}
 	else
 		waitpid(frk, &in_fork.value, 0);

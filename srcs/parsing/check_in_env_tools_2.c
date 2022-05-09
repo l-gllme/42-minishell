@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 13:30:12 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/09 13:30:53 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/05/09 16:06:54 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,28 +44,29 @@ int	in_env(char *str, t_g *v)
 char	*ft_recup_for_retour(char *str, char *recup, int i, char *tmp)
 {
 	int	j;
+	int	c;
 
+	c = 0;
 	j = 0;
-	while (str[i])
+	while (str[++i])
 	{
 		if (str[i] == '$' && str[i + 1] == '?')
 		{
-			if (j == 0)
-				recup = NULL;
-			recup = ft_strjoin_gnl(recup, tmp);
+			while (c < ft_strlen(tmp))
+			{
+				recup[j] = tmp[c];
+				c++;
+				j++;
+			}
 			i += 2;
-			j += ft_strlen(tmp);
 		}
 		else
 		{
 			recup[j] = str[i];
-			i++;
 			j++;
 		}
 	}
 	recup[j] = 0;
-	free(tmp);
-	free(str);
 	return (recup);
 }
 
@@ -80,7 +81,9 @@ char	*ft_recup_retour(char *str)
 	i = 0;
 	if (str[i] == ' ')
 		i++;
-	recup = ft_recup_for_retour(str, recup, i, tmp);
+	recup = ft_recup_for_retour(str, recup, i - 1, tmp);
+	free(str);
+	free(tmp);
 	return (recup);
 }
 
