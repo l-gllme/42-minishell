@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 18:04:05 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/05/06 18:04:41 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/09 14:15:43 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,14 @@
 
 void	ft_recup_arg_one(t_f *in_fork, t_l *tmp)
 {
+	int	i;
+
+	i = -1;
 	in_fork->srt = ft_strjoin(tmp->exec, " ");
 	in_fork->srt = ft_strjoin_gnl(in_fork->srt, tmp->arg);
-	in_fork->toto = ft_split(in_fork->srt, ' ');
+	in_fork->toto = ft_supersplit(in_fork->srt, ' ');
+	while (in_fork->toto[++i])
+		ft_suppr_dq_sq(in_fork->toto[i]);
 	free(in_fork->srt);
 }
 
