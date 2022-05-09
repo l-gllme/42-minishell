@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   new.c                                              :+:      :+:    :+:   */
+/*   ft_exec_2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 15:22:38 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/06 18:09:19 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/09 13:58:47 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	ft_exec_cmd_lol_2(t_l *tmp, t_g *v, int choice, int pipe_fd[2])
 		ft_error_exec(tmp, 1);
 	else
 		str = try_access(tmp->exec, v);
-	if (str == NULL)
+	if (str == NULL && ft_recup_content("PATH", v) != NULL)
 		ft_error_exec(tmp, 1);
 	if (choice)
 		ft_exec_one_cmd(v, str, tmp);
