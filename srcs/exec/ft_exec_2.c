@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 15:22:38 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/09 16:25:08 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/09 16:56:27 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,11 @@ int	ft_exec_builtin(t_g *v, t_l *tmp)
 {
 	int	fd;
 
-	if (!ft_exec_out(v, tmp))
-		return (0);
+	if (tmp->out_tab)
+	{
+		if (!ft_exec_out(v, tmp))
+			return (0);
+	}
 	if (tmp->name_out)
 	{
 		if (tmp->append)

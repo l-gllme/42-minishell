@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 13:30:12 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/09 16:06:54 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/09 17:10:42 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	*ft_recup_for_retour(char *str, char *recup, int i, char *tmp)
 				c++;
 				j++;
 			}
-			i += 2;
+			i += 1;
 		}
 		else
 		{

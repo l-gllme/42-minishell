@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:40:12 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/09 16:24:42 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/09 17:23:14 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,15 @@ void	handler(int signum)
 		return ;
 }
 
+static	void	ft_str_null(char *str, t_list *list)
+{
+	(void)str;
+	rl_clear_history();
+	ft_lstclear(&list, &free);
+	printf("Bye! 👋\n");
+	exit(0);
+}
+
 static void	ft_minishell(char *str, t_list *list, char **env, int i)
 {
 	if (g_shell.in_exec == 0)
@@ -46,22 +55,19 @@ static void	ft_minishell(char *str, t_list *list, char **env, int i)
 	signal(SIGINT, handler);
 	str = readline("\033[34m➜\033[0m ");
 	if (str == NULL)
-	{
-		rl_clear_history();
-		ft_lstclear(&list, &free);
-		printf("Bye! 👋\n");
-		ft_exit(str);
-	}
+		ft_str_null(str, list);
 	while (str[++i] == ' ')
 		;
 	if (i == ft_strlen(str))
+	{
 		free(str);
+		return ;
+	}
 	if (str[0])
 		add_history(str);
 	if (str[0])
 		parsing(str, env, list, 0);
-	if (str)
-		free(str);
+	free(str);
 	g_shell.in_exec = 0;
 }
 

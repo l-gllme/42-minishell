@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 14:33:21 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/05 13:05:25 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/09 17:39:10 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,40 +37,52 @@ int	ft_mega_atoi(char *str)
 	return (res * sign);
 }
 
-void	ft_exit_error_1(char *split, char *line, int choice, char *tmp)
+void	ft_exit_error_1(char **split, char *line, char *tmp, t_g *v)
 {
-	if (choice == 0)
+	(void)line;
+	if (!tmp)
 	{
-		printf("Minishell: exit: %s: numeric argument required\n", split);
-		free(line);
+		printf("Minishell: exit: %s: numeric argument required\n", split[0]);
 		printf("Bye! 👋\n");
+		ft_lstclear(&v->list, &free);
+		ft_free(v);
+		free_char_tab(split);
 		exit(2);
 	}
-	else if (choice == 1)
+	else
 	{
 		printf("exit\nMinishell: exit: too many arguments\n");
-		g_shell.retour = 127;
-		free (tmp);
+		g_shell.retour = 1;
+		free_char_tab(split);
+		free(tmp);
 	}
 }
 
-void	ft_error_exit_2(char *split)
+void	ft_error_exit_2(char **split, t_g *v, char *tmp)
 {
+	(void)tmp;
 	printf("Bye! 👋\n");
-	printf("Minishell: exit: %s: numeric argument required\n", split);
+	printf("Minishell: exit: %s: numeric argument required\n", split[0]);
 	g_shell.retour = 1;
+	ft_lstclear(&v->list, &free);
+	free_char_tab(split);
+	ft_free(v);
+	if (tmp)
+		free(tmp);
 	exit (2);
 }
 
-void	ft_exit_2(char **split, int valeur, char *tmp)
+static void	ft_exit_2(char **split, int valeur, char *tmp, t_g *v)
 {
 	printf("Bye! 👋\n");
 	free(tmp);
 	free_char_tab(split);
+	ft_lstclear(&v->list, &free);
+	ft_free(v);
 	exit(valeur);
 }
 
-void	ft_exit(char *line)
+void	ft_exit(char *line, t_g *v)
 {
 	long long	valeur;
 	char		*tmp;
@@ -79,6 +91,8 @@ void	ft_exit(char *line)
 
 	if (!line)
 	{
+		ft_lstclear(&v->list, &free);
+		ft_free(v);
 		free(line);
 		exit(g_shell.retour);
 	}
@@ -86,13 +100,13 @@ void	ft_exit(char *line)
 	i = -1;
 	while (split[0][++i])
 		if (ft_isalpha(split[0][i]))
-			ft_exit_error_1(split[0], line, 0, NULL);
+			ft_exit_error_1(split, line, NULL, v);
 	valeur = ft_mega_atoi(line);
 	tmp = ft_itoa(valeur);
 	if (split[1] != NULL)
-		ft_exit_error_1(line, tmp, 1, tmp);
+		ft_exit_error_1(split, line, tmp, v);
 	else if (ft_strcmp(line, tmp))
-		ft_error_exit_2(split[0]);
+		ft_error_exit_2(split, v, tmp);
 	else
-		ft_exit_2(split, valeur, tmp);
+		ft_exit_2(split, valeur, tmp, v);
 }

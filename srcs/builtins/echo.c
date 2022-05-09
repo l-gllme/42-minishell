@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 16:44:28 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/05/05 13:06:01 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/09 17:16:34 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ int	ft_check_options(char **tab)
 	i = 0;
 	while (tab[i])
 	{
-		ft_suppr_dq_sq(tab[i]);
 		j = 0;
 		if (tab[i][j] && tab[i][j++] == '-' && tab[i][j] == 'n')
 		{
@@ -52,6 +51,7 @@ void	ft_echo(char *str)
 	j = i;
 	while (tab[i])
 	{
+		ft_suppr_dq_sq(tab[i]);
 		ft_putstr_fd(tab[i], 1);
 		i++;
 		if (tab[i])

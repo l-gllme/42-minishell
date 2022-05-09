@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 14:10:47 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/05/09 15:46:32 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/09 16:48:48 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,15 @@ void	ft_recup_for_check_in_env_2(char *exec, t_i *env)
 	if (!ft_check_doll(exec))
 		env->l = 0;
 	else
+	{
 		env->l = 1;
-	test = ft_strdup(exec);
-	free(exec);
-	exec = ft_add_space_dol(test);
-	free(test);
-	env->split = ft_supersplit(exec, ' ');
-	free(exec);
+		test = ft_strdup(exec);
+		free(exec);
+		exec = ft_add_space_dol(test);
+		free(test);
+		env->split = ft_supersplit(exec, ' ');
+		free(exec);
+	}
 }
 
 void	ft_recup_new_arg_2(t_i *env, char *recup, t_g *v, char *arg)

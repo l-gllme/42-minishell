@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 15:07:05 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/05/09 15:24:33 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/09 16:59:25 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,13 @@ void	ft_out_tab_fork(t_f *in_fork, t_g *v, t_l *tmp)
 	if (!ft_exec_out(v, tmp))
 	{
 		ft_lstclear(&v->list, &free);
-		free_char_tab(in_fork->toto);
-		free(in_fork->str);
+		if (!ft_is_builtin(tmp->exec, v, 0, tmp))
+		{
+			free_char_tab(in_fork->toto);
+			free(in_fork->str);
+		}
 		ft_free(v);
+		g_shell.retour = 1;
 		exit(1);
 	}
 	if (tmp->name_out)

@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 13:25:29 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/09 15:49:23 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/09 17:50:19 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ char	*ft_check_special(char *str, t_g *v, int i)
 	while (str[i])
 	{
 		if ((!ft_isdigit(str[i]) && !ft_isalpha(str[i]))
-			&& str[i] != '$' && str[i + 1] != '?' && str[i] != '_')
+			&& str[i] != '$' && str[i + 1] != '?' && str[i] != '_' && str[i] != '+')
 			break ;
 		res[i] = str[i];
 		i++;

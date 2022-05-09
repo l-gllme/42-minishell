@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 16:01:59 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/05/06 14:20:37 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/09 16:55:36 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,16 @@ void	ft_no_in_env(t_i *env, t_list *tmp, char *test, int i)
 	free(test);
 }
 
+void	ft_while(t_i *env, int i, t_g *v, t_list *tmp)
+{
+	while (env->l == 1 && env->split[i])
+	{
+		if (!ft_env_while_2(env, i, v, tmp))
+			break ;
+		i++;
+	}
+}
+
 char	*ft_check_in_env_2(t_g *v, char *exec, int i, char *arg)
 {
 	char	*recup;
@@ -73,13 +83,13 @@ char	*ft_check_in_env_2(t_g *v, char *exec, int i, char *arg)
 		ft_recup_for_check_in_env_2(exec, &env);
 	else
 		return (NULL);
-	while (env.split[i] && env.l == 1)
+	if (env.l == 1)
 	{
-		if (!ft_env_while_2(&env, i, v, tmp))
-			break ;
-		i++;
+		ft_while(&env, i, v, tmp);
+		recup = ft_recup_new(&env, recup);
 	}
-	recup = ft_recup_new(&env, recup);
+	else
+		return (exec);
 	if (!arg && env.l == 1)
 		ft_recup_new_arg_2(&env, recup, v, arg);
 	return (recup);

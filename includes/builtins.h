@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 14:05:42 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/06 13:55:12 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/05/09 17:20:43 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,6 @@ void	ft_unset(char *arg, t_g *v);
 /* *** env *** */
 void	ft_env(t_g *v);
 /* *** exit *** */
-void	ft_exit(char *line);
+void	ft_exit(char *line, t_g *v);
 
 #endif
