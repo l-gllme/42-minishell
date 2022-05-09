@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 18:08:00 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/05/06 18:08:34 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/09 14:05:16 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	ft_exec_2(t_g *v, t_l *tmp, t_l *l)
 			ft_exec_out(v, tmp);
 		if (tmp->exec != NULL)
 		{
+		 	ft_suppr_dq_sq(tmp->exec);
 			v->dup_type++;
 			ft_exec_3(l, tmp, pipe_fd, v);
 		}
