@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:40:12 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/09 13:22:32 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/05/09 16:24:42 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	handler(int signum)
 		return ;
 }
 
-void	ft_minishell(char *str, t_list *list, char **env)
+static void	ft_minishell(char *str, t_list *list, char **env, int i)
 {
 	if (g_shell.in_exec == 0)
 		signal(SIGQUIT, SIG_IGN);
@@ -52,11 +52,16 @@ void	ft_minishell(char *str, t_list *list, char **env)
 		printf("Bye! 👋\n");
 		ft_exit(str);
 	}
+	while (str[++i] == ' ')
+		;
+	if (i == ft_strlen(str))
+		free(str);
 	if (str[0])
 		add_history(str);
 	if (str[0])
 		parsing(str, env, list, 0);
-	free(str);
+	if (str)
+		free(str);
 	g_shell.in_exec = 0;
 }
 
@@ -74,7 +79,7 @@ int	main(int ac, char **av, char **env)
 	if (ac != 1)
 		ft_error(2);
 	while (1)
-		ft_minishell(str, list, env);
+		ft_minishell(str, list, env, -1);
 	ft_lstclear(&list, &free);
 	return (0);
 }

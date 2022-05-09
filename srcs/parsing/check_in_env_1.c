@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 14:12:56 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/05/09 15:58:07 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/09 16:15:36 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,8 @@ static void	ft_start_while_2(t_i *env, int i)
 
 int	ft_env_while(t_i *env, int i, t_g *v, t_list *tmp)
 {
-	printf ("split1 = %s\n", env->split[i]);
 	ft_start_while_2(env, i);
 	env->split[i] = ft_check_special(env->split[i], v, 0);
-	printf ("split2 = %s\n", env->split[i]);
 	env->split[i] = ft_recup_retour(env->split[i]);
 	if (!ft_check_just_doll(env, i))
 		return (0);
