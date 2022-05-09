@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:40:12 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/06 18:21:26 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/09 13:22:32 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	ft_minishell(char *str, t_list *list, char **env)
 	if (str[0])
 		add_history(str);
 	if (str[0])
-		parsing(str, env, list);
+		parsing(str, env, list, 0);
 	free(str);
 	g_shell.in_exec = 0;
 }

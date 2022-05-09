@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/06 18:43:55 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/09 13:35:30 by lguillau         ###   ########.fr       */
 /*   Updated: 2022/05/06 15:44:26 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -37,13 +37,21 @@
 /* ******************************* */
 
 /* parsing.c */
-int		parsing(char *line, char **env, t_list *list);
+int		parsing(char *line, char **env, t_list *list, int c);
 int		ft_check_outpout(char **cmd);
 void	init_struct(char **tab, t_g *v, char **env, t_list *list);
 t_i		*ft_init_env_struct(t_i *env);
 char	*ft_check_in_env(t_g *v, char *exec, int i);
 char	*ft_check_in_env_2(t_g *v, char *exec, int i, char *str);
 char	*ft_check_special(char *str, t_g *v, int i);
+char	*ft_check_special_2(t_list *tmp, char *res, char *str, char *test);
+char	*ft_check_special_3(char *test, int len, char *str, char *res);
+int		ft_check_doll(char *str);
+char	*ft_add_space_dol(char *str);
+char	*ft_recup_add_space(char *res, char *str);
+char	*ft_recup_retour(char *str);
+char	*ft_recup_for_retour(char *str, char *recup, int i, char *tmp);
+int		in_env(char *str, t_g *v);
 char	*ft_recup_retour(char *str);
 char	*ft_add_space_dol(char *str);
 int		in_env(char *str, t_g *v);
@@ -56,6 +64,8 @@ void	ft_recup_new_arg_2(t_i *env, char *recup, t_g *v, char *arg);
 int		ft_check_for_env(t_i *env, t_list *tmp, int i, t_g *v);
 int		ft_check_just_doll(t_i *env, int i);
 int		check_not_followed_sign(t_g *v);
+int		ft_check_not_followed_sign_out_tab(t_g *v, int i);
+int		ft_check_not_followed_sign_in_tab(t_g *v, int i);
 
 int		parse_cmd(t_g *v);
 
@@ -157,6 +167,8 @@ int		ft_check_equal(char *recup);
 int		ft_strcmp(char *s1, char *s2);
 char	**ft_split_by_string(char *str, char *charset);
 char	*ft_strcpy(char *dest, char *src);
+int		ft_isalpha(int c);
+int		ft_isdigit(int c);
 
 /* str_tools.c */
 char	*ft_itoa(int n);
