@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 14:46:08 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/05/09 17:04:21 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/10 11:33:53 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	ft_builtins_fork(t_g *v, int pipe_fd[2])
 void	ft_check_all_fork(t_l *tmp, t_g *v, t_f *in_fork, int pipe_fd[2])
 {
 	signal(SIGQUIT, handler);
+	signal(SIGINT, handler);
 	if (tmp->arg != NULL && !ft_is_builtin(tmp->exec, v, 0, tmp))
 		ft_recup_arg_fork(in_fork, tmp);
 	else if (!ft_is_builtin(tmp->exec, v, 0, tmp))
@@ -72,6 +73,11 @@ void	ft_else_fork(t_g *v, t_f *in_fork, int pipe_fd[2])
 		printf ("Quit (core dumped)\n");
 		g_shell.retour = 131;
 	}
+	if (WTERMSIG(in_fork->value))
+	{
+		printf("\n");
+		g_shell.retour = 130;
+	}
 }
 
 int	ft_exec_cmd_no_redirect(t_g *v, t_l *tmp, char *str, int pipe_fd[2])
@@ -79,18 +85,26 @@ int	ft_exec_cmd_no_redirect(t_g *v, t_l *tmp, char *str, int pipe_fd[2])
 	int	frk;
 	t_f	in_fork;
 
+	v->c++;
 	in_fork.str = str;
 	if (tmp->name_in)
 		in_fork.fd = open(tmp->name_in, 0, 0644);
 	in_fork.value = 0;
 	g_shell.in_exec = 1;
 	frk = fork();
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	if (frk == 0)
 	{
 		ft_check_all_fork(tmp, v, &in_fork, pipe_fd);
 		if (str != NULL)
 			execve(in_fork.str, in_fork.toto, v->new_env);
 		ft_fork_str_null(pipe_fd, v, in_fork.toto, &in_fork);
+	}
+	if (v->c == v->nb_cmd)
+	{
+		while (wait(&in_fork.value) < 0)
+			;
 	}
 	ft_else_fork(v, &in_fork, pipe_fd);
 	return (1);

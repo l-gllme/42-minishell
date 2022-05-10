@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 15:39:34 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/05/09 15:53:35 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/10 11:11:16 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,18 @@ void	ft_after_fork_one(t_f *in_fork)
 		printf ("Quit (core dumped)\n");
 		g_shell.retour = 131;
 	}
-	else
-		g_shell.retour = WEXITSTATUS(in_fork->value);
+	if (WTERMSIG(in_fork->value) == 2)
+	{
+		printf ("\n");
+		g_shell.retour = 130;
+	}
 	free_char_tab(in_fork->toto);
 }
 
 void	ft_fork_one(t_l *tmp, t_f *in_fork, t_g *v)
 {
 	signal(SIGQUIT, handler);
+	signal(SIGINT, handler);
 	if (tmp->name_in)
 		ft_in_tab_one(in_fork, v, tmp);
 	if (tmp->out_tab)
@@ -54,6 +58,8 @@ int	ft_exec_one_cmd(t_g *v, char *str, t_l *tmp)
 	else
 		in_fork.toto = ft_split(v->l->exec, ' ');
 	frk = fork();
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	if (frk == 0)
 	{
 		ft_fork_one(tmp, &in_fork, v);
@@ -63,6 +69,8 @@ int	ft_exec_one_cmd(t_g *v, char *str, t_l *tmp)
 	}
 	else
 		waitpid(frk, &in_fork.value, 0);
+	signal(SIGINT, handler);
+	signal(SIGQUIT, handler);
 	ft_after_fork_one(&in_fork);
 	return (WEXITSTATUS(in_fork.value));
 }

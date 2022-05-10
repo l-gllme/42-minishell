@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/09 13:35:06 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/05/10 11:33:31 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	init_struct(char **tab, t_g *v, char **env, t_list *list)
 	v->env = env;
 	v->cmd = NULL;
 	v->nb_cmd = 0;
+	v->c = 0;
 	v->access = 0;
 	v->l->in_tab = NULL;
 	v->l->out_tab = NULL;

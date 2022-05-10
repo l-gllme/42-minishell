@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:40:12 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/09 17:23:14 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/10 11:07:53 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	handler(int signum)
 	if (signum == 3 && g_shell.in_exec == 1)
 	{
 		g_shell.retour = 131;
-		printf("Quit (core dumped)\n");
+		exit(131);
 	}
 	if (signum == 2)
 	{
