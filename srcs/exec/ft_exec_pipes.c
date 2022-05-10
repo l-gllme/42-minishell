@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 14:46:08 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/05/10 11:33:53 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/10 12:33:37 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,7 @@ void	ft_check_all_fork(t_l *tmp, t_g *v, t_f *in_fork, int pipe_fd[2])
 	if (pipe_fd[1] != 0)
 		close(pipe_fd[1]);
 	else
-	{
-		in_fork->fd = open("/dev/null", O_RDONLY);
-		dup2(in_fork->fd, 0);
-	}
+		ft_follow_check(in_fork);
 }
 
 void	ft_else_fork(t_g *v, t_f *in_fork, int pipe_fd[2])
@@ -75,7 +72,7 @@ void	ft_else_fork(t_g *v, t_f *in_fork, int pipe_fd[2])
 	}
 	if (WTERMSIG(in_fork->value))
 	{
-		printf("\n");
+		write(1, "\n", 1);
 		g_shell.retour = 130;
 	}
 }
@@ -102,10 +99,8 @@ int	ft_exec_cmd_no_redirect(t_g *v, t_l *tmp, char *str, int pipe_fd[2])
 		ft_fork_str_null(pipe_fd, v, in_fork.toto, &in_fork);
 	}
 	if (v->c == v->nb_cmd)
-	{
 		while (wait(&in_fork.value) < 0)
 			;
-	}
 	ft_else_fork(v, &in_fork, pipe_fd);
 	return (1);
 }

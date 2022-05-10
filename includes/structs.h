@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 14:04:03 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/10 11:32:37 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/10 12:43:34 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,11 +109,7 @@ typedef struct g_minishell
 {
 	int				retour;
 	char			*str;
-	char			**split;
 	char			*test;
-	int				j;
-	int				c;
-	int				d;
 	int				in_exec;
 	t_g				*v;
 }	t_shell;

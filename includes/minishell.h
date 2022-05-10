@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/09 15:54:03 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/10 12:24:50 by jtaravel         ###   ########.fr       */
 /*   Updated: 2022/05/06 15:44:26 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -144,6 +144,7 @@ int		ft_exec_cmd_lol(t_g *v, t_l *tmp, int choice, int pipe_fd[2]);
 void	ft_exec_cmd_lol_2(t_l *tmp, t_g *v, int choice, int pipe_fd[2]);
 void	ft_error_exec(t_l *tmp, int choice);
 int		ft_exec_builtin(t_g *v, t_l *tmp);
+void	ft_follow_check(t_f *in_fork);
 
 /* ft_is_builtin.c */
 int		ft_is_builtin(char *str, t_g *v, int choice, t_l *tmp);

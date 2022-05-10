@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 15:07:05 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/05/09 16:59:25 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/10 12:24:39 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,10 @@ void	ft_recup_arg_fork(t_f *in_fork, t_l *tmp)
 	while (in_fork->toto[++i])
 		ft_suppr_dq_sq(in_fork->toto[i]);
 	free(in_fork->srt);
+}
+
+void	ft_follow_check(t_f *in_fork)
+{
+	in_fork->fd = open("/dev/null", O_RDONLY);
+	dup2(in_fork->fd, 0);
 }
