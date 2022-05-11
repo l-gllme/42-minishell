@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 11:19:08 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/06 17:11:21 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/05/11 15:48:14 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,5 +106,21 @@ int	ft_add_spaces(t_g *v, char c, int index)
 	v->tab[index] = ft_strdup(v->wagon);
 	free(v->wagon);
 	v->wagon = NULL;
+	return (1);
+}
+
+int	ft_check_weird_signs(char *str, int i)
+{
+	t_s	s;
+
+	init_syntax_struct(&s);
+	while (str[++i])
+	{
+		check_sq_dq(&s, str[i]);
+		if (str[i] == '<' && str[i + 1] == '>' && !s.dq_opened && !s.sq_opened)
+			return (ft_custom_error("Invalid syntax: <>\n", 0, 0));
+		if (str[i] == '>' && str[i + 1] == '<' && !s.dq_opened && !s.sq_opened)
+			return (ft_custom_error("Invalid syntax: ><\n", 0, 0));
+	}
 	return (1);
 }
