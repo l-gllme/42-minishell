@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/11 15:45:58 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/05/11 17:59:40 by jtaravel         ###   ########.fr       */
 /*   Updated: 2022/05/06 15:44:26 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -125,7 +125,7 @@ int		check_outfile(char *file, int type);
 int		check_dup_outfile(char *file, int type, t_l *tmp);
 
 /* exec.c */
-char	*try_access(char *cmd, t_g *v);
+char	*try_access(char *cmd, t_g *v, int i);
 int		in_env_sans_dollard(char *str, t_g *v);
 void	ft_fork_error(t_l *tmp, t_g *v, char **toto, char *stri);
 void	ft_fork_str_null(int pipe_fd[2], t_g *v, char **toto, t_f *fork);

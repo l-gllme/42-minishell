@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 15:22:38 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/11 15:30:00 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/11 17:59:58 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	ft_exec_cmd_lol_2(t_l *tmp, t_g *v, int choice, int pipe_fd[2])
 	if (ft_recup_content("PATH", v) == NULL && access(tmp->exec, X_OK) != 0)
 		ft_error_exec(tmp, 1, v);
 	else
-		str = try_access(tmp->exec, v);
+		str = try_access(tmp->exec, v, -1);
 	if (str == NULL && ft_recup_content("PATH", v) != NULL)
 		ft_error_exec(tmp, 1, v);
 	if (choice)
