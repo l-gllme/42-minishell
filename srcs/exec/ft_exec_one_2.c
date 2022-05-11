@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 18:04:05 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/05/09 15:53:47 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/11 12:13:01 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,10 @@ void	ft_recup_arg_one(t_f *in_fork, t_l *tmp)
 
 void	ft_one_error(t_l *tmp, t_g *v, t_f *in_fork)
 {
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(tmp->name_in, 2);
-	ft_putstr_fd(" :Permission denied\n", 2);
+	(void)tmp;
+	/*ft_putstr_fd("minishell: ", 2);*/
+	/*ft_putstr_fd(tmp->name_in, 2);*/
+	/*ft_putstr_fd(" :Permission denied\n", 2);*/
 	ft_lstclear(&v->list, &free);
 	free_char_tab(in_fork->toto);
 	free(in_fork->str);

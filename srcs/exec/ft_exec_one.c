@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 15:39:34 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/05/10 11:11:16 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/11 12:15:04 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ int	ft_exec_one_cmd(t_g *v, char *str, t_l *tmp)
 	signal(SIGQUIT, SIG_IGN);
 	if (frk == 0)
 	{
+		in_fork.str = str;
 		ft_fork_one(tmp, &in_fork, v);
 		if (str != NULL)
 			execve(str, in_fork.toto, v->new_env);
