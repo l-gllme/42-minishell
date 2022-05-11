@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 16:01:59 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/05/11 15:14:18 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/11 15:33:43 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	ft_check_for_env(t_i *env, t_list *tmp, int i, t_g *v)
 	return (1);
 }
 
-char	*ft_check_in_env(t_g *v, char *arg, int i)
+char	*c_env(t_g *v, char *arg, int i)
 {
 	char	*recup;
 	t_i		env;

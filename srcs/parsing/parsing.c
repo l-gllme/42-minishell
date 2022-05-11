@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/10 11:33:31 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/11 15:35:51 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,30 +36,59 @@ void	init_struct(char **tab, t_g *v, char **env, t_list *list)
 	v->new_env = NULL;
 }
 
-static void	dol_replace(t_g *v)
+static void	cut_dol_replace(t_g *v, int i)
 {
-	t_l		*tmp;
+	t_l	*t;
 
-	tmp = NULL;
+	t = NULL;
+	t = v->l;
+	while (t)
+	{
+		if (t->arg)
+		t->arg = c_env(v, t->arg, 0);
+		if (t->exec)
+			t->exec = ft_check_in_env_2(v, t->exec, 0, t->arg);
+		if (t->in_tab)
+		{
+			while (t->in_tab[++i])
+				if (t->in_tab[i][0] == '<' && t->in_tab[i][1] == 0)
+					t->in_tab[i + 1] = c_env(v, t->in_tab[i + 1], 0);
+		}
+		i = -1;
+		if (t->out_tab)
+		{
+			while (t->out_tab[++i])
+				if (t->out_tab[i][0] == '>')
+					t->out_tab[i + 1] = c_env(v, t->out_tab[i + 1], 0);
+		}
+		t = t->next;
+	}
+}
+
+static void	dol_replace(t_g *v, int i)
+{
 	if (v->nb_cmd == 1)
 	{
 		if (v->l->arg)
-			v->l->arg = ft_check_in_env(v, v->l->arg, 0);
+			v->l->arg = c_env(v, v->l->arg, 0);
 		if (v->l->exec)
 			v->l->exec = ft_check_in_env_2(v, v->l->exec, 0, v->l->arg);
-	}
-	if (v->nb_cmd != 1)
-	{
-		tmp = v->l;
-		while (tmp)
+		if (v->l->in_tab)
 		{
-			if (tmp->arg)
-				tmp->arg = ft_check_in_env(v, tmp->arg, 0);
-			if (tmp->exec)
-				tmp->exec = ft_check_in_env_2(v, tmp->exec, 0, tmp->arg);
-			tmp = tmp->next;
+			while (v->l->in_tab[++i])
+				if (v->l->in_tab[i][0] == '<' && v->l->in_tab[i][1] == 0)
+					v->l->in_tab[i + 1] = c_env(v, v->l->in_tab[i + 1], 0);
+		}
+		i = -1;
+		if (v->l->out_tab)
+		{
+			while (v->l->out_tab[++i])
+				if (v->l->out_tab[i][0] == '>')
+					v->l->out_tab[i + 1] = c_env(v, v->l->out_tab[i + 1], 0);
 		}
 	}
+	if (v->nb_cmd != 1)
+		cut_dol_replace(v, -1);
 }
 
 static int	cut_parsing(char *str, t_g *v, char **tab, int c)
@@ -98,7 +127,7 @@ int	parsing(char *str, char **env, t_list *list, int c)
 	init_struct(tab, v, env, list);
 	if (!cut_parsing(str, v, tab, c))
 		return (0);
-	dol_replace(v);
+	dol_replace(v, -1);
 	ft_exec(v, v->l);
 	ft_free(v);
 	return (1);
