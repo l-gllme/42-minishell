@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 16:51:45 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/06 13:16:39 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/05/11 12:02:35 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static int	cut_unset(char *arg, t_list *tmp)
 {
 	t_list	*temp;
 
-	if (!ft_strncmp(arg, tmp->next->name, ft_strlen(arg)))
+	if (!ft_strcmp(arg, tmp->next->name))
 	{
 		if (tmp->next->name)
 			free(tmp->next->name);
