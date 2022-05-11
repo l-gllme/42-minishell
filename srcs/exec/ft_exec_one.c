@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 15:39:34 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/05/11 12:15:04 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/05/11 15:29:25 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,45 @@ void	ft_in_tab_one(t_f *in_fork, t_g *v, t_l *tmp)
 	close(in_fork->fd);
 }
 
-void	ft_after_fork_one(t_f *in_fork)
+void	ft_recup_signal(t_f *in_fork)
 {
+	if (WTERMSIG(in_fork->value) + 128 == 134)
+	{
+		printf("Aborted (core dumped)\n");
+		g_shell.retour = 134;
+	}
+	if (WTERMSIG(in_fork->value) + 128 == 139)
+	{
+		printf("Segmentation fault (core dumped)\n");
+		g_shell.retour = 139;
+	}
+	if (WTERMSIG(in_fork->value) + 128 == 135)
+	{
+		printf("Bus error (core dumped)\n");
+		g_shell.retour = 135;
+	}
+	if (WTERMSIG(in_fork->value) + 128 == 133)
+	{
+		printf("Trace/breakpoint trap (core dumped)\n");
+		g_shell.retour = 133;
+	}
+	if (WTERMSIG(in_fork->value) + 128 == 132)
+	{
+		printf("Illegal instruction (core dumped)\n");
+		g_shell.retour = 132;
+	}
+}
+
+void	ft_after_fork_one(t_f *in_fork, t_g *v)
+{
+	if (WIFSIGNALED(in_fork->value))
+	{
+		ft_recup_signal(in_fork);
+		if (WTERMSIG(in_fork->value) + 128 > 139)
+			printf("Signal\n");
+	}
+	if (WEXITSTATUS(in_fork->value) == 1 && v->nb_cmd == v->dup_type)
+		g_shell.retour = 1;
 	if (WTERMSIG(in_fork->value) == 3)
 	{
 		printf ("Quit (core dumped)\n");
@@ -52,7 +89,6 @@ int	ft_exec_one_cmd(t_g *v, char *str, t_l *tmp)
 	t_f		in_fork;
 
 	in_fork.value = 0;
-	g_shell.in_exec = 1;
 	if (v->l->arg != NULL)
 		ft_recup_arg_one(&in_fork, tmp);
 	else
@@ -72,6 +108,6 @@ int	ft_exec_one_cmd(t_g *v, char *str, t_l *tmp)
 		waitpid(frk, &in_fork.value, 0);
 	signal(SIGINT, handler);
 	signal(SIGQUIT, handler);
-	ft_after_fork_one(&in_fork);
+	ft_after_fork_one(&in_fork, v);
 	return (WEXITSTATUS(in_fork.value));
 }

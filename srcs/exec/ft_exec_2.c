@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 15:22:38 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/09 16:56:27 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/11 15:30:00 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,20 @@ int	ft_exec_builtin(t_g *v, t_l *tmp)
 	return (1);
 }
 
-void	ft_error_exec(t_l *tmp, int choice)
+void	ft_error_exec(t_l *tmp, int choice, t_g *v)
 {
 	if (choice == 1)
 	{
-		g_shell.retour = 127;
+		if (v->dup_type == v->nb_cmd)
+			g_shell.retour = 127;
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(tmp->exec, 2);
 		ft_custom_error(": command not found\n", 0, NULL);
 	}
 	else if (choice == 0)
 	{
-		g_shell.retour = 126;
+		if (v->dup_type == v->nb_cmd)
+			g_shell.retour = 126;
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(tmp->exec, 2);
 		ft_custom_error(": Is a directory\n", 0, NULL);
@@ -60,15 +62,18 @@ void	ft_exec_cmd_lol_2(t_l *tmp, t_g *v, int choice, int pipe_fd[2])
 
 	str = NULL;
 	if (open(tmp->exec, O_DIRECTORY) != -1)
-		ft_error_exec(tmp, 0);
+		ft_error_exec(tmp, 0, v);
 	if (ft_recup_content("PATH", v) == NULL && access(tmp->exec, X_OK) != 0)
-		ft_error_exec(tmp, 1);
+		ft_error_exec(tmp, 1, v);
 	else
 		str = try_access(tmp->exec, v);
 	if (str == NULL && ft_recup_content("PATH", v) != NULL)
-		ft_error_exec(tmp, 1);
+		ft_error_exec(tmp, 1, v);
 	if (choice)
+	{
+		g_shell.in_exec = 1;
 		ft_exec_one_cmd(v, str, tmp);
+	}
 	else
 		ft_exec_cmd_no_redirect(v, tmp, str, pipe_fd);
 	free(str);

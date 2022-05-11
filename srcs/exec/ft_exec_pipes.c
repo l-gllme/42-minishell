@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 14:46:08 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/05/10 12:33:37 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/11 14:21:48 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ void	ft_check_all_fork(t_l *tmp, t_g *v, t_f *in_fork, int pipe_fd[2])
 
 void	ft_else_fork(t_g *v, t_f *in_fork, int pipe_fd[2])
 {
+	if (WEXITSTATUS(in_fork->value) == 1 && v->dup_type == v->nb_cmd)
+		g_shell.retour = 1;
 	if (v->dup_type != 1)
 		close(v->fd_tmp);
 	if (pipe_fd[1] != 0)

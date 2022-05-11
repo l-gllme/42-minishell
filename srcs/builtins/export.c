@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 19:35:14 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/05/06 13:28:49 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/05/11 15:22:37 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,11 @@ void	ft_export(char *arg, t_g *v)
 	{
 		ft_export_no_arg(v);
 		return ;
+	}
+	if (ft_strlen(arg) == 0)
+	{
+		printf("Minishell: export: '': not a valid identifier\n");
+		g_shell.retour = 1;
 	}
 	recup = ft_supersplit(arg, ' ');
 	while (recup[++i] && arg)
