@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 15:07:05 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/05/10 12:24:39 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/11 18:10:20 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	ft_fork_error(t_l *tmp, t_g *v, char **toto, char *str)
 
 void	ft_fork_str_null(int pipe_fd[2], t_g *v, char **toto, t_f *in_fork)
 {
+	(void)in_fork;
 	close(pipe_fd[1]);
 	if (v->fd_tmp)
 		close(v->fd_tmp);
@@ -33,6 +34,7 @@ void	ft_fork_str_null(int pipe_fd[2], t_g *v, char **toto, t_f *in_fork)
 	ft_free(v);
 	free_char_tab(toto);
 	g_shell.retour = 127;
+	in_fork->value = 127;
 	exit(in_fork->value);
 }
 
