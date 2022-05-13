@@ -6,7 +6,7 @@
 #    By: lguillau <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/14 14:27:36 by lguillau          #+#    #+#              #
-#    Updated: 2022/05/09 13:33:13 by lguillau         ###   ########.fr        #
+#    Updated: 2022/05/13 15:49:51 by jtaravel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,6 +51,7 @@ FILES	=	minishell.c \
 		exec/ft_exec_2.c \
 		exec/ft_exec_pipes.c \
 		exec/ft_exec_pipes_2.c \
+		exec/ft_exec_pipes_3.c \
 		exec/ft_exec_one.c \
 		exec/ft_exec_one_2.c \
 		exec/ft_exec_in.c \

@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 14:46:08 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/05/11 18:22:05 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/13 15:49:04 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,27 +56,6 @@ void	ft_check_all_fork(t_l *tmp, t_g *v, t_f *in_fork, int pipe_fd[2])
 		close(pipe_fd[1]);
 	else
 		ft_follow_check(in_fork);
-}
-
-void	ft_else_fork(t_g *v, t_f *in_fork, int pipe_fd[2])
-{
-	if (WEXITSTATUS(in_fork->value) == 1 && v->dup_type == v->nb_cmd)
-		g_shell.retour = 1;
-	if (v->dup_type != 1)
-		close(v->fd_tmp);
-	if (pipe_fd[1] != 0)
-		close(pipe_fd[1]);
-	free(v->wagon);
-	if (WTERMSIG(in_fork->value) == 3)
-	{
-		printf ("Quit (core dumped)\n");
-		g_shell.retour = 131;
-	}
-	if (WTERMSIG(in_fork->value))
-	{
-		write(1, "\n", 1);
-		g_shell.retour = 130;
-	}
 }
 
 int	ft_exec_cmd_no_redirect(t_g *v, t_l *tmp, char *str, int pipe_fd[2])

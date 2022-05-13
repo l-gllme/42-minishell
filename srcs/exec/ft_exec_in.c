@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/29 17:19:18 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/11 17:59:25 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/13 16:18:37 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ char	*try_access(char *cmd, t_g *v, int i)
 	char	**path;
 	char	*s;
 
-	if (cmd[0] == '.' && access(cmd, X_OK) == 0)
+	if (access(cmd, X_OK) == 0)
 		return (ft_strdup(cmd));
 	path = ft_split(ft_recup_content("PATH", v) + 1, ':');
 	while (path[++i])
@@ -105,8 +105,6 @@ char	*try_access(char *cmd, t_g *v, int i)
 		}
 	}
 	free_char_tab(path);
-	if (access(cmd, X_OK) == 0)
-		return (ft_strdup(cmd));
 	return (NULL);
 }
 

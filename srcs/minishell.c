@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:40:12 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/10 11:07:53 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/13 14:04:25 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void	ft_minishell(char *str, t_list *list, char **env, int i)
 	if (g_shell.in_exec == 1)
 		signal(SIGQUIT, handler);
 	signal(SIGINT, handler);
-	str = readline("\033[34m➜\033[0m ");
+	str = readline("minishell$ ");
 	if (str == NULL)
 		ft_str_null(str, list);
 	while (str[++i] == ' ')
