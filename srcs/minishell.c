@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/14 15:40:12 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/13 14:04:25 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/15 18:05:06 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static	void	ft_str_null(char *str, t_list *list)
 	rl_clear_history();
 	ft_lstclear(&list, &free);
 	printf("Bye! 👋\n");
-	exit(0);
+	exit(g_shell.retour);
 }
 
 static void	ft_minishell(char *str, t_list *list, char **env, int i)

@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 18:08:00 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/05/09 16:18:33 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/15 18:08:58 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ int	ft_exec(t_g *v, t_l *l)
 {
 	t_l	*tmp;
 
-	g_shell.retour = 0;
 	g_shell.in_exec = 0;
 	tmp = l;
 	v->dup_type = 0;

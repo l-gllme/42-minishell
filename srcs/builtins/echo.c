@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 16:44:28 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/05/09 17:16:34 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/15 17:57:17 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ft_check_options(char **tab)
 			while (tab[i][j] == 'n')
 				j++;
 			if (tab[i][j] && tab[i][j] != 'n')
-				return (1);
+				return (i);
 		}
 		else
 			return (i);

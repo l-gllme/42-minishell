@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/06 16:51:45 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/11 12:02:35 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/05/15 17:59:56 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,12 @@ void	ft_unset(char *arg, t_g *v)
 {
 	t_list	*tmp;
 
+	if (!ft_check_name(arg))
+	{
+		g_shell.retour = 1;
+		printf("minishell : unset: '%s': not a valid indentifier\n", arg);
+		return ;
+	}
 	tmp = v->list;
 	if (!arg)
 		return ;

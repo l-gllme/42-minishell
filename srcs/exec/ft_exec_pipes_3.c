@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 15:47:13 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/05/13 16:12:30 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/15 18:07:08 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,5 @@ void	ft_else_fork(t_g *v, t_f *in_fork, int pipe_fd[2])
 		write(1, "\n", 1);
 		g_shell.retour = 130;
 	}
-	else
-		g_shell.retour = WEXITSTATUS(in_fork->value);
 	ft_else_fork_2(v, pipe_fd);
 }
