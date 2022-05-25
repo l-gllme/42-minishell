@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/25 12:53:22 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/25 12:55:30 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static void	cut_dol_replace(t_g *v, int i)
 	}
 }
 
-static void	dol_replace(t_g *v, int i)
+void	dol_replace(t_g *v, int i)
 {
 	if (v->nb_cmd == 1)
 	{
@@ -121,7 +121,6 @@ int	parsing(char *str, char **env, t_list *list, int c)
 		free(v);
 		return (0);
 	}
-
 	tab = malloc(sizeof(char *) * count_pipes(str));
 	if (!tab)
 		return (ft_custom_error("Malloc error in parsing()\n", 0, v));
