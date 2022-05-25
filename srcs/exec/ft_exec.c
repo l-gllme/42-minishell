@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 18:08:00 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/05/23 11:08:02 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/25 16:19:31 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	ft_exec(t_g *v, t_l *l)
 		tmp->name_in = NULL;
 		tmp->name_out = NULL;
 		v->dup_type = 0;
-		if (tmp->in_tab != NULL && g_shell.retour != 130)
+		if (tmp->in_tab != NULL)
 			ft_exec_in(v, tmp, 0);
 		tmp = tmp->next;
 	}

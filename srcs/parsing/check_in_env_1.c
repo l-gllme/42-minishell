@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 14:12:56 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/05/25 13:43:39 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/25 16:01:23 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	ft_env_while(t_i *env, int i, t_g *v, t_list *tmp)
 void	ft_recup_for_check_in_env(char *arg, t_i *env)
 {
 	char	*test;
-	
+
 	if (!ft_check_doll(arg) || arg[0] == '\'')
 		env->l = 0;
 	else

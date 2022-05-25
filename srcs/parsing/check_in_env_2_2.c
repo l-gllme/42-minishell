@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 14:10:47 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/05/25 12:48:49 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/25 15:54:50 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,6 @@ void	ft_recup_new_arg_2(t_i *env, char *recup, t_g *v, char *arg)
 		}
 	}
 	v->l->arg = ft_strdup(arg);
-	//free(v->l->exec);
-	v->l->exec = ft_strdup(env->split[0]);
 	free(recup);
 	free(arg);
 	free_char_tab(env->split);

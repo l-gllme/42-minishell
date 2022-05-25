@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 13:42:12 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/25 13:17:57 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/05/25 16:04:08 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ static int	cut_change_shlvl(t_list *list, int c)
 		tmp = ft_atoi(list->line + 6) + 1;
 		if (tmp >= 1000)
 		{
-			printf("minishell: warning: shell level (%d) too high, resetting to 1\n", tmp);
+			printf("minishell: warning: shell level (%d)", tmp);
+			printf("too high , resetting to 1\n");
 			tmp = 1;
 		}
 		tmp_str = ft_itoa(tmp);
