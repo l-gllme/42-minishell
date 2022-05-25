@@ -6,7 +6,7 @@
 /*   By: jtaravel <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 19:35:14 by jtaravel          #+#    #+#             */
-/*   Updated: 2022/05/23 11:04:50 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/25 13:25:31 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ void	ft_export_3(char **recup, int i, t_g *v)
 
 void	ft_export_2(t_g *v, char **recup, int i, char **split)
 {
-	printf ("split = %s\n", split[0]);
 	if (!ft_check_name(split[0]) || (recup[i][0] == '+'
 		&& recup[i][1] == '=') || recup[i][0] == '=')
 	{
