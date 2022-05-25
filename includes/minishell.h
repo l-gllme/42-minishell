@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:57:05 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/13 15:49:38 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/25 12:43:06 by jtaravel         ###   ########.fr       */
 /*   Updated: 2022/05/06 15:44:26 by lguillau         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
@@ -67,7 +67,7 @@ int		check_not_followed_sign(t_g *v);
 int		ft_check_not_followed_sign_out_tab(t_g *v, int i);
 int		ft_check_not_followed_sign_in_tab(t_g *v, int i);
 int		ft_check_weird_signs(char *str, int i);
-
+void	ft_check_space(char *str);
 int		parse_cmd(t_g *v);
 
 /* get_cmd */

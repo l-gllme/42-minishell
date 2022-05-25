@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 14:04:03 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/10 12:43:34 by jtaravel         ###   ########.fr       */
+/*   Updated: 2022/05/25 12:39:31 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ typedef struct s_in_env
 typedef struct g_minishell
 {
 	int				retour;
+	int				check;
 	char			*str;
 	char			*test;
 	int				in_exec;

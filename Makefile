@@ -6,7 +6,7 @@
 #    By: lguillau <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/03/14 14:27:36 by lguillau          #+#    #+#              #
-#    Updated: 2022/05/13 15:49:51 by jtaravel         ###   ########.fr        #
+#    Updated: 2022/05/25 12:42:46 by jtaravel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,7 @@ FILES	=	minishell.c \
 		parsing/check_in_env_1.c \
 		parsing/check_in_env_tools.c \
 		parsing/check_in_env_tools_2.c \
+		parsing/check_in_env_tools_3.c \
 		parsing/check_in_env_2_2.c \
 		exec/ft_exec.c \
 		exec/ft_exec_2.c \

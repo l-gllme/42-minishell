@@ -6,7 +6,7 @@
 /*   By: lguillau <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 14:08:51 by lguillau          #+#    #+#             */
-/*   Updated: 2022/05/11 15:49:08 by lguillau         ###   ########.fr       */
+/*   Updated: 2022/05/25 12:53:22 by jtaravel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ int	parsing(char *str, char **env, t_list *list, int c)
 		free(v);
 		return (0);
 	}
+
 	tab = malloc(sizeof(char *) * count_pipes(str));
 	if (!tab)
 		return (ft_custom_error("Malloc error in parsing()\n", 0, v));
